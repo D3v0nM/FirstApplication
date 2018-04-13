@@ -173,7 +173,7 @@ jobs:
           command: gcloud auth activate-service-account firebase-adminsdk-1aw0x@ad340-weekly.iam.gserviceaccount.com --key-file ${HOME}/client-secret.json
       - run:
           name: Run instrumented test on Firebase Test Lab
-          command: gcloud firebase test android run --type instrumentation --app app/build/outputs/apk/debug/app-debug.apk --test app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk --device model=Nexus6P,version=27,locale=en_US,orientation=portrait --environment-variables coverage=true,coverageFile=/sdcard/coverage.ec --directories-to-pull=/sdcard --timeout 20m
+          command: gcloud firebase test android run --type instrumentation --app app/build/outputs/apk/debug/app-debug.apk --test app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk --device model=Pixel2,version=27,locale=en_US,orientation=portrait --environment-variables coverage=true,coverageFile=/sdcard/coverage.ec --directories-to-pull=/sdcard --timeout 20m
       - run:
           name: Create directory to store test results
           command: mkdir firebase
@@ -230,19 +230,3 @@ workflows:
             - build_release
             - test_unit
             - test_instrumented
-
-    © 2018 GitHub, Inc.
-    Terms
-    Privacy
-    Security
-    Status
-    Help
-
-    Contact GitHub
-    API
-    Training
-    Shop
-    Blog
-    About
-
-Press h to open a hovercard with more details.
