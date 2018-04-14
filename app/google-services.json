@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "190697642955",
+    "firebase_url": "https://ad340-weekly.firebaseio.com",
+    "project_id": "ad340-weekly",
+    "storage_bucket": "ad340-weekly.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:190697642955:android:f5a631b61bc3256e",
+        "android_client_info": {
+          "package_name": "com.devon.firstapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "190697642955-9j95sn7shnhvs550vo7lfgjcamibudbe.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.devon.firstapplication",
+            "certificate_hash": "47eed3cf666526a8c6ff871868b2244cd2a7bfb1"
+          }
+        },
+        {
+          "client_id": "190697642955-401sahds14mb4rp107o96172uq60qcjc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.devon.firstapplication",
+            "certificate_hash": "3121917076a02c44ace86a0757d10c6cd737820c"
+          }
+        },
+        {
+          "client_id": "190697642955-ic0undumn5vtaaqsvl6iuip1ildhg1gu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxv2hRnzmXOsaS7xF8AyRWVBAbBmQ2Cr4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "190697642955-ic0undumn5vtaaqsvl6iuip1ildhg1gu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
