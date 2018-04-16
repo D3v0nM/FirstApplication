@@ -2,11 +2,13 @@ package com.devon.firstapplication;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
-
-import com.google.firebase.analytics.FirebaseAnalytics;
 
 //import com.crashlytics.android.Crashlytics;
 //import io.fabric.sdk.android.Fabric;
@@ -15,18 +17,114 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView helloWorld;
-    private FirebaseAnalytics mFirebaseAnalytics;
+    private TextView textView;
+    private EditText editText;
+    private Button  loginBtn;
+
+    //private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // Obtain the FirebaseAnalytics instance.
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        //mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
+        //setup params
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        this.helloWorld = findViewById(R.id.hello_world);
+        textView = findViewById(R.id.textView);
+        editText = findViewById(R.id.nameEditText);
+        loginBtn = findViewById(R.id.loginBtn);
+
+        //log onCreate tasks
+        Log.i(TAG, "onCreate()")
     }
 
+    private void goToSecondActivity(View view){
+        loginBtn.setText(R.string.Logout); //Logout of secondActivity view?
+
+        //Welcome message on login?
+        textView.setText(String.format(getString(R.string.Welcome), editText.getText()));
+    }
+
+    @Override
+    protected void onRestart(){
+        super.onRestart();
+        //log restart tasks
+        Log.i(TAG, "onRestart");
+
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+        //log onstart tasks
+        Log.i(TAG, "onStart()");
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState){
+        super.onRestoreInstanceState(savedInstanceState);
+
+        //Log Restore state tasks
+        Log.i(TAG, "onRestoreInstanceState()");
+
+        if(savedInstanceState.containsKey(Constraints.KEY_NAME)){
+            textView.setText((String) savedInstanceState.get(Constraints.KEY_NAME));
+        }
+
+        if(savedInstanceState.containsKey(Constraints.KEY_BUTTON_TXT)){
+            textView.setText((String) savedInstanceState.get(Constraints.KEY_BUTTON_TXT));
+        }
+
+    }
+
+    @Override
+    public  void onSavedInstanceState(Bundle outState){
+        super.onSavedInstanceState(outState);
+
+        //Log bundle transfer tasks
+        Log.i(TAG, "onSaveInstanceState()");
+
+        outState.putString(Constraints.KEY_NAME, textView.getText().toString());
+        outState.putString(Constraints.KEY_BUTTON_TXT, loginBtn.getText().toString());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        //Log resume tasks
+        Log.i(TAG, "onResume()");
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+
+        //Log pause actions
+        Log.i(TAG, "onPause()");
+
+    }
+
+    @Override
+    protected  void onStop(){
+        super.onStop();
+
+        //log stop activity
+        Log.i(TAG, "onStop()");
+    }
+
+    @Override
+    protected  void onDestroy(){
+        super.onDestroy();
+
+        //Log destroy activity
+        Log.i(TAG, "onDestroy");
+
+    }
+
+
+    //Fist homework menu tasks
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {

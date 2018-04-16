@@ -3,4 +3,6 @@
     <string name="hello">Hello! And Welcome!</string>
     <string name="menu1">Let us get started</string>
     <string name="me">Martinez, Devon 04/19/2018</string>
+    <string name="enter_name">Enter Your Name</string>
+    <string name="login">Login</string>
 </resources>
