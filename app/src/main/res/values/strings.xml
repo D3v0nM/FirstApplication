@@ -8,4 +8,5 @@
     <string name="Welcome">Welcome: %s</string>
     <string name="message_on_login">You Logged In</string>
     <string name="go_to_second_activity">Next Page</string>
+    <string name="logout">Logout</string>
 </resources>

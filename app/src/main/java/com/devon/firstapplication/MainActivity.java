@@ -1,6 +1,7 @@
 package com.devon.firstapplication;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -17,10 +18,12 @@ import android.widget.TextView;
 //import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     private TextView textView;
     private EditText editText;
     private Button  loginBtn;
+
 
     //private FirebaseAnalytics mFirebaseAnalytics;
 
@@ -40,8 +43,14 @@ public class MainActivity extends AppCompatActivity {
         Log.i(TAG, "onCreate()");
     }
 
-    private void goToSecondActivity(View view){
-        loginBtn.setText(R.string.Logout); //Logout of secondActivity view?
+    public void goToSecondActivity(View view) {
+        Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+        intent.putExtra(Constraints.KEY_NAME, editText.getText().toString());
+        intent.putExtra(Constraints.KEY_AGE, 21);
+        startActivity(intent);
+    }
+    public void onLogin(View view){
+        loginBtn.setText(R.string.logout); //Logout of secondActivity view?
 
         //Welcome message on login?
         textView.setText(String.format(getString(R.string.Welcome), editText.getText()));
@@ -80,8 +89,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public  void onSavedInstanceState(Bundle outState){
-        super.onSavedInstanceState(outState);
+    public void onSaveInstanceState(Bundle outState){
+        super.onSaveInstanceState(outState);
 
         //Log bundle transfer tasks
         Log.i(TAG, "onSaveInstanceState()");
@@ -137,13 +146,11 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item)
     {
         if(item.getItemId() == R.id.action_bar) {
-            this.helloWorld.setText(R.string.great);
+            this.hello_world.setText(R.string.great);
             return true;
 
         }
         return super.onOptionsItemSelected(item);
     }
-//
-//    public void onLogin(View view) {
-//    }
+
 }
