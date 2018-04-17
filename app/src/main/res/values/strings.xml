@@ -5,4 +5,7 @@
     <string name="me">Martinez, Devon 04/19/2018</string>
     <string name="enter_name">Enter Your Name</string>
     <string name="login">Login</string>
+    <string name="Welcome">Welcome: %s</string>
+    <string name="message_on_login">You Logged In</string>
+    <string name="go_to_second_activity">Next Page</string>
 </resources>

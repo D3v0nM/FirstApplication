@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         loginBtn = findViewById(R.id.loginBtn);
 
         //log onCreate tasks
-        Log.i(TAG, "onCreate()")
+        Log.i(TAG, "onCreate()");
     }
 
     private void goToSecondActivity(View view){
@@ -143,4 +143,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+//
+//    public void onLogin(View view) {
+//    }
 }
