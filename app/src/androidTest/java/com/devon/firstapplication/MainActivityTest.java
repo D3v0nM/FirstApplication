@@ -32,11 +32,11 @@ public class MainActivityTest {
 
             openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
 
-            onView(withText(R.string.great))
+            onView(withText(R.string.menu1))
                     .perform(click());
 
             onView(withId(R.id.hello_world))
-                    .check(matches(withText(R.string.great)));
+                    .check(matches(withText(R.string.menu1)));
         }
 
     }
