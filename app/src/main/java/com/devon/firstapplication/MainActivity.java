@@ -20,9 +20,11 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
 
+
     private TextView textView;
     private EditText editText;
     private Button  loginBtn;
+    private TextView hello_world;
 
 
     //private FirebaseAnalytics mFirebaseAnalytics;
@@ -38,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         textView = findViewById(R.id.textView);
         editText = findViewById(R.id.nameEditText);
         loginBtn = findViewById(R.id.loginBtn);
+        hello_world = findViewById(R.id.hello_world);
 
         //log onCreate tasks
         Log.i(TAG, "onCreate()");
@@ -146,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item)
     {
         if(item.getItemId() == R.id.action_bar) {
-            this.hello_world.setText(R.string.great);
+            this.hello_world.setText(R.string.menu1);
             return true;
 
         }
