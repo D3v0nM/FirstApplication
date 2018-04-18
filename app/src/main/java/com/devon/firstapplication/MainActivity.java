@@ -1,6 +1,7 @@
 package com.devon.firstapplication;
 
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -17,17 +19,34 @@ import android.widget.TextView;
 //import com.crashlytics.android.Crashlytics;
 //import io.fabric.sdk.android.Fabric;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements  DatePickerDialog.OnDateSetListener{
     private static final String TAG = MainActivity.class.getSimpleName();
+
+    DatePickerDialog datePickerDialog = new DatePickerDialog(
+            context, MainActivity.this, startYear, startMonth, startDay);
+
+
+
 
 
     private TextView textView;
-    private EditText editText;
+    private EditText nameEditText;
+    private EditText emailEditText;
+    private EditText userEditText;
+    private EditText dobEditText;
     private Button  loginBtn;
     private TextView hello_world;
-
-
     //private FirebaseAnalytics mFirebaseAnalytics;
+
+
+    ((Button) findViewById(R.id.loginBtn))
+        .setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                datePickerDialog.show();
+        }
+    })
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +57,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         textView = findViewById(R.id.textView);
-        editText = findViewById(R.id.nameEditText);
+        nameEditText = findViewById(R.id.nameEditText);
+        emailEditText = findViewById(R.id.emailEditText);
+        userEditText = findViewById(R.id.userEditText);
+        dobEditText = findViewById(R.id.birthday);
         loginBtn = findViewById(R.id.loginBtn);
         hello_world = findViewById(R.id.hello_world);
 
@@ -48,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void goToSecondActivity(View view) {
         Intent intent = new Intent(MainActivity.this, SecondActivity.class);
-        intent.putExtra(Constraints.KEY_NAME, editText.getText().toString());
+        intent.putExtra(Constraints.KEY_NAME, nameEditText.getText().toString());
         intent.putExtra(Constraints.KEY_AGE, 21);
         startActivity(intent);
     }
@@ -56,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         loginBtn.setText(R.string.logout); //Logout of secondActivity view?
 
         //Welcome message on login?
-        textView.setText(String.format(getString(R.string.Welcome), editText.getText()));
+        textView.setText(String.format(getString(R.string.Welcome), nameEditText.getText()));
     }
 
     @Override
@@ -156,4 +178,27 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
+
+    //age verification helper methods....Maybe needs to be it's own class/interface
+    private int getLinearDate(int month, int day, int, int year){
+
+        int linearDate = (((year * 100)+ month) * 100)+ day;
+
+        return linearDate;
+    }
+
+    // remove 3rd line only needs to be today-dob >= 18
+    public boolean oldEnough(int month, int day, int year){
+        int linearDOB = getLinearDate(monthDOB, dayDOB, yearDOB);
+        int linearQuery = getLinearDate(month, day, year);
+
+        return true;
+    }
+
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
+    }
 }

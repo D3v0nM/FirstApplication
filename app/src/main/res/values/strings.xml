@@ -1,9 +1,12 @@
 <resources>
     <string name="app_name">First Application</string>
     <string name="hello">Hello! And Welcome!</string>
-    <string name="menu1">Let us get started</string>
+    <string name="menu1">Create Account</string>
     <string name="me">Martinez, Devon 04/19/2018</string>
     <string name="enter_name">Enter Your Name</string>
+    <string name="enter_email">Enter Your Email</string>
+    <string name="enter_username">Enter Desired Username</string>
+    <string name="enter_dob">Click Your Birthday</string>
     <string name="login">Login</string>
     <string name="Welcome">Welcome: %s</string>
     <string name="message_on_login">You Logged In</string>
