@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
         final Button button = findViewById(R.id.birthday);
         button.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 android.support.v4.app.DialogFragment agePicker = new AgePicker();
@@ -87,12 +88,12 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         intent.putExtra(Constraints.KEY_USER, userEditText.getText().toString());
         startActivity(intent);
     }
-    public void onLogin(View view){
+    /*public void onLogin(View view){
         loginBtn.setText(R.string.logout); //Logout of secondActivity view?
 
         //Welcome message on login?
         textView.setText(String.format(getString(R.string.Welcome), nameEditText.getText()));
-    }
+    }*/
 
     @Override
     protected void onRestart(){
@@ -120,6 +121,14 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             textView.setText((String) savedInstanceState.get(Constraints.KEY_NAME));
         }
 
+        if(savedInstanceState.containsKey(Constraints.KEY_EMAIL)){
+            textView.setText((String) savedInstanceState.get(Constraints.KEY_EMAIL));
+        }
+
+        if(savedInstanceState.containsKey(Constraints.KEY_USER)){
+            textView.setText((String) savedInstanceState.get(Constraints.KEY_USER));
+        }
+
         if(savedInstanceState.containsKey(Constraints.KEY_BUTTON_TXT)){
             textView.setText((String) savedInstanceState.get(Constraints.KEY_BUTTON_TXT));
         }
@@ -134,7 +143,9 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         Log.i(TAG, "onSaveInstanceState()");
 
         outState.putString(Constraints.KEY_NAME, textView.getText().toString());
-        outState.putString(Constraints.KEY_BUTTON_TXT, loginBtn.getText().toString());
+        outState.putString(Constraints.KEY_EMAIL, textView.getText().toString());
+        outState.putString(Constraints.KEY_USER, textView.getText().toString());
+        outState.putString(Constraints.KEY_BUTTON_TXT, textView.getText().toString());
     }
 
     @Override
@@ -193,21 +204,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
 
 
-//    //age verification helper methods....Maybe needs to be it's own class/interface
-//    private int getLinearDate(int month, int day, int, int year){
-//
-//        int linearDate = (((year * 100)+ month) * 100)+ day;
-//
-//        return linearDate;
-//    }
-//
-//    // remove 3rd line only needs to be today-dob >= 18
-//    public boolean oldEnough(int month, int day, int year){
-//        int linearDOB = getLinearDate(monthDOB, dayDOB, yearDOB);
-//        int linearQuery = getLinearDate(month, day, year);
-//
-//        return true;
-//    }
+
 
 
 
