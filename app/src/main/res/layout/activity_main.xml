@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".MainActivity"
     android:orientation="vertical">
@@ -40,24 +42,32 @@
         android:layout_height="wrap_content"
         android:inputType="text"
         android:hint="@string/enter_username"/>
-    <EditText
+
+    <Button
         android:id="@+id/birthday"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:clickable="true"
-        android:inputType="date"
-        android:hint="@string/enter_dob"/>
+        android:text="@string/enter_dob" />
+
+    <TextView
+        android:id="@+id/age"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/activity_age"/>
 
 
     <Button
         android:id="@+id/loginBtn"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/login"
-        android:onClick="onLogin"
-        />
+        android:layout_gravity="center"
 
-     <!--move this text view and button to second activity-->
+        android:onClick="goToSecondActivity"
+        android:text="@string/login"/>
+    <!--android:onClick="onLogin"-->
+
+
+     <!--move this text view and button to second activity
         <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
@@ -65,13 +75,13 @@
         android:text="@string/message_on_login"
         />
 
-    <Button
+   <Button
         android:id="@+id/secondActivityBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/go_to_second_activity"
-        android:onClick="goToSecondActivity"/>
-    
+        android:onClick="goToSecondActivity"/>-->
+
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"

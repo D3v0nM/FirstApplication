@@ -7,6 +7,6 @@ public class Constraints {
     static final String KEY_AGE = "age";
     static final String KEY_USER = "user_name";
     static final String KEY_EMAIL = "email";
-    static final String KEY_DOB = "dob";
+
 
 }

@@ -14,19 +14,16 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.util.Calendar;
+
 //import com.crashlytics.android.Crashlytics;
 //import io.fabric.sdk.android.Fabric;
 //import com.crashlytics.android.Crashlytics;
 //import io.fabric.sdk.android.Fabric;
 
-public class MainActivity extends AppCompatActivity implements  DatePickerDialog.OnDateSetListener{
+public class MainActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
     private static final String TAG = MainActivity.class.getSimpleName();
-
-    DatePickerDialog datePickerDialog = new DatePickerDialog(
-            context, MainActivity.this, startYear, startMonth, startDay);
-
-
-
 
 
     private TextView textView;
@@ -38,14 +35,6 @@ public class MainActivity extends AppCompatActivity implements  DatePickerDialog
     private TextView hello_world;
     //private FirebaseAnalytics mFirebaseAnalytics;
 
-
-    ((Button) findViewById(R.id.loginBtn))
-        .setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v){
-                datePickerDialog.show();
-        }
-    })
 
 
     @Override
@@ -60,18 +49,42 @@ public class MainActivity extends AppCompatActivity implements  DatePickerDialog
         nameEditText = findViewById(R.id.nameEditText);
         emailEditText = findViewById(R.id.emailEditText);
         userEditText = findViewById(R.id.userEditText);
-        dobEditText = findViewById(R.id.birthday);
+        //dobEditText = findViewById(R.id.birthday);
         loginBtn = findViewById(R.id.loginBtn);
         hello_world = findViewById(R.id.hello_world);
+
+        final Button button = findViewById(R.id.birthday);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                android.support.v4.app.DialogFragment agePicker = new AgePicker();
+                agePicker.show(getSupportFragmentManager(), "age picker");
+                button.setVisibility(View.GONE);
+            }
+        });
 
         //log onCreate tasks
         Log.i(TAG, "onCreate()");
     }
 
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.YEAR, year);
+        c.set(Calendar.MONTH, month);
+        c.set(Calendar. DAY_OF_MONTH, dayOfMonth);
+        String currentDateString = DateFormat.getDateInstance(DateFormat.DATE_FIELD).format(c.getTime());
+
+        TextView textView = findViewById(R.id.age);
+        textView.setText(currentDateString);
+
+    }
+
     public void goToSecondActivity(View view) {
         Intent intent = new Intent(MainActivity.this, SecondActivity.class);
         intent.putExtra(Constraints.KEY_NAME, nameEditText.getText().toString());
-        intent.putExtra(Constraints.KEY_AGE, 21);
+        intent.putExtra(Constraints.KEY_EMAIL, emailEditText.getText().toString());
+        intent.putExtra(Constraints.KEY_USER, userEditText.getText().toString());
         startActivity(intent);
     }
     public void onLogin(View view){
@@ -180,25 +193,22 @@ public class MainActivity extends AppCompatActivity implements  DatePickerDialog
 
 
 
-    //age verification helper methods....Maybe needs to be it's own class/interface
-    private int getLinearDate(int month, int day, int, int year){
+//    //age verification helper methods....Maybe needs to be it's own class/interface
+//    private int getLinearDate(int month, int day, int, int year){
+//
+//        int linearDate = (((year * 100)+ month) * 100)+ day;
+//
+//        return linearDate;
+//    }
+//
+//    // remove 3rd line only needs to be today-dob >= 18
+//    public boolean oldEnough(int month, int day, int year){
+//        int linearDOB = getLinearDate(monthDOB, dayDOB, yearDOB);
+//        int linearQuery = getLinearDate(month, day, year);
+//
+//        return true;
+//    }
 
-        int linearDate = (((year * 100)+ month) * 100)+ day;
-
-        return linearDate;
-    }
-
-    // remove 3rd line only needs to be today-dob >= 18
-    public boolean oldEnough(int month, int day, int year){
-        int linearDOB = getLinearDate(monthDOB, dayDOB, yearDOB);
-        int linearQuery = getLinearDate(month, day, year);
-
-        return true;
-    }
 
 
-    @Override
-    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-
-    }
 }
