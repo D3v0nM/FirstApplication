@@ -1,6 +1,16 @@
 <resources>
     <string name="app_name">First Application</string>
-    <string name="hello">Hello Kyle!</string>
-    <string name="great">Thanks Kyle! This is great!</string>
-    <string name="me">Martinez, Devon 04/012/2018</string>
+    <string name="hello">Hello! Create an Account</string>
+    <string name="menu1">Create Account(maybe later)</string>
+    <string name="me">Martinez, Devon 04/19/2018</string>
+    <string name="enter_name">Enter Your Name</string>
+    <string name="enter_email">Enter Your Email</string>
+    <string name="enter_username">Enter Desired Username</string>
+    <string name="enter_dob">Click Your Birthday</string>
+    <string name="login">Login</string>
+    <string name="Welcome">Welcome: %s</string>
+    <string name="message_on_login">Account Created Successfully</string>
+    <string name="go_to_second_activity">Next Page</string>
+    <string name="logout">Logout</string>
+    <string name="star">Star Example</string>
 </resources>

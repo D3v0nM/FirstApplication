@@ -2,7 +2,6 @@ package com.devon.firstapplication;
 
 
 import android.support.test.InstrumentationRegistry;
-import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.Rule;
@@ -19,24 +18,17 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 
 @RunWith(AndroidJUnit4.class)
-public class MainActivityTest {
-
+public class AgePickerTest {
     @Rule
-    public ActivityTestRule<MainActivity> ActivityTestRule = new ActivityTestRule<>(MainActivity.class);
+   // public ActivityTestRule<MainActivity> ActivityTestRule = new ActivityTestRule<>(AgePicker.class);
 
     @Test
+    public void Age (){
 
-        public void menu () {
-            onView(withId(R.id.hello_world))
-                    .check(matches(withText(R.string.hello)));
+        onView(withId(R.id.birthday)).check(matches(withText(R.string.enter_dob)));
 
-            openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
+        openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
 
-            onView(withText(R.string.menu1))
-                    .perform(click());
-
-            onView(withId(R.id.hello_world))
-                    .check(matches(withText(R.string.menu1)));
-        }
-
+        onView(withText(R.id.birthday)).perform(click());
     }
+}
