@@ -23,7 +23,7 @@ public class SecondActivity extends AppCompatActivity {
         textView = findViewById(R.id.textView);
         logoutBtn = findViewById(R.id.loginBtn);
 
-        StringBuilder msg =  new StringBuilder("Hello \n");
+        StringBuilder msg =  new StringBuilder("Welcome \n");
         Intent intent = getIntent();
         Bundle b = intent.getExtras();
 
@@ -37,10 +37,10 @@ public class SecondActivity extends AppCompatActivity {
         }
 
         if(b.containsKey(Constraints.KEY_EMAIL)){
-            int age = b.getInt(Constraints.KEY_EMAIL);
-            msg.append(age).append(" is your email \n");
+            String email = b.getString(Constraints.KEY_EMAIL);
+            msg.append(email).append(" is your email \n");
             //logging age append tasks
-            Log.i(TAG, "Age: " + age);
+            Log.i(TAG, "Email: " + email);
 
         }
 

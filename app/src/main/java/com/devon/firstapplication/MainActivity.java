@@ -14,7 +14,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.text.DateFormat;
 import java.util.Calendar;
 
 //import com.crashlytics.android.Crashlytics;
@@ -26,13 +25,14 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     private static final String TAG = MainActivity.class.getSimpleName();
 
 
-    private TextView textView;
+    //private TextView textView;
     private EditText nameEditText;
     private EditText emailEditText;
     private EditText userEditText;
-    private EditText dobEditText;
+   // private EditText dobEditText;
     private Button  loginBtn;
     private TextView hello_world;
+    public TextView age;
     //private FirebaseAnalytics mFirebaseAnalytics;
 
 
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         //setup params
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        textView = findViewById(R.id.textView);
+        //textView = findViewById(R.id.textView);
         nameEditText = findViewById(R.id.nameEditText);
         emailEditText = findViewById(R.id.emailEditText);
         userEditText = findViewById(R.id.userEditText);
@@ -68,16 +68,43 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         Log.i(TAG, "onCreate()");
     }
 
-    @Override
-    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.YEAR, year);
-        c.set(Calendar.MONTH, month);
-        c.set(Calendar. DAY_OF_MONTH, dayOfMonth);
-        String currentDateString = DateFormat.getDateInstance(DateFormat.DATE_FIELD).format(c.getTime());
 
-        TextView textView = findViewById(R.id.age);
-        textView.setText(currentDateString);
+
+        @Override
+    public void onDateSet(DatePicker view, int year, int month, int day) {
+
+                Calendar c = Calendar.getInstance();
+                Calendar now = Calendar.getInstance();
+            int curryear = now.get(Calendar.YEAR);
+
+                c.set(Calendar.YEAR, year);
+                c.set(Calendar.MONTH, month);
+                c.set(Calendar.DAY_OF_MONTH, day);
+
+                if(!oldEnough(year,month,day)) {
+
+                    Tools.exceptionToast(getApplicationContext(), "Your math sucks");
+                    loginBtn.setVisibility(View.GONE);
+
+                }
+
+                    String age = (curryear - year) + " years old";
+
+                    TextView textView = findViewById(R.id.age);
+                    //logic for age or error message
+                    textView.setText(age);
+
+    }
+
+    private int printAge(int year) {
+        Calendar now = Calendar.getInstance();
+
+
+        int curryear = now.get(Calendar.YEAR);
+        int currmonth = now.get(Calendar.MONTH) + 1;
+        int currday = now.get(Calendar.DAY_OF_MONTH);
+
+        return curryear - year;
 
     }
 
@@ -106,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     @Override
     protected void onStart(){
         super.onStart();
-        //log onstart tasks
+        //log onStart tasks
         Log.i(TAG, "onStart()");
     }
 
@@ -118,19 +145,19 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         Log.i(TAG, "onRestoreInstanceState()");
 
         if(savedInstanceState.containsKey(Constraints.KEY_NAME)){
-            textView.setText((String) savedInstanceState.get(Constraints.KEY_NAME));
+            nameEditText.setText((String) savedInstanceState.get(Constraints.KEY_NAME));
         }
 
         if(savedInstanceState.containsKey(Constraints.KEY_EMAIL)){
-            textView.setText((String) savedInstanceState.get(Constraints.KEY_EMAIL));
+            emailEditText.setText((String) savedInstanceState.get(Constraints.KEY_EMAIL));
         }
 
         if(savedInstanceState.containsKey(Constraints.KEY_USER)){
-            textView.setText((String) savedInstanceState.get(Constraints.KEY_USER));
+            userEditText.setText((String) savedInstanceState.get(Constraints.KEY_USER));
         }
 
         if(savedInstanceState.containsKey(Constraints.KEY_BUTTON_TXT)){
-            textView.setText((String) savedInstanceState.get(Constraints.KEY_BUTTON_TXT));
+            loginBtn.setText((String) savedInstanceState.get(Constraints.KEY_BUTTON_TXT));
         }
 
     }
@@ -142,10 +169,10 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         //Log bundle transfer tasks
         Log.i(TAG, "onSaveInstanceState()");
 
-        outState.putString(Constraints.KEY_NAME, textView.getText().toString());
-        outState.putString(Constraints.KEY_EMAIL, textView.getText().toString());
-        outState.putString(Constraints.KEY_USER, textView.getText().toString());
-        outState.putString(Constraints.KEY_BUTTON_TXT, textView.getText().toString());
+        outState.putString(Constraints.KEY_NAME, nameEditText.getText().toString());
+        outState.putString(Constraints.KEY_EMAIL, emailEditText.getText().toString());
+        outState.putString(Constraints.KEY_USER, userEditText.getText().toString());
+        outState.putString(Constraints.KEY_BUTTON_TXT, loginBtn.getText().toString());
     }
 
     @Override
@@ -202,10 +229,24 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         return super.onOptionsItemSelected(item);
     }
 
+    public boolean oldEnough(int year, int month, int day) throws IllegalArgumentException {
+
+        Calendar now = Calendar.getInstance();
+
+
+        int curryear = now.get(Calendar.YEAR);
+        int currmonth = now.get(Calendar.MONTH) + 1;
+        int currday = now.get(Calendar.DAY_OF_MONTH);
+
+        if (curryear - year >= 18 && currmonth > month && currday > day) ;
+
+        if (curryear - year > 18) ;
+
+        return false;
 
 
 
 
 
-
+    }
 }
