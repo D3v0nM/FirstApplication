@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="activity_header_margin">150dp</dimen>
+    <dimen name="activity_header_margin">125dp</dimen>
     <dimen name="activity_age">25sp</dimen>
+    <dimen name="activity_header">30sp</dimen>
 </resources>

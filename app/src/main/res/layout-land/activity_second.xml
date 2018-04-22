@@ -15,7 +15,7 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:textColor="#8e8c8c"
-        android:textSize="30sp"
+        android:textSize="@dimen/activity_age"
         android:textStyle="bold"/>
 
     <Button

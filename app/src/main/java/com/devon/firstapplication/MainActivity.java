@@ -14,42 +14,47 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import java.util.Calendar;
 
-//import com.crashlytics.android.Crashlytics;
-//import io.fabric.sdk.android.Fabric;
-//import com.crashlytics.android.Crashlytics;
-//import io.fabric.sdk.android.Fabric;
+
 
 public class MainActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
     private static final String TAG = MainActivity.class.getSimpleName();
 
-
-    //private TextView textView;
     private EditText nameEditText;
     private EditText emailEditText;
     private EditText userEditText;
-   // private EditText dobEditText;
+    private EditText passEditText;
     private Button  loginBtn;
     private TextView hello_world;
     public TextView age;
-    //private FirebaseAnalytics mFirebaseAnalytics;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // Obtain the FirebaseAnalytics instance.
-        //mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         //setup params
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //textView = findViewById(R.id.textView);
         nameEditText = findViewById(R.id.nameEditText);
+        if(nameEditText.getText().toString().length() == 0)
+            nameEditText.setError("Name is required");
         emailEditText = findViewById(R.id.emailEditText);
+        if(emailEditText.getText().toString().length() ==0)
+            emailEditText.setError("Email is required");
         userEditText = findViewById(R.id.userEditText);
-        //dobEditText = findViewById(R.id.birthday);
+        if(userEditText.getText().toString().length() == 0)
+            userEditText.setError("Username is required");
+        passEditText = findViewById(R.id.passEditText);
+        if(passEditText.getText().toString().length() == 0);
+            passEditText.setError("Password is required");
+
         loginBtn = findViewById(R.id.loginBtn);
         hello_world = findViewById(R.id.hello_world);
 
@@ -73,9 +78,12 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         @Override
     public void onDateSet(DatePicker view, int year, int month, int day) {
 
+        //logic for age or error message
                 Calendar c = Calendar.getInstance();
                 Calendar now = Calendar.getInstance();
-            int curryear = now.get(Calendar.YEAR);
+           // int curryear = now.get(Calendar.YEAR);
+            int currday = now.get(Calendar.DAY_OF_YEAR);
+            String age;
 
                 c.set(Calendar.YEAR, year);
                 c.set(Calendar.MONTH, month);
@@ -83,44 +91,36 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
                 if(!oldEnough(year,month,day)) {
 
-                    Tools.exceptionToast(getApplicationContext(), "Your math sucks");
+                    Tools.exceptionToast(getApplicationContext(), "You're not 18...or Your math sucks");
                     loginBtn.setVisibility(View.GONE);
 
-                }
-
-                    String age = (curryear - year) + " years old";
+                    age = currday - (setAge(year,month,day)) + " days till you are 18!";
 
                     TextView textView = findViewById(R.id.age);
-                    //logic for age or error message
+
                     textView.setText(age);
+                }else
+
+                {
+                    age = (setAge(year,month,day)) + " years old";
+
+
+                    TextView textView = findViewById(R.id.age);
+
+                    textView.setText(age);
+                }
 
     }
 
-    private int printAge(int year) {
-        Calendar now = Calendar.getInstance();
-
-
-        int curryear = now.get(Calendar.YEAR);
-        int currmonth = now.get(Calendar.MONTH) + 1;
-        int currday = now.get(Calendar.DAY_OF_MONTH);
-
-        return curryear - year;
-
-    }
 
     public void goToSecondActivity(View view) {
         Intent intent = new Intent(MainActivity.this, SecondActivity.class);
         intent.putExtra(Constraints.KEY_NAME, nameEditText.getText().toString());
         intent.putExtra(Constraints.KEY_EMAIL, emailEditText.getText().toString());
         intent.putExtra(Constraints.KEY_USER, userEditText.getText().toString());
+       // intent.putExtra(Constraints.KEY_AGE, age.getText().toString());
         startActivity(intent);
     }
-    /*public void onLogin(View view){
-        loginBtn.setText(R.string.logout); //Logout of secondActivity view?
-
-        //Welcome message on login?
-        textView.setText(String.format(getString(R.string.Welcome), nameEditText.getText()));
-    }*/
 
     @Override
     protected void onRestart(){
@@ -160,6 +160,10 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             loginBtn.setText((String) savedInstanceState.get(Constraints.KEY_BUTTON_TXT));
         }
 
+//        if(savedInstanceState.containsKey(Constraints.KEY_AGE)){
+//            age.setText((String) savedInstanceState.get(Constraints.KEY_AGE));
+//        }
+
     }
 
     @Override
@@ -172,6 +176,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         outState.putString(Constraints.KEY_NAME, nameEditText.getText().toString());
         outState.putString(Constraints.KEY_EMAIL, emailEditText.getText().toString());
         outState.putString(Constraints.KEY_USER, userEditText.getText().toString());
+        //outState.putString(Constraints.KEY_AGE, age.getText().toString());
         outState.putString(Constraints.KEY_BUTTON_TXT, loginBtn.getText().toString());
     }
 
@@ -232,21 +237,43 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     public boolean oldEnough(int year, int month, int day) throws IllegalArgumentException {
 
         Calendar now = Calendar.getInstance();
+        boolean age = false;
 
 
         int curryear = now.get(Calendar.YEAR);
         int currmonth = now.get(Calendar.MONTH) + 1;
         int currday = now.get(Calendar.DAY_OF_MONTH);
 
-        if (curryear - year >= 18 && currmonth > month && currday > day) ;
+        if (curryear - year > 18) {
+            age = true;
+        }
 
-        if (curryear - year > 18) ;
-
-        return false;
-
-
+        if (curryear - year == 17 && currmonth >= month && currday >= day){
+            age = true;
+        }
 
 
+
+        return age;
+
+
+    }
+    public int setAge(int year, int month, int day){
+        Calendar now = Calendar.getInstance();
+
+
+        int curryear = now.get(Calendar.YEAR);
+        int currmonth = now.get(Calendar.MONTH) + 1;
+        int currday = now.get(Calendar.DAY_OF_MONTH);
+
+
+
+
+        if (curryear - year == 17 && currmonth <= month && currday <= day) {
+            return now.get(Calendar.DAY_OF_YEAR);
+        }
+
+        return  curryear - year;
 
     }
 }
