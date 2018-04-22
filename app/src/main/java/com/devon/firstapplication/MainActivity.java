@@ -14,9 +14,11 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.google.firebase.analytics.FirebaseAnalytics;
-
 import java.util.Calendar;
+
+// import com.google.firebase.analytics.FirebaseAnalytics; Future enhancement
+
+
 
 
 
@@ -27,17 +29,19 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     private EditText emailEditText;
     private EditText userEditText;
     private EditText passEditText;
+    private EditText jobEditText;
+    private EditText profileEditText;
     private Button  loginBtn;
     private TextView hello_world;
     public TextView age;
-    private FirebaseAnalytics mFirebaseAnalytics;
+   // private FirebaseAnalytics mFirebaseAnalytics; Future Enhancement
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // Obtain the FirebaseAnalytics instance.
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        // Obtain the FirebaseAnalytics instance..... in the Future
+      //  mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         //setup params
         super.onCreate(savedInstanceState);
@@ -52,8 +56,9 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         if(userEditText.getText().toString().length() == 0)
             userEditText.setError("Username is required");
         passEditText = findViewById(R.id.passEditText);
-        if(passEditText.getText().toString().length() == 0);
-            passEditText.setError("Password is required");
+        if(passEditText.getText().toString().length() == 0 || passEditText.getText().toString().length() < 6)
+            passEditText.setError("Password is required and must be at least 6 characters");
+
 
         loginBtn = findViewById(R.id.loginBtn);
         hello_world = findViewById(R.id.hello_world);
@@ -118,7 +123,10 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         intent.putExtra(Constraints.KEY_NAME, nameEditText.getText().toString());
         intent.putExtra(Constraints.KEY_EMAIL, emailEditText.getText().toString());
         intent.putExtra(Constraints.KEY_USER, userEditText.getText().toString());
-       // intent.putExtra(Constraints.KEY_AGE, age.getText().toString());
+        intent.putExtra(Constraints.KEY_AGE, age.getText().toString());
+        intent.putExtra(Constraints.KEY_PASS, passEditText.getText().toString());
+        intent.putExtra(Constraints.KEY_JOB, jobEditText.getText().toString());
+        intent.putExtra(Constraints.KEY_PROFILE, profileEditText.getText().toString());
         startActivity(intent);
     }
 
@@ -160,9 +168,21 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             loginBtn.setText((String) savedInstanceState.get(Constraints.KEY_BUTTON_TXT));
         }
 
-//        if(savedInstanceState.containsKey(Constraints.KEY_AGE)){
-//            age.setText((String) savedInstanceState.get(Constraints.KEY_AGE));
-//        }
+        if(savedInstanceState.containsKey(Constraints.KEY_AGE)){
+            age.setText((String) savedInstanceState.get(Constraints.KEY_AGE));
+        }
+
+        if(savedInstanceState.containsKey(Constraints.KEY_PASS)){
+            passEditText.setText((String) savedInstanceState.get(Constraints.KEY_PASS));
+        }
+        if(savedInstanceState.containsKey(Constraints.KEY_JOB)){
+            jobEditText.setText((String) savedInstanceState.get(Constraints.KEY_JOB));
+
+        }
+
+        if (savedInstanceState.containsKey(Constraints.KEY_PROFILE)){
+            profileEditText.setText((String) savedInstanceState.get(Constraints.KEY_PROFILE));
+        }
 
     }
 
@@ -176,8 +196,11 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         outState.putString(Constraints.KEY_NAME, nameEditText.getText().toString());
         outState.putString(Constraints.KEY_EMAIL, emailEditText.getText().toString());
         outState.putString(Constraints.KEY_USER, userEditText.getText().toString());
-        //outState.putString(Constraints.KEY_AGE, age.getText().toString());
+        outState.putString(Constraints.KEY_AGE, age.getText().toString());
         outState.putString(Constraints.KEY_BUTTON_TXT, loginBtn.getText().toString());
+        outState.putString(Constraints.KEY_PASS , passEditText.getText().toString());
+        outState.putString(Constraints.KEY_JOB, jobEditText.getText().toString());
+        outState.putString(Constraints.KEY_PROFILE, profileEditText.getText().toString());
     }
 
     @Override
@@ -215,7 +238,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     }
 
 
-    //Fist homework menu tasks
+    //Fist homework menu tasks: Maybe add create task to menu?
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {

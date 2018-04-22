@@ -15,8 +15,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/activity_header_margin"
+        android:text="@string/hello"
         android:textSize="@dimen/activity_header"
-        android:text="@string/hello" />
+        android:paddingBottom="@dimen/activity_padding"/>
 
 
     <EditText
@@ -24,40 +25,62 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/enter_name"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"
+        android:paddingBottom="@dimen/activity_padding"/>
 
     <EditText
         android:id="@+id/emailEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/enter_email"
-        android:inputType="textEmailAddress" />
+        android:inputType="textEmailAddress"
+        android:paddingBottom="@dimen/activity_padding"/>
 
     <EditText
         android:id="@+id/userEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/enter_username"
-        android:inputType="text" />
+        android:inputType="text"
+        android:paddingBottom="@dimen/activity_padding"/>
 
     <EditText
         android:id="@+id/passEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/enter_pass"
-        android:inputType="text" />
+        android:inputType="textPassword"
+        android:paddingBottom="@dimen/activity_padding"/>
+
+    <EditText
+        android:id="@+id/jobEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/enter_job"
+        android:inputType="text"
+        android:paddingBottom="@dimen/activity_padding"/>
+
+    <EditText
+        android:id="@+id/profileEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/enter_profile"
+        android:inputType="textMultiLine"
+        android:paddingBottom="@dimen/activity_padding"/>
 
     <Button
         android:id="@+id/birthday"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/enter_dob" />
+        android:text="@string/enter_dob"
+        android:paddingBottom="@dimen/activity_padding"/>
 
     <TextView
         android:id="@+id/age"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/activity_age" />
+        android:textSize="@dimen/activity_age"
+        android:paddingBottom="@dimen/activity_padding"/>
 
 
     <Button
@@ -65,11 +88,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-
         android:onClick="goToSecondActivity"
         android:text="@string/login" />
-    <!--android:onClick="onLogin"-->
-
 
     <ImageView
         android:id="@+id/imageView"
@@ -83,5 +103,6 @@
         android:id="@+id/me"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="end"
         android:text="@string/me" />
 </LinearLayout>

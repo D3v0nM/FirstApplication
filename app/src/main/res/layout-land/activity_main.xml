@@ -5,97 +5,111 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<LinearLayout
-xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:context=".MainActivity">
-
-    <TextView
-        android:id="@+id/hello_world"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/hello" />
-
-    <EditText
-        android:id="@+id/nameEditText"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/enter_name"
-        android:inputType="textPersonName" />
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:orientation="vertical"
+        tools:context=".MainActivity">
 
-    <EditText
-        android:id="@+id/emailEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"
-        android:hint="@string/enter_email"/>
-
-    <EditText
-        android:id="@+id/userEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="text"
-        android:hint="@string/enter_username"/>
-
-    <EditText
-        android:id="@+id/passEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="text"
-        android:hint="@string/enter_pass"/>
-
-    <Button
-        android:id="@+id/birthday"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/enter_dob" />
-
-    <TextView
-        android:id="@+id/age"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/activity_age"/>
+        <TextView
+            android:id="@+id/hello_world"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/activity_header_margin"
+            android:text="@string/hello"
+            android:textSize="@dimen/activity_header"
+            android:paddingBottom="@dimen/activity_padding"/>
 
 
-    <Button
-        android:id="@+id/loginBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        <EditText
+            android:id="@+id/nameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/enter_name"
+            android:inputType="textPersonName"
+            android:paddingBottom="@dimen/activity_padding"/>
 
-        android:onClick="goToSecondActivity"
-        android:text="@string/login"/>
-    <!--android:onClick="onLogin"-->
+        <EditText
+            android:id="@+id/emailEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/enter_email"
+            android:inputType="textEmailAddress"
+            android:paddingBottom="@dimen/activity_padding"/>
+
+        <EditText
+            android:id="@+id/userEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/enter_username"
+            android:inputType="text"
+            android:paddingBottom="@dimen/activity_padding"/>
+
+        <EditText
+            android:id="@+id/passEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/enter_pass"
+            android:inputType="textPassword"
+            android:paddingBottom="@dimen/activity_padding"/>
+
+        <EditText
+            android:id="@+id/jobEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/enter_job"
+            android:inputType="text"
+            android:paddingBottom="@dimen/activity_padding"/>
+
+        <EditText
+            android:id="@+id/profileEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/enter_profile"
+            android:inputType="textMultiLine"
+            android:paddingBottom="@dimen/activity_padding"/>
+
+        <Button
+            android:id="@+id/birthday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/enter_dob"
+            android:paddingBottom="@dimen/activity_padding"/>
+
+        <TextView
+            android:id="@+id/age"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/activity_age"
+            android:paddingBottom="@dimen/activity_padding"/>
 
 
-    <!--move this text view and button to second activity
-       <TextView
-       android:id="@+id/textView"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:text="@string/message_on_login"
-       />
+        <Button
+            android:id="@+id/loginBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:onClick="goToSecondActivity"
+            android:text="@string/login" />
 
-  <Button
-       android:id="@+id/secondActivityBtn"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:text="@string/go_to_second_activity"
-       android:onClick="goToSecondActivity"/>-->
-
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/btn_star_big_off"
-        android:contentDescription="@string/star"/>
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/star"
+            app:srcCompat="@android:drawable/btn_star_big_on" />
 
 
-
-</LinearLayout>
+        <TextView
+            android:id="@+id/me"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:text="@string/me" />
+    </LinearLayout>
 </ScrollView>
