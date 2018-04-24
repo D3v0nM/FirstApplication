@@ -1,39 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_second"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="700dp"
+    tools:context=".SecondActivity">
 
-    <ImageView
-        android:id="@+id/profileImage"
-        android:layout_width="@dimen/profile_image"
-        android:layout_height="@dimen/profile_image"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:contentDescription="@string/img"/>
-    
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:textColor="#8e8c8c"
-        android:textSize="@dimen/activity_age"
-        android:textStyle="bold"/>
 
-    <Button
-        android:id="@+id/loginBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        <ImageView
+            android:id="@+id/profileImage"
+            android:layout_width="545dp"
+            android:layout_height="285dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/img"
+            android:cropToPadding="false"
+            android:scaleType="centerCrop"
+            android:src="@drawable/lowered_expectations"
+            android:visibility="visible" />
 
-        android:onClick="goBack"
-        android:text="@string/logout"/>
 
-</RelativeLayout>
-</ScrollView>
+        <TextView
+            android:id="@+id/nameAndAge"
+            android:layout_width="255dp"
+            android:layout_height="60dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="67dp"
+            android:layout_marginTop="243dp"
+            android:background="@drawable/border"
+            android:gravity="start|top"
+            android:paddingBottom="5dp"
+            android:paddingEnd="5dp"
+            android:paddingStart="5dp"
+            android:paddingTop="5dp"
+            android:textColor="@color/grey"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/job"
+            android:layout_width="292dp"
+            android:layout_height="60dp"
+            android:layout_alignBottom="@+id/nameAndAge"
+            android:layout_toEndOf="@+id/nameAndAge"
+            android:background="@drawable/border"
+            android:gravity="end|top"
+            android:paddingBottom="5dp"
+            android:paddingEnd="5dp"
+            android:paddingStart="5dp"
+            android:paddingTop="5dp"
+            android:textColor="@color/grey"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/profileLayout"
+            android:layout_width="540dp"
+            android:layout_height="332dp"
+
+            android:layout_alignStart="@+id/nameAndAge"
+            android:layout_below="@+id/job"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/profileText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:baselineAligned="false"
+                android:background="@drawable/border"/>
+
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/logoutBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_gravity="center"
+            android:onClick="goBack"
+            android:text="@string/logout" />
+        </RelativeLayout>
+    </ScrollView>
+

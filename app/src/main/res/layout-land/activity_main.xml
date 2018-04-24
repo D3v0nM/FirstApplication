@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/relativeLayout"
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -19,9 +22,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/activity_header_margin"
+            android:paddingBottom="@dimen/activity_padding"
             android:text="@string/hello"
-            android:textSize="@dimen/activity_header"
-            android:paddingBottom="@dimen/activity_padding"/>
+            android:textSize="@dimen/activity_header" />
 
 
         <EditText
@@ -30,7 +33,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/enter_name"
             android:inputType="textPersonName"
-            android:paddingBottom="@dimen/activity_padding"/>
+            android:paddingBottom="@dimen/activity_padding" />
 
         <EditText
             android:id="@+id/emailEditText"
@@ -38,7 +41,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/enter_email"
             android:inputType="textEmailAddress"
-            android:paddingBottom="@dimen/activity_padding"/>
+            android:paddingBottom="@dimen/activity_padding" />
 
         <EditText
             android:id="@+id/userEditText"
@@ -46,7 +49,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/enter_username"
             android:inputType="text"
-            android:paddingBottom="@dimen/activity_padding"/>
+            android:paddingBottom="@dimen/activity_padding" />
 
         <EditText
             android:id="@+id/passEditText"
@@ -54,7 +57,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/enter_pass"
             android:inputType="textPassword"
-            android:paddingBottom="@dimen/activity_padding"/>
+            android:paddingBottom="@dimen/activity_padding" />
 
         <EditText
             android:id="@+id/jobEditText"
@@ -62,7 +65,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/enter_job"
             android:inputType="text"
-            android:paddingBottom="@dimen/activity_padding"/>
+            android:paddingBottom="@dimen/activity_padding" />
 
         <EditText
             android:id="@+id/profileEditText"
@@ -70,21 +73,21 @@
             android:layout_height="wrap_content"
             android:hint="@string/enter_profile"
             android:inputType="textMultiLine"
-            android:paddingBottom="@dimen/activity_padding"/>
+            android:paddingBottom="@dimen/activity_padding" />
 
         <Button
             android:id="@+id/birthday"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/enter_dob"
-            android:paddingBottom="@dimen/activity_padding"/>
+            android:paddingBottom="@dimen/activity_padding"
+            android:text="@string/enter_dob" />
 
         <TextView
             android:id="@+id/age"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/activity_age"
-            android:paddingBottom="@dimen/activity_padding"/>
+            android:paddingBottom="@dimen/activity_padding"
+            android:textSize="@dimen/activity_age" />
 
 
         <Button
@@ -110,4 +113,5 @@
             android:layout_gravity="end"
             android:text="@string/me" />
     </LinearLayout>
+    </RelativeLayout>
 </ScrollView>
