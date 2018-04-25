@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.Calendar;
+import java.util.regex.Pattern;
 
 // import com.google.firebase.analytics.FirebaseAnalytics; Future enhancement
 
@@ -48,17 +49,13 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         nameEditText = findViewById(R.id.nameEditText);
-        if(nameEditText.getText().toString().length() == 0)
-            nameEditText.setError("Name is required");
+
         emailEditText = findViewById(R.id.emailEditText);
-        if(emailEditText.getText().toString().length() ==0)
-            emailEditText.setError("Email is required");
+
         userEditText = findViewById(R.id.userEditText);
-        if(userEditText.getText().toString().length() == 0)
-            userEditText.setError("Username is required");
+
         passEditText = findViewById(R.id.passEditText);
-        if(passEditText.getText().toString().length() == 0 || passEditText.getText().toString().length() < 6)
-            passEditText.setError("Password is required and must be at least 6 characters");
+
         jobEditText = findViewById(R.id.jobEditText);
         profileEditText = findViewById(R.id.profileEditText);
 
@@ -88,9 +85,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
         //logic for age or error message
                 Calendar c = Calendar.getInstance();
-                Calendar now = Calendar.getInstance();
-           // int curryear = now.get(Calendar.YEAR);
-            int currday = now.get(Calendar.DAY_OF_YEAR);
+                int bday = c.get(Calendar.DAY_OF_YEAR);
 
 
                 c.set(Calendar.YEAR, year);
@@ -102,11 +97,12 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                     Tools.toastMessage(MainActivity.this, "You're not 18...or Your math sucks");
                     loginBtn.setVisibility(View.GONE);
 
-                    Age = currday - (setAge(year,month,day)) + " days till you are 18!";
+                    Age = (bday -(setAge(year,month,day))  + " days till you are 18! \n Visit us then");
 
                     TextView textView = findViewById(R.id.age);
 
                     textView.setText(Age);
+
                 }else
 
                 {
@@ -122,15 +118,45 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
 
     public void goToSecondActivity(View view) {
-        Intent intent = new Intent(MainActivity.this, SecondActivity.class);
-        intent.putExtra(Constraints.KEY_NAME, nameEditText.getText().toString());
-        intent.putExtra(Constraints.KEY_EMAIL, emailEditText.getText().toString());
-        intent.putExtra(Constraints.KEY_USER, userEditText.getText().toString());
-        intent.putExtra(Constraints.KEY_AGE, Age.toString());
-        intent.putExtra(Constraints.KEY_PASS, passEditText.getText().toString());
-        intent.putExtra(Constraints.KEY_JOB, jobEditText.getText().toString());
-        intent.putExtra(Constraints.KEY_PROFILE, profileEditText.getText().toString());
-        startActivity(intent);
+        int errors = 0;
+        if (nameEditText.getText().toString().length() == 0) {
+            nameEditText.setError("Name is required");
+
+            errors += 1;
+        }
+
+        if (emailEditText.getText().toString().length() == 0) {
+            emailEditText.setError("Email is required");
+            errors += 1;
+        }
+
+        if (!checkEmail(emailEditText.getText().toString())) {
+            emailEditText.setError("Not an Email Address");
+            errors += 1;
+        }
+
+        if (userEditText.getText().toString().length() == 0) {
+            userEditText.setError("Username is required");
+            errors += 1;
+        }
+
+        if (passEditText.getText().toString().length() == 0 || passEditText.getText().toString().length() < 6) {
+            passEditText.setError("Password is required and must be at least 6 characters");
+        }
+
+        if (errors < 1) {
+
+            Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+            intent.putExtra(Constraints.KEY_NAME, nameEditText.getText().toString());
+            intent.putExtra(Constraints.KEY_EMAIL, emailEditText.getText().toString());
+            intent.putExtra(Constraints.KEY_USER, userEditText.getText().toString());
+            intent.putExtra(Constraints.KEY_AGE, Age.toString());
+            intent.putExtra(Constraints.KEY_PASS, passEditText.getText().toString());
+            intent.putExtra(Constraints.KEY_JOB, jobEditText.getText().toString());
+            intent.putExtra(Constraints.KEY_PROFILE, profileEditText.getText().toString());
+            startActivity(intent);
+        } else
+            Tools.toastMessage(this, "Errors found. Fix errors and try again");
     }
 
     @Override
@@ -298,6 +324,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         int currday = now.get(Calendar.DAY_OF_MONTH);
 
 
+
         if (curryear - year == 17 && currmonth <= month && currday <= day) {
             return now.get(Calendar.DAY_OF_YEAR);
         }
@@ -305,4 +332,19 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         return  curryear - year;
 
     }
+
+    private boolean checkEmail(String email) {
+        return EMAIL_ADDRESS_PATTERN.matcher(email).matches();
+    }
+    public static final Pattern EMAIL_ADDRESS_PATTERN = Pattern.compile(
+            "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
+                    "\\@" +
+                    "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
+                    "(" +
+                    "\\." +
+                    "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
+                    ")+"
+    );
+
+
 }

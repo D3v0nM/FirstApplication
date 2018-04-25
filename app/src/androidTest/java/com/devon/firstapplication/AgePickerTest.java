@@ -2,6 +2,7 @@ package com.devon.firstapplication;
 
 
 import android.support.test.InstrumentationRegistry;
+import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.Rule;
@@ -20,7 +21,8 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 @RunWith(AndroidJUnit4.class)
 public class AgePickerTest {
     @Rule
-   // public ActivityTestRule<MainActivity> ActivityTestRule = new ActivityTestRule<>(AgePicker.class);
+    public android.support.test.rule.ActivityTestRule<MainActivity>
+            ActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
     public void Age (){

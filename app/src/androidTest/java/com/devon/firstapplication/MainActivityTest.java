@@ -26,17 +26,26 @@ public class MainActivityTest {
 
     @Test
 
-        public void menu () {
-            onView(withId(R.id.hello_world))
-                    .check(matches(withText(R.string.hello)));
+    public void menu() {
+        onView(withId(R.id.hello_world))
+                .check(matches(withText(R.string.hello)));
 
-            openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
+        openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
 
-            onView(withText(R.string.menu1))
-                    .perform(click());
+        onView(withText(R.string.menu1))
+                .perform(click());
 
-            onView(withId(R.id.hello_world))
-                    .check(matches(withText(R.string.menu1)));
-        }
-
+        onView(withId(R.id.hello_world))
+                .check(matches(withText(R.string.menu1)));
     }
+
+
+}
+//    @Test
+//
+//    public static void setDate(int datePickerLaunchViewId, int year, int monthOfYear, int dayOfMonth) {
+//        onView(withId(datePickerLaunchViewId)).perform(click());
+//        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(year, monthOfYear, dayOfMonth));
+//        onView(withId(android.R.id.button1)).perform(click());
+//    }
+//    setDate(R.id.datePickerDialogButton, 1994, 1, 1);
