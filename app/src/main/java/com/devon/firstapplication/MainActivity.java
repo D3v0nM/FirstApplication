@@ -325,7 +325,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
 
 
-        if (curryear - year == 17 && currmonth <= month && currday <= day) {
+        if (curryear - year == 18 && currmonth <= month && currday <= day) {
             return now.get(Calendar.DAY_OF_YEAR);
         }
 
