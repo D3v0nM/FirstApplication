@@ -19,15 +19,11 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
-import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasErrorText;
 import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-
-
-
 
 
 @RunWith(AndroidJUnit4.class)
@@ -98,7 +94,7 @@ public class MainActivityTest {
     @Test
     public void under18(){
        setDate(R.id.birthday, 2000, 4, 22);
-       onView(withId(R.id.loginBtn)).check(doesNotExist());
+       onView(withId(R.id.birthday)).check(matches(withText("days till you are 18! \n Visit us then")));
 
     }
 
@@ -131,7 +127,6 @@ public class MainActivityTest {
 
         //set birthday over 18
         setDate(R.id.birthday, 1994, 11, 11);
-
 
         Espresso.closeSoftKeyboard();
 
@@ -213,7 +208,7 @@ public class MainActivityTest {
         onView(withId(datePickerLaunchViewId)).perform(click());
         onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).
                 perform(PickerActions.setDate(year, monthOfYear, dayOfMonth));
-        onView(withId(android.R.id.button1)).perform(click());
+       // onView(withId(android.R.id.button1)).perform(click());
 
     }
 }
