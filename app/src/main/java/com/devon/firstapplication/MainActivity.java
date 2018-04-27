@@ -15,57 +15,67 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.Calendar;
+import java.util.regex.Pattern;
 
-//import com.crashlytics.android.Crashlytics;
-//import io.fabric.sdk.android.Fabric;
-//import com.crashlytics.android.Crashlytics;
-//import io.fabric.sdk.android.Fabric;
+// import com.google.firebase.analytics.FirebaseAnalytics; Future enhancement
+
+
+
+
 
 public class MainActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
     private static final String TAG = MainActivity.class.getSimpleName();
 
-
-    //private TextView textView;
     private EditText nameEditText;
     private EditText emailEditText;
     private EditText userEditText;
-   // private EditText dobEditText;
+    private EditText passEditText;
+    private EditText jobEditText;
+    private EditText profileEditText;
     private Button  loginBtn;
     private TextView hello_world;
     public TextView age;
-    //private FirebaseAnalytics mFirebaseAnalytics;
+    String Age;
+   // private FirebaseAnalytics mFirebaseAnalytics; Future Enhancement
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // Obtain the FirebaseAnalytics instance.
-        //mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        // Obtain the FirebaseAnalytics instance..... in the Future
+      //  mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         //setup params
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //textView = findViewById(R.id.textView);
         nameEditText = findViewById(R.id.nameEditText);
+
         emailEditText = findViewById(R.id.emailEditText);
+
         userEditText = findViewById(R.id.userEditText);
-        //dobEditText = findViewById(R.id.birthday);
+
+        passEditText = findViewById(R.id.passEditText);
+
+        jobEditText = findViewById(R.id.jobEditText);
+        profileEditText = findViewById(R.id.profileEditText);
+
+
         loginBtn = findViewById(R.id.loginBtn);
         hello_world = findViewById(R.id.hello_world);
 
-        final Button button = findViewById(R.id.birthday);
-        button.setOnClickListener(new View.OnClickListener() {
+        final Button birthday = findViewById(R.id.birthday);
+        birthday.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 android.support.v4.app.DialogFragment agePicker = new AgePicker();
                 agePicker.show(getSupportFragmentManager(), "age picker");
-                button.setVisibility(View.GONE);
+                birthday.setVisibility(View.GONE);
             }
         });
 
         //log onCreate tasks
-        Log.i(TAG, "onCreate()");
+        Log.i(TAG, "onCreate() Started");
     }
 
 
@@ -73,9 +83,10 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         @Override
     public void onDateSet(DatePicker view, int year, int month, int day) {
 
+        //logic for age or error message
                 Calendar c = Calendar.getInstance();
-                Calendar now = Calendar.getInstance();
-            int curryear = now.get(Calendar.YEAR);
+                int bday = c.get(Calendar.DAY_OF_YEAR);
+
 
                 c.set(Calendar.YEAR, year);
                 c.set(Calendar.MONTH, month);
@@ -83,50 +94,76 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
                 if(!oldEnough(year,month,day)) {
 
-                    Tools.exceptionToast(getApplicationContext(), "Your math sucks");
+                    Tools.toastMessage(MainActivity.this, "You're not 18...or Your math sucks");
                     loginBtn.setVisibility(View.GONE);
 
-                }
-
-                    String age = (curryear - year) + " years old";
+                    Age = (bday -(setAge(year,month,day))  + " days till you are 18! \n Visit us then");
 
                     TextView textView = findViewById(R.id.age);
-                    //logic for age or error message
-                    textView.setText(age);
+
+                    textView.setText(Age);
+
+                }else
+
+                {
+                    Age = (setAge(year,month,day)) + " yrs";
+
+
+                    TextView textView = findViewById(R.id.age);
+
+                    textView.setText(Age);
+                }
 
     }
 
-    private int printAge(int year) {
-        Calendar now = Calendar.getInstance();
-
-
-        int curryear = now.get(Calendar.YEAR);
-        int currmonth = now.get(Calendar.MONTH) + 1;
-        int currday = now.get(Calendar.DAY_OF_MONTH);
-
-        return curryear - year;
-
-    }
 
     public void goToSecondActivity(View view) {
-        Intent intent = new Intent(MainActivity.this, SecondActivity.class);
-        intent.putExtra(Constraints.KEY_NAME, nameEditText.getText().toString());
-        intent.putExtra(Constraints.KEY_EMAIL, emailEditText.getText().toString());
-        intent.putExtra(Constraints.KEY_USER, userEditText.getText().toString());
-        startActivity(intent);
-    }
-    /*public void onLogin(View view){
-        loginBtn.setText(R.string.logout); //Logout of secondActivity view?
+        int errors = 0;
+        if (nameEditText.getText().toString().length() == 0) {
+            nameEditText.setError("Name is required");
 
-        //Welcome message on login?
-        textView.setText(String.format(getString(R.string.Welcome), nameEditText.getText()));
-    }*/
+            errors += 1;
+        }
+
+        if (emailEditText.getText().toString().length() == 0) {
+            emailEditText.setError("Email is required");
+            errors += 1;
+        }
+
+        if (!checkEmail(emailEditText.getText().toString())) {
+            emailEditText.setError("Not an Email Address");
+            errors += 1;
+        }
+
+        if (userEditText.getText().toString().length() == 0) {
+            userEditText.setError("Username is required");
+            errors += 1;
+        }
+
+        if (passEditText.getText().toString().length() == 0 || passEditText.getText().toString().length() < 6) {
+            passEditText.setError("Password is required and must be at least 6 characters");
+        }
+
+        if (errors < 1) {
+
+            Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+            intent.putExtra(Constraints.KEY_NAME, nameEditText.getText().toString());
+            intent.putExtra(Constraints.KEY_EMAIL, emailEditText.getText().toString());
+            intent.putExtra(Constraints.KEY_USER, userEditText.getText().toString());
+            intent.putExtra(Constraints.KEY_AGE, Age.toString());
+            intent.putExtra(Constraints.KEY_PASS, passEditText.getText().toString());
+            intent.putExtra(Constraints.KEY_JOB, jobEditText.getText().toString());
+            intent.putExtra(Constraints.KEY_PROFILE, profileEditText.getText().toString());
+            startActivity(intent);
+        } else
+            Tools.toastMessage(this, "Errors found. Fix errors and try again");
+    }
 
     @Override
     protected void onRestart(){
         super.onRestart();
         //log restart tasks
-        Log.i(TAG, "onRestart");
+        Log.i(TAG, "onRestart init");
 
     }
 
@@ -134,7 +171,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     protected void onStart(){
         super.onStart();
         //log onStart tasks
-        Log.i(TAG, "onStart()");
+        Log.i(TAG, "onStart() init");
     }
 
     @Override
@@ -142,24 +179,33 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         super.onRestoreInstanceState(savedInstanceState);
 
         //Log Restore state tasks
-        Log.i(TAG, "onRestoreInstanceState()");
+        Log.i(TAG, "onRestoreInstanceState() init");
 
         if(savedInstanceState.containsKey(Constraints.KEY_NAME)){
             nameEditText.setText((String) savedInstanceState.get(Constraints.KEY_NAME));
         }
-
         if(savedInstanceState.containsKey(Constraints.KEY_EMAIL)){
             emailEditText.setText((String) savedInstanceState.get(Constraints.KEY_EMAIL));
         }
-
         if(savedInstanceState.containsKey(Constraints.KEY_USER)){
             userEditText.setText((String) savedInstanceState.get(Constraints.KEY_USER));
         }
-
         if(savedInstanceState.containsKey(Constraints.KEY_BUTTON_TXT)){
             loginBtn.setText((String) savedInstanceState.get(Constraints.KEY_BUTTON_TXT));
         }
+//        if(savedInstanceState.containsKey(Constraints.KEY_AGE)){
+//            age.setText((String) savedInstanceState.get(Age));
+//        }
+        if(savedInstanceState.containsKey(Constraints.KEY_PASS)){
+            passEditText.setText((String) savedInstanceState.get(Constraints.KEY_PASS));
+        }
+        if(savedInstanceState.containsKey(Constraints.KEY_JOB)){
+            jobEditText.setText((String) savedInstanceState.get(Constraints.KEY_JOB));
 
+        }
+        if (savedInstanceState.containsKey(Constraints.KEY_PROFILE)){
+            profileEditText.setText((String) savedInstanceState.get(Constraints.KEY_PROFILE));
+        }
     }
 
     @Override
@@ -167,12 +213,16 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         super.onSaveInstanceState(outState);
 
         //Log bundle transfer tasks
-        Log.i(TAG, "onSaveInstanceState()");
+        Log.i(TAG, "onSaveInstanceState() init");
 
         outState.putString(Constraints.KEY_NAME, nameEditText.getText().toString());
         outState.putString(Constraints.KEY_EMAIL, emailEditText.getText().toString());
         outState.putString(Constraints.KEY_USER, userEditText.getText().toString());
+       //outState.putString(Constraints.KEY_AGE,  Age.toString());
         outState.putString(Constraints.KEY_BUTTON_TXT, loginBtn.getText().toString());
+        outState.putString(Constraints.KEY_PASS , passEditText.getText().toString());
+        outState.putString(Constraints.KEY_JOB, jobEditText.getText().toString());
+        outState.putString(Constraints.KEY_PROFILE, profileEditText.getText().toString());
     }
 
     @Override
@@ -180,7 +230,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         super.onResume();
 
         //Log resume tasks
-        Log.i(TAG, "onResume()");
+        Log.i(TAG, "onResume() started");
     }
 
     @Override
@@ -188,7 +238,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         super.onPause();
 
         //Log pause actions
-        Log.i(TAG, "onPause()");
+        Log.i(TAG, "onPause() started");
 
     }
 
@@ -197,7 +247,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         super.onStop();
 
         //log stop activity
-        Log.i(TAG, "onStop()");
+        Log.i(TAG, "onStop() init");
     }
 
     @Override
@@ -205,12 +255,12 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         super.onDestroy();
 
         //Log destroy activity
-        Log.i(TAG, "onDestroy");
+        Log.i(TAG, "onDestroy init");
 
     }
 
 
-    //Fist homework menu tasks
+    //Fist homework menu tasks: Maybe add create task to menu?
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
@@ -229,24 +279,72 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Helper method to calculate if user is over 18
+     * @param year year passed from DatePicker
+     * @param month  month passed from DatePicker
+     * @param day day passed from DatePicker
+     * @return boolean if age entered in DatePicker is over 18
+     * @throws IllegalArgumentException
+     */
     public boolean oldEnough(int year, int month, int day) throws IllegalArgumentException {
 
         Calendar now = Calendar.getInstance();
-
+        boolean age = false;
 
         int curryear = now.get(Calendar.YEAR);
         int currmonth = now.get(Calendar.MONTH) + 1;
         int currday = now.get(Calendar.DAY_OF_MONTH);
 
-        if (curryear - year >= 18 && currmonth > month && currday > day) ;
+        if (curryear - year > 18) {
+            age = true;
+        }
 
-        if (curryear - year > 18) ;
+        if (curryear - year == 17 && currmonth >= month && currday >= day){
+            age = true;
+        }
 
-        return false;
-
-
-
+        return age;
 
 
     }
+
+    /**
+     * Takes boolean from oldEnough and if true calculates age to be printed on screen
+     * If false calculates num days until 18yr old
+     * @param year year int passed from DatePicker
+     * @param month month int passed from DatePicker
+     * @param day day int passed from date picker
+     * @return age in years or days until 18
+     */
+    public int setAge(int year, int month, int day){
+        Calendar now = Calendar.getInstance();
+        int curryear = now.get(Calendar.YEAR);
+        int currmonth = now.get(Calendar.MONTH) + 1;
+        int currday = now.get(Calendar.DAY_OF_MONTH);
+
+
+
+        if (curryear - year == 18 && currmonth <= month && currday <= day) {
+            return now.get(Calendar.DAY_OF_YEAR);
+        }
+
+        return  curryear - year;
+
+    }
+
+    private boolean checkEmail(String email) {
+        return EMAIL_ADDRESS_PATTERN.matcher(email).matches();
+    }
+    public static final Pattern EMAIL_ADDRESS_PATTERN = Pattern.compile(
+            "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
+                    "\\@" +
+                    "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
+                    "(" +
+                    "\\." +
+                    "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
+                    ")+"
+    );
+
+
 }

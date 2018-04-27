@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="activity_header_margin">150dp</dimen>
-    <dimen name="activity_age">25sp</dimen>
+    <dimen name="activity_header_margin">10sp</dimen>
+    <dimen name="activity_age">15sp</dimen>
+    <dimen name="activity_header">20sp</dimen>
+    <dimen name="activity_padding">5sp</dimen>
+    <dimen name="profile_image">350dp</dimen>
 </resources>

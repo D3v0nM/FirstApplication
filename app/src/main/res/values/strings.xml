@@ -1,16 +1,20 @@
 <resources>
-    <string name="app_name">First Application</string>
-    <string name="hello">Hello! Create an Account</string>
+    <string name="app_name">Lowered Expectations</string>
+    <string name="hello">Hello! Please enter the information below:</string>
     <string name="menu1">Create Account(maybe later)</string>
-    <string name="me">Martinez, Devon 04/19/2018</string>
+    <string name="me">Martinez, Devon 04/26/2018</string>
     <string name="enter_name">Enter Your Name</string>
     <string name="enter_email">Enter Your Email</string>
-    <string name="enter_username">Enter Desired Username</string>
+    <string name="enter_username">Enter Your Desired Username</string>
+    <string name="enter_pass">Enter A Password</string>
     <string name="enter_dob">Click Your Birthday</string>
-    <string name="login">Login</string>
+    <string name="login">Create</string>
     <string name="Welcome">Welcome: %s</string>
     <string name="message_on_login">Account Created Successfully</string>
     <string name="go_to_second_activity">Next Page</string>
     <string name="logout">Logout</string>
+    <string name="enter_job">Enter Your Occupation</string>
+    <string name="enter_profile">What Do You Want Dates To Know?</string>
     <string name="star">Star Example</string>
+    <string name="img">Profile Image 1</string>
 </resources>
