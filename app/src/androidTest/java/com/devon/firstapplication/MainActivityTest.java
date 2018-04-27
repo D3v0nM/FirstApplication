@@ -6,6 +6,7 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.contrib.PickerActions;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.widget.DatePicker;
@@ -18,10 +19,12 @@ import org.junit.runner.RunWith;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasErrorText;
 import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
+import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
@@ -70,31 +73,36 @@ public class MainActivityTest {
 
         //Verify login/Create button labeled correctly
         onView(withId(R.id.loginBtn)).check(matches(withText(R.string.login)));
-
+        onView(withId(R.id.loginBtn)).perform(click());
 
         //All lines should produce corresponding blank error
         onView(withId(R.id.nameEditText)).check(matches(hasErrorText("Name is required")));
         //Leave email blank
-        onView(withId(R.id.emailEditText)).check(matches(hasErrorText("Email is required")));
+        onView(withId(R.id.emailEditText)).check(matches(hasErrorText("Not an Email Address")));
 
         //Leave User name blank
-        onView(withId(R.id.userEditText)).check(matches(hasErrorText("A username is required")));
+        onView(withId(R.id.userEditText)).check(matches(hasErrorText("Username is required")));
 
         //Leave password blank
         onView(withId(R.id.passEditText)).
                 check(matches(hasErrorText("Password is required and must be at least 6 characters")));
 
+        onView(withId(R.id.loginBtn)).perform(ViewActions.scrollTo(), click());
 
-        // verify error count logic for second activity
-        onView(withId(R.id.loginBtn)).check(matches(withText(R.string.login)));
-        onView(withId(R.id.loginBtn)).perform(click());
 
     }
 
     @Test
     public void under18(){
-       setDate(R.id.birthday, 2000, 4, 22);
-       onView(withId(R.id.birthday)).check(matches(withText("days till you are 18! \n Visit us then")));
+        //click button
+        onView(withId(R.id.birthday))
+                .perform(click());
+        //enter date picker fragment and set date
+        onView(withClassName(Matchers.equalTo(DatePicker.class.getName())))
+                .perform(PickerActions.setDate(2000, 4, 22));
+        onView(withId(android.R.id.button1)).perform(click());
+        //verify button GONE
+        onView(withEffectiveVisibility(ViewMatchers.Visibility.GONE));
 
     }
 
@@ -119,35 +127,42 @@ public class MainActivityTest {
 
         //Enter a profile description
         onView(withId(R.id.profileEditText)).
-                perform(typeText("Would you like to play a game???\n"  + "HOw about 'Geo-thermal nuclear war'? \n " +  "No????"));
+                perform(typeText("Would you like to play a game??? How about 'Geo-thermal nuclear war'? No????"));
+
+        Espresso.closeSoftKeyboard();
 
 
+
+        // test screen rotation
+        activityTestRule.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        Espresso.closeSoftKeyboard();
+        onView(withId(R.id.nameEditText)).check(matches(withText("Devon Coolness")));
+        onView(withId(R.id.emailEditText)).check(matches(withText("can@not.com")));
+        onView(withId(R.id.userEditText)).check(matches(withText("El Presidente")));
+        onView(withId(R.id.jobEditText)).check(matches(withText("The Chief")));
+        onView(withId(R.id.profileEditText)).check(matches(withText("Would you like to play a game??? How about 'Geo-thermal nuclear war'? No????")));
+        activityTestRule.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        Espresso.closeSoftKeyboard();
+        onView(withId(R.id.nameEditText)).check(matches(withText("Devon Coolness")));
+        onView(withId(R.id.emailEditText)).check(matches(withText("can@not.com")));
+        onView(withId(R.id.userEditText)).check(matches(withText("El Presidente")));
+        onView(withId(R.id.jobEditText)).check(matches(withText("The Chief")));
+        onView(withId(R.id.profileEditText)).check(matches(withText("Would you like to play a game??? How about 'Geo-thermal nuclear war'? No????")));
+        //activityTestRule.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
 
 
         //set birthday over 18
-        setDate(R.id.birthday, 1994, 11, 11);
+        //click button
+        onView(withId(R.id.birthday)).perform(scrollTo(),click());
 
+        //enter date picker fragment and set date
+        onView(withClassName(Matchers.equalTo(DatePicker.class.getName())))
+                .perform(PickerActions.setDate(1999, 1, 1));
+        onView(withId(android.R.id.button1)).perform(click());
+        //verify button GONE
+        onView(withEffectiveVisibility(ViewMatchers.Visibility.GONE));
         Espresso.closeSoftKeyboard();
-
-        // test screen rotation
-        activityTestRule.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        onView(withId(R.id.nameEditText)).check(matches(withText("Devon Coolness")));
-        onView(withId(R.id.emailEditText)).check(matches(withText("can@not.com")));
-        onView(withId(R.id.userEditText)).check(matches(withText("El Presidente")));
-        onView(withId(R.id.jobEditText)).check(matches(withText("he Chiefr")));
-        onView(withId(R.id.profileEditText)).check(matches(withText("Would you like to play a game??? \n"+
-                "HOw about 'Geo-thermal nuclear war'?\n No????")));
-        activityTestRule.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        onView(withId(R.id.nameEditText)).check(matches(withText("Devon Coolness")));
-        onView(withId(R.id.emailEditText)).check(matches(withText("can@not.com")));
-        onView(withId(R.id.userEditText)).check(matches(withText("El Presidente")));
-        onView(withId(R.id.jobEditText)).check(matches(withText("he Chief")));
-        onView(withId(R.id.profileEditText)).check(matches(withText("Would you like to play a game???\n"  +
-                "HOw about 'Geo-thermal nuclear war'? \n " +  "No????")));
-
-        onView(withId(R.id.loginBtn)).perform(ViewActions.scrollTo());
-
 
 
         //Verify login/Create button labeled correctly
@@ -208,24 +223,12 @@ public class MainActivityTest {
         onView(withId(datePickerLaunchViewId)).perform(click());
         onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).
                 perform(PickerActions.setDate(year, monthOfYear, dayOfMonth));
-       // onView(withId(android.R.id.button1)).perform(click());
+       onView(withId(android.R.id.button1)).perform(click());
 
     }
 }
 
 
-
-//
-//    }
-//    @Test
-//
-//    public  void setDateUnder18(int datePickerLaunchViewId, int year, int monthOfYear, int dayOfMonth) {
-//        onView(withId(datePickerLaunchViewId)).perform(click());
-//        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(year, monthOfYear, dayOfMonth));
-//        onView(withId(android.R.id.button1)).perform(click());
-//
-//       setDateUnder18(R.id.birthday, 2000, 4, 22);
-//
 //    }
 
 
