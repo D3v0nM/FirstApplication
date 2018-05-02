@@ -1,66 +1,85 @@
 package com.devon.firstapplication;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class SecondActivity extends AppCompatActivity {
+/**
+ * Provies UI for the View Profile
+ */
+public class ProfileContentFragment extends Fragment implements View.OnClickListener{
+    private static final String TAG = "ProfileContentFragment";
     private Button logoutBtn;
 
-    public static final String TAG = SecondActivity.class.getSimpleName();
     TextView profileView;
     TextView nameView;
     TextView jobView;
 
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_second);
-        nameView = findViewById(R.id.nameAndAge);
-        jobView =   findViewById(R.id.job);
-        profileView = findViewById(R.id.profileText);
-        logoutBtn = findViewById(R.id.logoutBtn);
 
-        //Adding toolbar to Main Screen requires V7??
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState){
+        View view = inflater.inflate(R.layout.profile_tab, container, false);
+
+        nameView = view.findViewById(R.id.nameAndAge);
+        jobView =   view.findViewById(R.id.job);
+        profileView = view.findViewById(R.id.profileText);
+        logoutBtn = view.findViewById(R.id.logoutBtn);
+
+        ImageView profileImage = view.findViewById(R.id.profileImage);
+        //int imageResource = getResources().getIdentifier("@drawable/lowered-expectations",
+        //       null, this.getPackageName());
+        profileImage.setImageResource(R.drawable.lowered_expectations);
+
 
         //add tabs
-        TabLayout tabs = findViewById(R.id.tabs);
+        TabLayout tabs = view.findViewById(R.id.tabs);
         tabs.addTab(tabs.newTab().setText("Profile"));
         tabs.addTab(tabs.newTab().setText("Matches"));
         tabs.addTab(tabs.newTab().setText("Settings"));
 
+        //Adding toolbar to Main Screen requires V7??
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         //Setting ViewPager for each Tab
-        ViewPager viewPager = findViewById(R.id.viewPager);
+        ViewPager viewPager = view.findViewById(R.id.viewPager);
         setupViewPager(viewPager);
 
         //Set Tabs inside ViewPager
         tabs.setupWithViewPager(viewPager);
 
+           Log.d(TAG, "onCreateView: triggered");
+        return view;
+
+
+
+
+    }
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
 
         StringBuilder nameAgeMsg =  new StringBuilder("");
-        Intent nameAge = getIntent();
+        Intent nameAge = MainActivity.getIntent();
         Bundle b1 = nameAge.getExtras();
 
-        ImageView profileImage = findViewById(R.id.profileImage);
-        //int imageResource = getResources().getIdentifier("@drawable/lowered-expectations",
-         //       null, this.getPackageName());
-        profileImage.setImageResource(R.drawable.lowered_expectations);
 
         Log.i(TAG, "onCreate: SetImage Stated");
 
-      //Bundle to profile page handling
+        //Bundle to profile page handling
         assert b1 != null;
         if(b1.containsKey(Constraints.KEY_USER)){
             String name = b1.getString(Constraints.KEY_USER);
@@ -121,8 +140,8 @@ public class SecondActivity extends AppCompatActivity {
      * @param view is current activity view
      */
     public void goBack(View view){
-        Intent intent = new Intent(SecondActivity.this, MainActivity.class);
-       logoutBtn.setText(R.string.logout); //Logout of secondActivity view?
+        Intent intent = new Intent(getActivity(), MainActivity.class);
+        logoutBtn.setText(R.string.logout); //Logout of secondActivity view?
         startActivity(intent);
 
     }
@@ -165,12 +184,7 @@ public class SecondActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onRestart(){
-        super.onRestart();
-        //logging second onRestart tasks
-        Log.d(TAG, "onRestart() started");
-    }
+
 
     @Override
     protected void onStart(){
@@ -210,6 +224,9 @@ public class SecondActivity extends AppCompatActivity {
 
 
 
+    @Override
+    public void onClick(View v) {
 
 
+    }
 }
