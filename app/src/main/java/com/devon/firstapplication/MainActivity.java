@@ -14,10 +14,10 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import java.util.Calendar;
 import java.util.regex.Pattern;
-
-// import com.google.firebase.analytics.FirebaseAnalytics; Future enhancement
 
 
 
@@ -25,6 +25,7 @@ import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
     private static final String TAG = MainActivity.class.getSimpleName();
+    private FirebaseAnalytics mFirebaseAnalytics; //Future Enhancement
 
     private EditText nameEditText;
     private EditText emailEditText;
@@ -36,33 +37,25 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     private TextView hello_world;
     public TextView age;
     String Age;
-   // private FirebaseAnalytics mFirebaseAnalytics; Future Enhancement
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // Obtain the FirebaseAnalytics instance..... in the Future
-      //  mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         //setup params
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         nameEditText = findViewById(R.id.nameEditText);
-
         emailEditText = findViewById(R.id.emailEditText);
-
         userEditText = findViewById(R.id.userEditText);
-
         passEditText = findViewById(R.id.passEditText);
-
         jobEditText = findViewById(R.id.jobEditText);
         profileEditText = findViewById(R.id.profileEditText);
-
-
         loginBtn = findViewById(R.id.loginBtn);
         hello_world = findViewById(R.id.hello_world);
 
+        // set-up config for DatePicker Dailog
         final Button birthday = findViewById(R.id.birthday);
         birthday.setOnClickListener(new View.OnClickListener() {
 
@@ -76,10 +69,9 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
         //log onCreate tasks
         Log.i(TAG, "onCreate() Started");
+
+
     }
-
-
-
         @Override
     public void onDateSet(DatePicker view, int year, int month, int day) {
 
@@ -87,37 +79,28 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 Calendar c = Calendar.getInstance();
                 int bday = c.get(Calendar.DAY_OF_YEAR);
 
-
                 c.set(Calendar.YEAR, year);
                 c.set(Calendar.MONTH, month);
                 c.set(Calendar.DAY_OF_MONTH, day);
 
                 if(!oldEnough(year,month,day)) {
-
                     Tools.toastMessage(MainActivity.this, "You're not 18...or Your math sucks");
                     loginBtn.setVisibility(View.GONE);
-
                     Age = (bday -(setAge(year,month,day))  + " days till you are 18! \n Visit us then");
-
                     TextView textView = findViewById(R.id.age);
-
                     textView.setText(Age);
 
                 }else
 
                 {
                     Age = (setAge(year,month,day)) + " yrs";
-
-
                     TextView textView = findViewById(R.id.age);
-
                     textView.setText(Age);
                 }
 
     }
 
-
-    public void goToSecondActivity(View view) {
+    public void createProfile(View view) {
         int errors = 0;
         if (nameEditText.getText().toString().length() == 0) {
             nameEditText.setError("Name is required");
@@ -146,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
         if (errors < 1) {
 
-            Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+            Intent intent = new Intent(MainActivity.this, ProfileContentFragment.class);
             intent.putExtra(Constraints.KEY_NAME, nameEditText.getText().toString());
             intent.putExtra(Constraints.KEY_EMAIL, emailEditText.getText().toString());
             intent.putExtra(Constraints.KEY_USER, userEditText.getText().toString());
@@ -154,16 +137,32 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             intent.putExtra(Constraints.KEY_PASS, passEditText.getText().toString());
             intent.putExtra(Constraints.KEY_JOB, jobEditText.getText().toString());
             intent.putExtra(Constraints.KEY_PROFILE, profileEditText.getText().toString());
-            startActivity(intent);
-        } else
-            Tools.toastMessage(this, "Errors found. Fix errors and try again");
+
+            // Create a new Fragment to be placed in the activity layout
+            ProfileContentFragment firstFragment = new ProfileContentFragment();
+
+            // In case this activity was started with special instructions from an
+            // Intent, pass the Intent's extras to the fragment as arguments
+            firstFragment.setArguments(getIntent().getExtras());
+
+            // Add the fragment to the Layout
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.coordinator_profile, firstFragment).commit();
+
+
+        }
+
+     else
+        Tools.toastMessage(this, "Errors found. Fix errors and try again");
     }
+
+
 
     @Override
     protected void onRestart(){
         super.onRestart();
         //log restart tasks
-        Log.i(TAG, "onRestart init");
+        Log.i(TAG, "onRestart triggered");
 
     }
 
@@ -171,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     protected void onStart(){
         super.onStart();
         //log onStart tasks
-        Log.i(TAG, "onStart() init");
+        Log.i(TAG, "onStart() triggered");
     }
 
     @Override
@@ -179,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         super.onRestoreInstanceState(savedInstanceState);
 
         //Log Restore state tasks
-        Log.i(TAG, "onRestoreInstanceState() init");
+        Log.i(TAG, "onRestoreInstanceState() triggered");
 
         if(savedInstanceState.containsKey(Constraints.KEY_NAME)){
             nameEditText.setText((String) savedInstanceState.get(Constraints.KEY_NAME));
@@ -213,7 +212,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         super.onSaveInstanceState(outState);
 
         //Log bundle transfer tasks
-        Log.i(TAG, "onSaveInstanceState() init");
+        Log.i(TAG, "onSaveInstanceState() triggered");
 
         outState.putString(Constraints.KEY_NAME, nameEditText.getText().toString());
         outState.putString(Constraints.KEY_EMAIL, emailEditText.getText().toString());
@@ -230,7 +229,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         super.onResume();
 
         //Log resume tasks
-        Log.i(TAG, "onResume() started");
+        Log.i(TAG, "onResume() triggered");
     }
 
     @Override
@@ -238,7 +237,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         super.onPause();
 
         //Log pause actions
-        Log.i(TAG, "onPause() started");
+        Log.i(TAG, "onPause() triggered");
 
     }
 
@@ -247,7 +246,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         super.onStop();
 
         //log stop activity
-        Log.i(TAG, "onStop() init");
+        Log.i(TAG, "onStop() triggered");
     }
 
     @Override
@@ -255,7 +254,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         super.onDestroy();
 
         //Log destroy activity
-        Log.i(TAG, "onDestroy init");
+        Log.i(TAG, "onDestroy triggered");
 
     }
 
