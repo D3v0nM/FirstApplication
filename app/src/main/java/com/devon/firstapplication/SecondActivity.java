@@ -4,17 +4,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 public class SecondActivity extends AppCompatActivity {
     private Button logoutBtn;
+    private FragmentManager manager;
 
     public static final String TAG = SecondActivity.class.getSimpleName();
     TextView profileView;
@@ -26,14 +28,16 @@ public class SecondActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
-        nameView = findViewById(R.id.nameAndAge);
-        jobView =   findViewById(R.id.job);
-        profileView = findViewById(R.id.profileText);
-        logoutBtn = findViewById(R.id.logoutBtn);
+       // nameView = findViewById(R.id.nameAndAge);
+        //jobView =   findViewById(R.id.job);
+        //profileView = findViewById(R.id.profileText);
+        //logoutBtn = findViewById(R.id.logoutBtn);
+
+
 
         //Adding toolbar to Main Screen requires V7??
         Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        if(toolbar != null){ setSupportActionBar(toolbar);}
 
         //add tabs
         TabLayout tabs = findViewById(R.id.tabs);
@@ -49,16 +53,16 @@ public class SecondActivity extends AppCompatActivity {
         tabs.setupWithViewPager(viewPager);
 
 
-        StringBuilder nameAgeMsg =  new StringBuilder("");
-        Intent nameAge = getIntent();
-        Bundle b1 = nameAge.getExtras();
-
-        ImageView profileImage = findViewById(R.id.profileImage);
-        //int imageResource = getResources().getIdentifier("@drawable/lowered-expectations",
-         //       null, this.getPackageName());
-        profileImage.setImageResource(R.drawable.lowered_expectations);
+      //  ImageView profileImage = findViewById(R.id.profileImage);
+        int imageResource = getResources().getIdentifier("@drawable/lowered-expectations",
+               null, this.getPackageName());
+       // profileImage.setImageResource(R.drawable.lowered_expectations);
 
         Log.i(TAG, "onCreate: SetImage Stated");
+
+        StringBuilder nameAgeMsg = new StringBuilder("");
+        Intent nameAge = getIntent();
+        Bundle b1 = nameAge.getExtras();
 
       //Bundle to profile page handling
         assert b1 != null;
@@ -82,6 +86,8 @@ public class SecondActivity extends AppCompatActivity {
         Intent JOBS = getIntent();
         Bundle b2 = JOBS.getExtras();
 
+        //Bundle to profile page handling
+        assert b2 != null;
         if(b2.containsKey(Constraints.KEY_JOB)){
             String jobs = b2.getString(Constraints.KEY_JOB);
             jobMsg.append(jobs);
@@ -93,14 +99,27 @@ public class SecondActivity extends AppCompatActivity {
         Intent profiles = getIntent();
         Bundle b3 = profiles.getExtras();
 
+        //Bundle to profile page handling
+        assert b3 != null;
         if(b3.containsKey(Constraints.KEY_PROFILE)){
             String profile = b3.getString(Constraints.KEY_PROFILE);
             profileMsg.append("\n").append(profile);
         }
 
-        nameView.setText(nameAgeMsg);
-        jobView.setText(jobMsg);
-        profileView.setText(profileMsg);
+        Bundle args = new Bundle();
+        args.putString("name",  nameAgeMsg.toString());
+       args.putString("job", jobMsg.toString());
+       args.putString("profile", profileMsg.toString());
+
+
+
+
+        ProfileContentFragment startFrag = new ProfileContentFragment();
+        startFrag.setArguments(args);
+
+    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.profileLayout, startFrag);
+        fragmentTransaction.commit();
 
         //log second activity onCreate
         Log.d(TAG, "onCreate() Started");
@@ -122,7 +141,8 @@ public class SecondActivity extends AppCompatActivity {
      */
     public void goBack(View view){
         Intent intent = new Intent(SecondActivity.this, MainActivity.class);
-       logoutBtn.setText(R.string.logout); //Logout of secondActivity view?
+       logoutBtn.setText(R.string.logout);
+       //onBackPressed();
         startActivity(intent);
 
     }
@@ -206,10 +226,5 @@ public class SecondActivity extends AppCompatActivity {
         //logging second onDestroy tasks
         Log.d(TAG, "onDestroy init");
     }
-
-
-
-
-
 
 }

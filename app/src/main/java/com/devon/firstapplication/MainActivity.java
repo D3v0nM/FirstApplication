@@ -38,6 +38,9 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     public TextView age;
     String Age;
 
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // Obtain the FirebaseAnalytics instance..... in the Future
@@ -67,11 +70,17 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             }
         });
 
+
+
+
         //log onCreate tasks
         Log.i(TAG, "onCreate() Started");
-
-
     }
+
+
+
+
+
         @Override
     public void onDateSet(DatePicker view, int year, int month, int day) {
 
@@ -79,15 +88,20 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 Calendar c = Calendar.getInstance();
                 int bday = c.get(Calendar.DAY_OF_YEAR);
 
+
                 c.set(Calendar.YEAR, year);
                 c.set(Calendar.MONTH, month);
                 c.set(Calendar.DAY_OF_MONTH, day);
 
                 if(!oldEnough(year,month,day)) {
+
                     Tools.toastMessage(MainActivity.this, "You're not 18...or Your math sucks");
                     loginBtn.setVisibility(View.GONE);
+
                     Age = (bday -(setAge(year,month,day))  + " days till you are 18! \n Visit us then");
+
                     TextView textView = findViewById(R.id.age);
+
                     textView.setText(Age);
 
                 }else
@@ -95,12 +109,13 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 {
                     Age = (setAge(year,month,day)) + " yrs";
                     TextView textView = findViewById(R.id.age);
+
                     textView.setText(Age);
                 }
 
     }
 
-    public void createProfile(View view) {
+    public void goToSecondActivity(View view) {
         int errors = 0;
         if (nameEditText.getText().toString().length() == 0) {
             nameEditText.setError("Name is required");
@@ -129,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
         if (errors < 1) {
 
-            Intent intent = new Intent(MainActivity.this, ProfileContentFragment.class);
+            Intent intent = new Intent(MainActivity.this, SecondActivity.class);
             intent.putExtra(Constraints.KEY_NAME, nameEditText.getText().toString());
             intent.putExtra(Constraints.KEY_EMAIL, emailEditText.getText().toString());
             intent.putExtra(Constraints.KEY_USER, userEditText.getText().toString());
@@ -137,32 +152,16 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             intent.putExtra(Constraints.KEY_PASS, passEditText.getText().toString());
             intent.putExtra(Constraints.KEY_JOB, jobEditText.getText().toString());
             intent.putExtra(Constraints.KEY_PROFILE, profileEditText.getText().toString());
-
-            // Create a new Fragment to be placed in the activity layout
-            ProfileContentFragment firstFragment = new ProfileContentFragment();
-
-            // In case this activity was started with special instructions from an
-            // Intent, pass the Intent's extras to the fragment as arguments
-            firstFragment.setArguments(getIntent().getExtras());
-
-            // Add the fragment to the Layout
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.coordinator_profile, firstFragment).commit();
-
-
-        }
-
-     else
-        Tools.toastMessage(this, "Errors found. Fix errors and try again");
+            startActivity(intent);
+        } else
+            Tools.toastMessage(this, "Errors found. Fix errors and try again");
     }
-
-
 
     @Override
     protected void onRestart(){
         super.onRestart();
         //log restart tasks
-        Log.i(TAG, "onRestart triggered");
+        Log.i(TAG, "onRestart init");
 
     }
 
@@ -170,7 +169,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     protected void onStart(){
         super.onStart();
         //log onStart tasks
-        Log.i(TAG, "onStart() triggered");
+        Log.i(TAG, "onStart() init");
     }
 
     @Override
@@ -178,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         super.onRestoreInstanceState(savedInstanceState);
 
         //Log Restore state tasks
-        Log.i(TAG, "onRestoreInstanceState() triggered");
+        Log.i(TAG, "onRestoreInstanceState() init");
 
         if(savedInstanceState.containsKey(Constraints.KEY_NAME)){
             nameEditText.setText((String) savedInstanceState.get(Constraints.KEY_NAME));
@@ -212,7 +211,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         super.onSaveInstanceState(outState);
 
         //Log bundle transfer tasks
-        Log.i(TAG, "onSaveInstanceState() triggered");
+        Log.i(TAG, "onSaveInstanceState() init");
 
         outState.putString(Constraints.KEY_NAME, nameEditText.getText().toString());
         outState.putString(Constraints.KEY_EMAIL, emailEditText.getText().toString());
@@ -229,7 +228,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         super.onResume();
 
         //Log resume tasks
-        Log.i(TAG, "onResume() triggered");
+        Log.i(TAG, "onResume() started");
     }
 
     @Override
@@ -237,7 +236,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         super.onPause();
 
         //Log pause actions
-        Log.i(TAG, "onPause() triggered");
+        Log.i(TAG, "onPause() started");
 
     }
 
@@ -246,7 +245,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         super.onStop();
 
         //log stop activity
-        Log.i(TAG, "onStop() triggered");
+        Log.i(TAG, "onStop() init");
     }
 
     @Override
@@ -254,7 +253,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         super.onDestroy();
 
         //Log destroy activity
-        Log.i(TAG, "onDestroy triggered");
+        Log.i(TAG, "onDestroy init");
 
     }
 

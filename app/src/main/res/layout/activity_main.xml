@@ -99,7 +99,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:onClick="createProfile"
+            android:onClick="goToSecondActivity"
             android:text="@string/login" />
 
         <ImageView
