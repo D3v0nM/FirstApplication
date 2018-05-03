@@ -54,11 +54,10 @@ public class SecondActivity extends AppCompatActivity {
 
 
       //  ImageView profileImage = findViewById(R.id.profileImage);
-        int imageResource = getResources().getIdentifier("@drawable/lowered-expectations",
-               null, this.getPackageName());
+        //int imageResource = getResources().getIdentifier("@drawable/lowered-expectations",
+          //     null, this.getPackageName());
        // profileImage.setImageResource(R.drawable.lowered_expectations);
 
-        Log.i(TAG, "onCreate: SetImage Stated");
 
         StringBuilder nameAgeMsg = new StringBuilder("");
         Intent nameAge = getIntent();
@@ -111,6 +110,8 @@ public class SecondActivity extends AppCompatActivity {
        args.putString("job", jobMsg.toString());
        args.putString("profile", profileMsg.toString());
 
+        Log.d(TAG, "onCreate: args bundle run");
+
 
 
 
@@ -118,7 +119,7 @@ public class SecondActivity extends AppCompatActivity {
         startFrag.setArguments(args);
 
     FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.profileLayout, startFrag);
+        fragmentTransaction.replace(R.id.viewPager, startFrag);
         fragmentTransaction.commit();
 
         //log second activity onCreate
@@ -132,6 +133,9 @@ public class SecondActivity extends AppCompatActivity {
         adapter.addFragment(new MatchesContentFragment(), "Matches");
         adapter.addFragment(new SettingsContentFragment(), "Settings");
         viewPager.setAdapter(adapter);
+
+        Log.d(TAG, "setupViewPager: viewPager active");
+
 
     }
 
@@ -198,6 +202,7 @@ public class SecondActivity extends AppCompatActivity {
         //logging second onStart tasks
         Log.d(TAG, "onStart init");
     }
+
 
     @Override
     protected void onResume(){

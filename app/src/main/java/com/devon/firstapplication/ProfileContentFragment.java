@@ -27,7 +27,8 @@ public class ProfileContentFragment extends android.support.v4.app.Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
-        View view = inflater.inflate(R.layout.profile_tab, container, false);
+
+        View view = inflater.inflate(R.layout.profile_tab, container, true);
         ImageView profileImage = view.findViewById(R.id.profileImage);
 
         nameView = view.findViewById(R.id.nameAndAge);
@@ -68,7 +69,6 @@ public class ProfileContentFragment extends android.support.v4.app.Fragment {
         else {
             Tools.toastMessage(getActivity(), "Profile Text is missing");
         }
-
 
         return view;
     }
