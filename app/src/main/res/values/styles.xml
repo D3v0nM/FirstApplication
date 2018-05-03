@@ -10,4 +10,8 @@
     </style>
     <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">@style/Base</style>
 
+    <style name="AppTheme.NoActionBar">
+        <item name="coordinatorLayoutStyle">@style/Widget.Design.CoordinatorLayout</item>
+    </style>
+
 </resources>
