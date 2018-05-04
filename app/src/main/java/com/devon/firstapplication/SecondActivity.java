@@ -53,6 +53,7 @@ public class SecondActivity extends AppCompatActivity {
         //Set Tabs inside ViewPager
         tabs.setupWithViewPager(viewPager);
 
+
         Log.d(TAG, "onCreate() Started");
     }
 
@@ -63,7 +64,7 @@ public class SecondActivity extends AppCompatActivity {
         adapter.addFragment(new MatchesContentFragment(), "Matches");
         adapter.addFragment(new SettingsContentFragment(), "Settings");
         viewPager.setAdapter(adapter);
-        viewPager.setCurrentItem(0);
+
         Log.d(TAG, "setupViewPager: start created");
 
 
