@@ -2,7 +2,6 @@ package com.devon.firstapplication;
 
 
 import android.content.pm.ActivityInfo;
-import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.contrib.PickerActions;
@@ -17,7 +16,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
@@ -36,19 +34,7 @@ public class MainActivityTest {
     public ActivityTestRule<MainActivity> activityTestRule
             = new ActivityTestRule<>(MainActivity.class);
 
-    @Test
-    public void menu() {
-        onView(withId(R.id.hello_world))
-                .check(matches(withText(R.string.hello)));
 
-        openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
-
-        onView(withText(R.string.menu1))
-                .perform(click());
-
-        onView(withId(R.id.hello_world))
-                .check(matches(withText(R.string.menu1)));
-    }
 
     @Test
     public void enterAllBlankInAllForm() {
@@ -169,6 +155,8 @@ public class MainActivityTest {
         onView(withId(R.id.loginBtn)).check(matches(withText(R.string.login)));
         onView(withId(R.id.loginBtn)).perform(click());
     }
+
+
 
 
 //    @Test
