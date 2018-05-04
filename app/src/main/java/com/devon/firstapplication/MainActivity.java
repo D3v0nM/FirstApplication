@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -257,25 +255,6 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
     }
 
-
-    //Fist homework menu tasks: Maybe add create task to menu?
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        getMenuInflater().inflate(R.menu.activity_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        if(item.getItemId() == R.id.action_bar) {
-            this.hello_world.setText(R.string.menu1);
-            return true;
-
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     /**
      * Helper method to calculate if user is over 18
