@@ -14,10 +14,10 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import java.util.Calendar;
 import java.util.regex.Pattern;
-
-// import com.google.firebase.analytics.FirebaseAnalytics; Future enhancement
 
 
 
@@ -25,6 +25,7 @@ import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
     private static final String TAG = MainActivity.class.getSimpleName();
+    private FirebaseAnalytics mFirebaseAnalytics; //Future Enhancement
 
     private EditText nameEditText;
     private EditText emailEditText;
@@ -36,33 +37,28 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     private TextView hello_world;
     public TextView age;
     String Age;
-   // private FirebaseAnalytics mFirebaseAnalytics; Future Enhancement
+
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // Obtain the FirebaseAnalytics instance..... in the Future
-      //  mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         //setup params
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         nameEditText = findViewById(R.id.nameEditText);
-
         emailEditText = findViewById(R.id.emailEditText);
-
         userEditText = findViewById(R.id.userEditText);
-
         passEditText = findViewById(R.id.passEditText);
-
         jobEditText = findViewById(R.id.jobEditText);
         profileEditText = findViewById(R.id.profileEditText);
-
-
         loginBtn = findViewById(R.id.loginBtn);
         hello_world = findViewById(R.id.hello_world);
 
+        // set-up config for DatePicker Dailog
         final Button birthday = findViewById(R.id.birthday);
         birthday.setOnClickListener(new View.OnClickListener() {
 
@@ -74,9 +70,14 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             }
         });
 
+
+
+
         //log onCreate tasks
         Log.i(TAG, "onCreate() Started");
     }
+
+
 
 
 
@@ -107,15 +108,12 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
                 {
                     Age = (setAge(year,month,day)) + " yrs";
-
-
                     TextView textView = findViewById(R.id.age);
 
                     textView.setText(Age);
                 }
 
     }
-
 
     public void goToSecondActivity(View view) {
         int errors = 0;

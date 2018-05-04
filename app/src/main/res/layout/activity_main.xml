@@ -2,110 +2,118 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".MainActivity"
-    android:layout_height="wrap_content"
-    android:layout_width="match_parent">
-<LinearLayout
-    android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    >
+    tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/hello_world"
+    <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/activity_header_margin"
-        android:paddingBottom="@dimen/activity_padding"
-        android:text="@string/hello"
-        android:textSize="@dimen/activity_header" />
+        android:orientation="vertical">
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
 
-    <EditText
-        android:id="@+id/nameEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/enter_name"
-        android:inputType="textPersonName"
-        android:paddingBottom="@dimen/activity_padding" />
-
-    <EditText
-        android:id="@+id/emailEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/enter_email"
-        android:inputType="textEmailAddress"
-        android:paddingBottom="@dimen/activity_padding" />
-
-    <EditText
-        android:id="@+id/userEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/enter_username"
-        android:inputType="text"
-        android:paddingBottom="@dimen/activity_padding" />
-
-    <EditText
-        android:id="@+id/passEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/enter_pass"
-        android:inputType="textPassword"
-        android:paddingBottom="@dimen/activity_padding" />
-
-    <EditText
-        android:id="@+id/jobEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/enter_job"
-        android:inputType="text"
-        android:paddingBottom="@dimen/activity_padding" />
-
-    <EditText
-        android:id="@+id/profileEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/enter_profile"
-        android:inputType="textMultiLine"
-        android:paddingBottom="@dimen/activity_padding" />
-
-    <Button
-        android:id="@+id/birthday"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/activity_padding"
-        android:text="@string/enter_dob" />
-
-    <TextView
-        android:id="@+id/age"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/activity_padding"
-        android:textSize="@dimen/activity_age" />
+        <TextView
+            android:id="@+id/hello_world"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/activity_header_margin"
+            android:paddingBottom="@dimen/activity_padding"
+            android:text="@string/hello"
+            android:textSize="@dimen/activity_header" />
 
 
-    <Button
-        android:id="@+id/loginBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:onClick="goToSecondActivity"
-        android:text="@string/login" />
+        <EditText
+            android:id="@+id/nameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/enter_name"
+            android:inputType="textPersonName"
+            android:paddingBottom="@dimen/activity_padding" />
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/star"
-        app:srcCompat="@android:drawable/btn_star_big_on"/>
+        <EditText
+            android:id="@+id/emailEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/enter_email"
+            android:inputType="textEmailAddress"
+            android:paddingBottom="@dimen/activity_padding" />
+
+        <EditText
+            android:id="@+id/userEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/enter_username"
+            android:inputType="text"
+            android:paddingBottom="@dimen/activity_padding" />
+
+        <EditText
+            android:id="@+id/passEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/enter_pass"
+            android:inputType="textPassword"
+            android:paddingBottom="@dimen/activity_padding" />
+
+        <EditText
+            android:id="@+id/jobEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/enter_job"
+            android:inputType="text"
+            android:paddingBottom="@dimen/activity_padding" />
+
+        <EditText
+            android:id="@+id/profileEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/enter_profile"
+            android:inputType="textMultiLine"
+            android:paddingBottom="@dimen/activity_padding" />
+
+        <Button
+            android:id="@+id/birthday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/activity_padding"
+            android:text="@string/enter_dob" />
+
+        <TextView
+            android:id="@+id/age"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/activity_padding"
+            android:textSize="@dimen/activity_age" />
 
 
-    <TextView
-        android:id="@+id/me"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:text="@string/me" />
-</LinearLayout>
+        <Button
+            android:id="@+id/loginBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:onClick="goToSecondActivity"
+            android:text="@string/login" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/star"
+            app:srcCompat="@android:drawable/btn_star_big_on" />
+
+
+        <TextView
+            android:id="@+id/me"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:text="@string/me" />
+
+    </LinearLayout>
+
 </ScrollView>
