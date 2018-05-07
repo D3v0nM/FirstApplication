@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="matches">
+        <item>Alexandra Cabot</item>
+        <item>Melody Valentine</item>
+        <item>Valerie Brown</item>
+        <item>Josie McCoy</item>
+    </string-array>
+    
+    <string-array name="matches_pic">
+        <item>@drawable/alexandra</item>
+        <item>@drawable/melody</item>
+        <item>@drawable/valerie</item>
+        <item>@drawable/josie</item>
+    </string-array>
+
+    <string-array name="matches_desc">
+        <item>Alexandra is one of the longest-running supporting characters of Josie,
+            introduced in the 1960s. She is the twin sister of Alexander Cabot. Both are heirs to Alexander Cabot,
+            Jr, a wealthy businessman. Alexandra has black-hair with a white stripe in the middle,
+            shaped like a lightning-bolt. She is intelligent but has a cruel side to her personality.
+            Back in the 1969, in the storyline introducing the Pussycats music group,
+            Alexandra was supposed to be part of the trio with Josie and Melody.
+           Alexandra has a personal rivalry with Josie over the affections Alan Mayberry (nicknamed "Alan M").
+            She also has a rather poor relationship with her brother .
+            At times her mean streak is downplayed and she acts quite friendly with Josie, Melody and Valerie
+            in situations which don't involve the band. Another side to her personality was introduced in 1969.
+            Her cat Sebastian is the reincarnation of a witchcraft-practicing ancestor of the Cabots.
+            When she holds the cat in her hands, Alexandra can cast powerful magic spells.
+            Which at times backfire spectacularly. </item>
+
+        <item>Melody was introduced in the Josie stories of the 1960s as one of Josie's friends. Her beauty managed to turn the heads of most males,
+            on occasion causing Josie to feel jealous. She was never supposed to be very bright,
+            speaking in a sing-song voice, indicated by musical notes added to her word balloons.
+            Her dialogue often included silly jokes but also the occasional sharp witticism. </item>
+
+        <item>Valerie Brown is the African-American member of the Pussycats, introduced in 1969. She is the bass player.
+            She is the main songwriter of the group and the mechanic responsible for their vehicles.
+            Valerie was the tomboy of the trio and often "protected" her teammates from wolfish suitors.
+            Her street smarts and intellect could be counted to get them out of difficult situations.</item>
+
+        <item>Josie McCoy is the titular lead of the Josie and the Pussycats series and among the most enduring characters of Archie
+            Comics. She was created by Dan DeCarlo in 1958 and named after his wife. Dan tried for a few years to sell the
+            character as a comic strip star but eventually settled for offering her to his regular employers at Archie Comics.</item>
+    </string-array>
+</resources>
