@@ -27,12 +27,19 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 
+
+
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest {
 
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule
             = new ActivityTestRule<>(MainActivity.class);
+//    @Rule
+//    public ActivityTestRule<SecondActivity> secondActivityTestRule
+//            = new ActivityTestRule<>(SecondActivity.class);
+
+
 
 
 
@@ -154,56 +161,16 @@ public class MainActivityTest {
         //Verify login/Create button labeled correctly
         onView(withId(R.id.loginBtn)).check(matches(withText(R.string.login)));
         onView(withId(R.id.loginBtn)).perform(click());
+
+        //Verify Profile??
+        //...
+
+
+
+
     }
 
 
-
-
-//    @Test
-//    public void goToSecondActivityTest(View view){
-//
-//            int errors = 0;
-//            if (nameEditText.getText().toString().length() == 0) {
-//                nameEditText.setError("Name is required");
-//
-//                errors += 1;
-//            }
-//
-//            if (emailEditText.getText().toString().length() == 0) {
-//                emailEditText.setError("Email is required");
-//                errors += 1;
-//            }
-//
-//            if (!checkEmail(emailEditText.getText().toString())) {
-//                emailEditText.setError("Not an Email Address");
-//                errors += 1;
-//            }
-//
-//            if (userEditText.getText().toString().length() == 0) {
-//                userEditText.setError("Username is required");
-//                errors += 1;
-//            }
-//
-//            if (passEditText.getText().toString().length() == 0 || passEditText.getText().toString().length() < 6) {
-//                passEditText.setError("Password is required and must be at least 6 characters");
-//            }
-//
-//            if (errors < 1) {
-//
-//                Intent intent = new Intent(MainActivity.this, SecondActivity.class);
-//                intent.putExtra(Constraints.KEY_NAME, nameEditText.getText().toString());
-//                intent.putExtra(Constraints.KEY_EMAIL, emailEditText.getText().toString());
-//                intent.putExtra(Constraints.KEY_USER, userEditText.getText().toString());
-//                intent.putExtra(Constraints.KEY_AGE, Age.toString());
-//                intent.putExtra(Constraints.KEY_PASS, passEditText.getText().toString());
-//                intent.putExtra(Constraints.KEY_JOB, jobEditText.getText().toString());
-//                intent.putExtra(Constraints.KEY_PROFILE, profileEditText.getText().toString());
-//                startActivity(intent);
-//            } else
-//                Tools.toastMessage(this, "Errors found. Fix errors and try again");
-//        }
-//        onView(withId(R.id.loginBtn)).perform(click());
-//    }
 
 
     public static void setDate(int datePickerLaunchViewId, int year, int monthOfYear, int dayOfMonth) {
@@ -214,9 +181,8 @@ public class MainActivityTest {
        onView(withId(android.R.id.button1)).perform(click());
 
     }
+
+
 }
-
-
-//    }
 
 

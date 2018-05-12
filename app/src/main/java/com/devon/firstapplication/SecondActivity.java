@@ -77,7 +77,7 @@ public class SecondActivity extends AppCompatActivity {
      */
     public void goBack(View view){
         Intent intent = new Intent(SecondActivity.this, MainActivity.class);
-       logoutBtn.setText(R.string.logout);
+//       logoutBtn.setText(R.string.logout);
        //onBackPressed();
         startActivity(intent);
 

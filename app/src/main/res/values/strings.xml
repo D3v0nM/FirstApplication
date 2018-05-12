@@ -2,7 +2,7 @@
     <string name="app_name">Lowered Expectations</string>
     <string name="hello">Hello! Please enter the information below:</string>
     <string name="menu1">Create Account(maybe later)</string>
-    <string name="me">Martinez, Devon 04/26/2018</string>
+    <string name="me">Martinez, Devon 05/10/2018</string>
     <string name="enter_name">Enter Your Name</string>
     <string name="enter_email">Enter Your Email</string>
     <string name="enter_username">Enter Your Desired Username</string>
@@ -17,5 +17,6 @@
     <string name="enter_profile">What Do You Want Dates To Know?</string>
     <string name="star">Star Example</string>
     <string name="img">Profile Image 1</string>
-    <string name="matches">Josie</string>
+    <string name="matches">Josie McCoy</string>
+    <string name="settings">Settings will go here:</string>
 </resources>

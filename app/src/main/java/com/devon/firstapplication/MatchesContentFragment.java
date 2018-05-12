@@ -17,8 +17,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
-
-
 public class MatchesContentFragment extends android.support.v4.app.Fragment {
     private static final String TAG = "MatchesContentFragment";
 
@@ -73,9 +71,9 @@ public class MatchesContentFragment extends android.support.v4.app.Fragment {
     /**
      * Adapter to display RecyclerView
      */
-    public static class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
+    public  class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
         //Set numbers of List(s) in RecyclerView
-        public static final int LENGTH=10;
+        public final int LENGTH = 8; //getResources().getStringArray(R.array.matches).length;
         public final String[] mMatches;
         public final String[] mMatchesDesc;
         public final Drawable[] mMatchesPic;
@@ -121,11 +119,60 @@ public class MatchesContentFragment extends android.support.v4.app.Fragment {
 
     public void onSaveInstanceState(@Nullable Bundle outState){
         super.onSaveInstanceState(outState);
+        Log.i(TAG, "onSaveInstanceState: Matches save init");
 
 
 
+    } @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Log.i(TAG, "onActivityCreated()");
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.i(TAG, "Matches Frag onStart()");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.i(TAG, "Mataches Frag onResume()");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.i(TAG, "Matches onPause()");
+    }
+
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.i(TAG, "Matches onStop()");
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.i(TAG, "Matches onDestroyView()");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.i(TAG, "Matches onDestroy()");
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        Log.i(TAG, "Matches onDetach()");
+    }
 }
+
+
 
 
