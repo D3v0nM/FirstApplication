@@ -9,6 +9,7 @@ public class Tools {
     private static Context applicationContext;
 
     /**
+     * Probsbly needs to be deprecated
      * Toast helper class
      *
      * @param activity Context field for activity class toast message will display

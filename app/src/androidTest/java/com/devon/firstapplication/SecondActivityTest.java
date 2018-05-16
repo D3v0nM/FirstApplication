@@ -99,8 +99,8 @@ public class SecondActivityTest {
         swipeLeft();
 
         //Verify logoff button labeled correctly
-        onView(withId(R.id.loginBtn)).check(matches(withText(R.string.logout)));
-        onView(withId(R.id.loginBtn)).perform(click());
+        onView(withId(R.id.createBtn)).check(matches(withText(R.string.logout)));
+        onView(withId(R.id.createBtn)).perform(click());
 
 
 
@@ -120,7 +120,8 @@ public class SecondActivityTest {
 //        scrollTo();
         onData(withId(R.id.matches_name)).perform(RecyclerViewActions.
                 actionOnItemAtPosition(3, RecyclerViewActions.
-                actionOnItem((hasDescendant(withId(R.id.like_button))), click())));
+                actionOnItem(
+                        (hasDescendant(withId(R.id.like_button))), click())));
 
 
 

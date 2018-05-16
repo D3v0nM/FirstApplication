@@ -27,12 +27,9 @@ import java.util.Calendar;
 import java.util.regex.Pattern;
 
 
-
-
-
-public class MainActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,
+public class LoginFragment extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,
         View.OnClickListener {
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = LoginFragment.class.getSimpleName();
     private FirebaseAnalytics mFirebaseAnalytics; //Future Enhancement
     private FirebaseAuth mAuth;
     private FirebaseUser mFirebaseUser;
@@ -55,6 +52,22 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     protected void onCreate(Bundle savedInstanceState) {
         // Obtain the FirebaseAnalytics instance..... in the Future
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
+        // [START initialize_auth]
+        mAuth = FirebaseAuth.getInstance();
+        // [END initialize_auth]
+        mFirebaseUser = mAuth.getCurrentUser();
+        if (mFirebaseUser == null) {
+            // Not signed in, launch the Sign In activity
+            startActivity(new Intent(this, SignInActivity.class));
+            finish();
+            return;
+        } else {
+            mUsername = mFirebaseUser.getDisplayName();
+            if (mFirebaseUser.getPhotoUrl() != null) {
+                mPhotoUrl = mFirebaseUser.getPhotoUrl().toString();
+            }
+        }
 
         //setup params
         super.onCreate(savedInstanceState);
@@ -105,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
                 if(!oldEnough(year,month,day)) {
 
-                    Tools.toastMessage(MainActivity.this, "You're not 18...or Your math sucks");
+                    Tools.toastMessage(LoginFragment.this, "You're not 18...or Your math sucks");
                     loginBtn.setVisibility(View.GONE);
 
                     Age = (bday -(setAge(year,month,day))  + " days till you are 18! \n Visit us then");
@@ -136,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                          //  updateUI(user);
+                            updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
@@ -152,8 +165,8 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     }
     //I don't think this is right either..Step 5 in Firebase/Authentication
     //MOVE to Tools or Main Class
-    public void signIn(ContactsContract.CommonDataKinds.Email email, Password pass){
-        Auth.signInWithEmailAndPassword(email, pass)
+    public void signIn(ContactsContract.CommonDataKinds.Email email, Password password){
+        Auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -205,7 +218,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
         if (errors < 1) {
 
-            Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+            Intent intent = new Intent(LoginFragment.this, SecondActivity.class);
             intent.putExtra(Constraints.KEY_NAME, nameEditText.getText().toString());
             intent.putExtra(Constraints.KEY_EMAIL, emailEditText.getText().toString());
             intent.putExtra(Constraints.KEY_USER, userEditText.getText().toString());

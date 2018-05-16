@@ -65,8 +65,8 @@ public class MainActivityTest {
         Espresso.closeSoftKeyboard();
 
         //Verify login/Create button labeled correctly
-        onView(withId(R.id.loginBtn)).check(matches(withText(R.string.login)));
-        onView(withId(R.id.loginBtn)).perform(click());
+        onView(withId(R.id.createBtn)).check(matches(withText(R.string.login)));
+        onView(withId(R.id.createBtn)).perform(click());
 
         //All lines should produce corresponding blank error
         onView(withId(R.id.nameEditText)).check(matches(hasErrorText("Name is required")));
@@ -80,7 +80,7 @@ public class MainActivityTest {
         onView(withId(R.id.passEditText)).
                 check(matches(hasErrorText("Password is required and must be at least 6 characters")));
 
-        onView(withId(R.id.loginBtn)).perform(ViewActions.scrollTo(), click());
+        onView(withId(R.id.createBtn)).perform(ViewActions.scrollTo(), click());
 
 
     }
@@ -159,8 +159,8 @@ public class MainActivityTest {
 
 
         //Verify login/Create button labeled correctly
-        onView(withId(R.id.loginBtn)).check(matches(withText(R.string.login)));
-        onView(withId(R.id.loginBtn)).perform(click());
+        onView(withId(R.id.createBtn)).check(matches(withText(R.string.login)));
+        onView(withId(R.id.createBtn)).perform(click());
 
         //Verify Profile??
         //...
