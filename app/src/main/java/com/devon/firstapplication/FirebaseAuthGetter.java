@@ -1,7 +1,8 @@
 package com.devon.firstapplication;
 
 import com.google.firebase.auth.FirebaseAuth;
-import Serializable;
+
+import java.io.Serializable;
 
 public class FirebaseAuthGetter implements Serializable {
     private static FirebaseAuth firebaseAuth;

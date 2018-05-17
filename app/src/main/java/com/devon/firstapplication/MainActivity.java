@@ -4,8 +4,6 @@ package com.devon.firstapplication;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -13,13 +11,8 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -30,8 +23,7 @@ import java.util.regex.Pattern;
 
 
 
-public class MainActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,
-        View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
     private static final String TAG = MainActivity.class.getSimpleName();
     private FirebaseAnalytics mFirebaseAnalytics; //Future Enhancement
     private FirebaseAuth mAuth;
@@ -125,56 +117,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
     }
 
-    //I don't think this is right...step 4 in Firebase > Authentication
-    // to Tools or Main...
-    public void createAccount(String email, String password){
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "createUserWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                          //  updateUI(user);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(EmailPasswordActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                            updateUI(null);
-                        }
 
-                        // ...
-                    }
-                });
-
-    }
-    //I don't think this is right either..Step 5 in Firebase/Authentication
-    //MOVE to Tools or Main Class
-    public void signIn(ContactsContract.CommonDataKinds.Email email, Password pass){
-        Auth.signInWithEmailAndPassword(email, pass)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(EmailPasswordActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                            updateUI(null);
-                        }
-
-                        // ...
-                    }
-                });
-
-    }
 
     public void goToSecondActivity(View view) {
         int errors = 0;
@@ -249,8 +192,8 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     protected void onStart(){
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser);
+       // FirebaseUser currentUser = mAuth.getCurrentUser();
+
         //log onStart tasks
         Log.i(TAG, "onStart() init");
     }
@@ -410,18 +353,5 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     );
 
 
-    @Override
-    public void onClick(View v) {
-        int i = v.getId();
-        if (i == R.id.email_create_account_button) {
-            createAccount(mEmailField.getText().toString(), mPasswordField.getText().toString());
-        } else if (i == R.id.email_sign_in_button) {
-            signIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
-        } else if (i == R.id.sign_out_button) {
-            signOut();
-        } else if (i == R.id.verify_email_button) {
-            sendEmailVerification();
-        }
-    }
 
 }

@@ -20,11 +20,7 @@
         <activity android:name=".SecondActivity"
             android:theme="@style/AppTheme.Base" />
 
-        <activity
-            android:name=".EmailPasswordActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-
-        </application>
+    </application>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 </manifest>

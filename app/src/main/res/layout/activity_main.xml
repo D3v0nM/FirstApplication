@@ -104,7 +104,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:textSize="30dp"
-            android:text="Log In Here"/>
+            android:text="Login Here"/>
 
         <com.google.android.gms.common.SignInButton
             android:id="@+id/sign_in_button"
@@ -112,14 +112,8 @@
             android:layout_height="wrap_content"
             android:visibility="visible"
             android:layout_gravity="center"
-            android:onClick="onClick"/>
+           />
 
-        <Button
-            android:id="@+id/loginBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="SignInClick"
-            android:text="Login"/>
 
 
         <TextView

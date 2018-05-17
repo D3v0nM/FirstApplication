@@ -4,23 +4,36 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
-public class SecondActivity extends AppCompatActivity {
+import com.devon.firstapplication.models.EachMatch;
+import com.devon.firstapplication.viewmodels.MatchesViewModel;
+
+import java.util.ArrayList;
+
+import static com.devon.firstapplication.MatchesContentFragment.ARG_DATA;
+
+public class SecondActivity extends AppCompatActivity implements OnListFragmentInteractionListener{
     private Button logoutBtn;
     public static final String TAG = SecondActivity.class.getSimpleName();
     TextView profileView;
     TextView nameView;
     TextView jobView;
-    public Fragment startFrag;
 
+    //Firebase vals
+    private MatchesViewModel viewModel;
+    private EditText newMatchText;
+    private FrameLayout frameLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState){
@@ -31,12 +44,7 @@ public class SecondActivity extends AppCompatActivity {
         profileView = findViewById(R.id.profileText);
         logoutBtn = findViewById(R.id.logoutBtn);
 
-      //  ImageView profileImage = findViewById(R.id.profileImage);
-        //int imageResource = getResources().getIdentifier("@drawable/lowered-expectations",
-          //     null, this.getPackageName());
-       // profileImage.setImageResource(R.drawable.lowered_expectations);
-
-        //Adding toolbar to Main Screen requires V7??
+        //Adding toolbar to Main Screen
         Toolbar toolbar = findViewById(R.id.toolbar);
         if(toolbar != null){ setSupportActionBar(toolbar);}
 
@@ -52,6 +60,34 @@ public class SecondActivity extends AppCompatActivity {
 
         //Set Tabs inside ViewPager
         tabs.setupWithViewPager(viewPager);
+
+        viewModel = new MatchesViewModel();
+
+
+        viewModel.getEachMatch(
+                (ArrayList<EachMatch> matchArrayList) -> {
+                    FragmentManager manager = getSupportFragmentManager();
+                    MatchesContentFragment fragment = (MatchesContentFragment) manager.findFragmentByTag("Matches");
+
+                    if (fragment != null) {
+                        // Remove fragment to re-add it
+                        FragmentTransaction transaction = manager.beginTransaction();
+                        transaction.remove(fragment);
+                        transaction.commit();
+                    }
+
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelableArrayList(ARG_DATA, matchArrayList);
+
+                   // TodoItemFragment todoItemFragment = new TodoItemFragment();
+                    fragment.setArguments(bundle);
+
+                    FragmentTransaction transaction = manager.beginTransaction();
+                    transaction.add(R.id.viewPager, fragment, "Matches");
+                    transaction.commit();
+                }
+        );
+
 
 
         Log.d(TAG, "onCreate() Started");
@@ -121,6 +157,23 @@ public class SecondActivity extends AppCompatActivity {
 //
 //    }
 
+    public void addMatchItem(View view) {
+        String name = newMatchText.getText().toString();
+        String uid = newMatchText.getText().toString();
+        String url = newMatchText.getText().toString();
+        Boolean like = false;
+
+        EachMatch item = new EachMatch(uid, name, url, like);
+        viewModel.addMatch(item);
+    }
+
+    @Override
+    public void onListFragmentInteraction(EachMatch item) {
+        //item.done = true;
+        viewModel.updateById(item);
+    }
+
+
     @Override
     protected void onRestart(){
         super.onRestart();
@@ -147,6 +200,7 @@ public class SecondActivity extends AppCompatActivity {
     protected void onPause(){
         super.onPause();
         //logging second onPause() tasks
+        viewModel.clear();
         Log.d(TAG, "onPause started");
     }
 

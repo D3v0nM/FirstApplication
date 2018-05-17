@@ -3,7 +3,6 @@ package com.devon.firstapplication;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -19,7 +18,7 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-class SignInActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
+class SignInActivity extends MainActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
 
     // Google Firebase instance variables
     private FirebaseAuth mFirebaseAuth;
