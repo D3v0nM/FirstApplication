@@ -4,45 +4,40 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.TextView;
 
 import com.devon.firstapplication.models.EachMatch;
 import com.devon.firstapplication.viewmodels.MatchesViewModel;
 
-import java.util.ArrayList;
-
-import static com.devon.firstapplication.MatchesContentFragment.ARG_DATA;
-
 public class SecondActivity extends AppCompatActivity implements OnListFragmentInteractionListener{
-    private Button logoutBtn;
-    public static final String TAG = SecondActivity.class.getSimpleName();
-    TextView profileView;
-    TextView nameView;
-    TextView jobView;
+ //   private Button logoutBtn;
+  public static final String TAG = SecondActivity.class.getSimpleName();
+//    TextView profileView;
+//    TextView nameView;
+//    TextView jobView;
 
     //Firebase vals
     private MatchesViewModel viewModel;
     private EditText newMatchText;
-    private FrameLayout frameLayout;
+    private Adapter mAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
-        nameView = findViewById(R.id.nameAndAge);
-        jobView =   findViewById(R.id.job);
-        profileView = findViewById(R.id.profileText);
-        logoutBtn = findViewById(R.id.logoutBtn);
+
+        viewModel = new MatchesViewModel();
+        mAdapter = new Adapter(getSupportFragmentManager());
+
+//        nameView = findViewById(R.id.nameAndAge);
+//        jobView =   findViewById(R.id.job);
+//        profileView = findViewById(R.id.profileText);
+//        logoutBtn = findViewById(R.id.logoutBtn);
 
         //Adding toolbar to Main Screen
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -60,33 +55,6 @@ public class SecondActivity extends AppCompatActivity implements OnListFragmentI
 
         //Set Tabs inside ViewPager
         tabs.setupWithViewPager(viewPager);
-
-        viewModel = new MatchesViewModel();
-
-
-        viewModel.getEachMatch(
-                (ArrayList<EachMatch> matchArrayList) -> {
-                    FragmentManager manager = getSupportFragmentManager();
-                    MatchesContentFragment fragment = (MatchesContentFragment) manager.findFragmentByTag("Matches");
-
-                    if (fragment != null) {
-                        // Remove fragment to re-add it
-                        FragmentTransaction transaction = manager.beginTransaction();
-                        transaction.remove(fragment);
-                        transaction.commit();
-                    }
-
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelableArrayList(ARG_DATA, matchArrayList);
-
-                   // TodoItemFragment todoItemFragment = new TodoItemFragment();
-                    fragment.setArguments(bundle);
-
-                    FragmentTransaction transaction = manager.beginTransaction();
-                    transaction.add(R.id.viewPager, fragment, "Matches");
-                    transaction.commit();
-                }
-        );
 
 
 
@@ -124,23 +92,23 @@ public class SecondActivity extends AppCompatActivity implements OnListFragmentI
         super.onRestoreInstanceState(saveInstanceState);
         Log.d(TAG, "onRestoreInstanceState: Restore stated");
 
-        if(saveInstanceState.containsKey(Constraints.KEY_USER)){
-            nameView.setText((String) saveInstanceState.get(Constraints.KEY_USER));
-        }
-        if(saveInstanceState.containsKey(Constraints.KEY_BUTTON_TXT)){
-            logoutBtn.setText((String) saveInstanceState.get(Constraints.KEY_BUTTON_TXT));
-        }
-//        if(savedInstanceState.containsKey(Constraints.KEY_AGE)){
-//            age.setText((String) savedInstanceState.get(Age));
+//        if(saveInstanceState.containsKey(Constraints.KEY_USER)){
+//            nameView.setText((String) saveInstanceState.get(Constraints.KEY_USER));
 //        }
-
-        if(saveInstanceState.containsKey(Constraints.KEY_JOB)){
-            jobView.setText((String) saveInstanceState.get(Constraints.KEY_JOB));
-
-        }
-        if (saveInstanceState.containsKey(Constraints.KEY_PROFILE)) {
-            profileView.setText((String) saveInstanceState.get(Constraints.KEY_PROFILE));
-        }
+//        if(saveInstanceState.containsKey(Constraints.KEY_BUTTON_TXT)){
+//            logoutBtn.setText((String) saveInstanceState.get(Constraints.KEY_BUTTON_TXT));
+//        }
+////        if(savedInstanceState.containsKey(Constraints.KEY_AGE)){
+////            age.setText((String) savedInstanceState.get(Age));
+////        }
+//
+//        if(saveInstanceState.containsKey(Constraints.KEY_JOB)){
+//            jobView.setText((String) saveInstanceState.get(Constraints.KEY_JOB));
+//
+//        }
+//        if (saveInstanceState.containsKey(Constraints.KEY_PROFILE)) {
+//            profileView.setText((String) saveInstanceState.get(Constraints.KEY_PROFILE));
+//        }
 
     }
 
@@ -169,8 +137,9 @@ public class SecondActivity extends AppCompatActivity implements OnListFragmentI
 
     @Override
     public void onListFragmentInteraction(EachMatch item) {
-        //item.done = true;
-        viewModel.updateById(item);
+
+
+        //viewModel.updateMatchById(item);
     }
 
 

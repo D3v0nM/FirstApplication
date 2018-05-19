@@ -18,6 +18,26 @@ public class EachMatch implements Parcelable{
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
+    public void getUid() {
+        this.uid = uid;
+    }
+
+    public void getName() {
+        this.name = name;
+    }
+
+    public void liked() {
+        this.like = like;
+    }
+
+    public boolean setLike(boolean like){
+        this.like = like;
+    }
+
+    public void getImageUrl() {
+        this.imageUrl = imageUrl;
+    }
+
     public EachMatch(String uid, String name, String imageUrl, boolean like) {
         this.uid = uid;
         this.name = name;
@@ -30,6 +50,8 @@ public class EachMatch implements Parcelable{
         name = in.readString();
         imageUrl = in.readString();
         like = in.readByte() != 0;
+
+
     }
 
     public static final Creator<EachMatch> CREATOR = new Creator<EachMatch>() {

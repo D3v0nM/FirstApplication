@@ -1,7 +1,6 @@
 package com.devon.firstapplication;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,13 +14,11 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.devon.firstapplication.models.EachMatch;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
+import com.devon.firstapplication.viewmodels.MatchesViewModel;
+import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -31,7 +28,6 @@ public class MatchesContentFragment extends android.support.v4.app.Fragment {
 
     //param argument names
     public static final String ARG_DATA = "data-set";
-    public static final String ARG_SIZE = "card-count";
 
 
     //Parameters
@@ -43,14 +39,12 @@ public class MatchesContentFragment extends android.support.v4.app.Fragment {
     }
 
 
-    @Override
-    public void onCreate(Bundle savedInstance){
-        super.onCreate(savedInstance);
-
-        if(getArguments() != null) {
-            mDataSet = getArguments().getParcelableArrayList(ARG_DATA);
-        }
-    }
+//    @Override
+//    public void onCreate(Bundle savedInstance){
+//        super.onCreate(savedInstance);
+//
+//
+//    }
 
 
 
@@ -63,12 +57,31 @@ public class MatchesContentFragment extends android.support.v4.app.Fragment {
         RecyclerView recyclerView = (RecyclerView) inflater.inflate(
                 R.layout.recycler_view, container, false);
        // Context context = recyclerView.getContext();
-        ContentAdapter adapter = new ContentAdapter(mDataSet, mListener);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        Log.i(TAG, "onCreateView: Matches started");
+
+
+        MatchesViewModel viewModel = new MatchesViewModel();
+
+
+        viewModel.getEachMatch(
+                (ArrayList<EachMatch> matchArrayList) -> {
+                    ContentAdapter adapter = new ContentAdapter(matchArrayList, mListener);
+
+
+                    //Bundle bundle = new Bundle();
+                    //bundle.putParcelableArrayList(ARG_DATA, matchArrayList);
+
+                    // TodoItemFragment todoItemFragment = new TodoItemFragment();
+                    recyclerView.setAdapter(adapter);
+                    recyclerView.setHasFixedSize(true);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                    Log.i(TAG, "onCreateView: Matches started with day");
+                }
+        );
+
+
         return recyclerView;
+
+
 
     }
 
@@ -96,7 +109,9 @@ public class MatchesContentFragment extends android.support.v4.app.Fragment {
                 public void onClick(View v) {
                     try {
                         String like = name.getText().toString();
+
                       Tools.toastMessage(itemView.getContext(), "You Liked " + like);
+
                       likeBtn.setVisibility(View.GONE);
 
                     }catch (Exception e) {
@@ -117,34 +132,38 @@ public class MatchesContentFragment extends android.support.v4.app.Fragment {
      *
      */
     public  class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
-        //Set numbers of List(s) in RecyclerView
-      public final int LENGTH = 8; //getResources().getStringArray(R.array.matches).length;
-        public final List<EachMatch> mMatches;
-        public final OnListFragmentInteractionListener mListener;
-        public final String imageUrl;
+        //Set numbers of List(s) in RecyclerView // local array variables/code
+  //    public final int LENGTH = 8; //getResources().getStringArray(R.array.matches).length;
+ //       public final List<EachMatch> mMatches;
+//       public final OnListFragmentInteractionListener mListener;
+
 
 
 //        public final String[] mMatchesDesc;       // Params for local data
 //        public final Drawable[] mMatchesPic;
 
         public ContentAdapter(List<EachMatch> items,  OnListFragmentInteractionListener listener) {
-            mMatches = items;
+            mDataSet = items;
             mListener = listener;
 
+            if(mDataSet.isEmpty()){
+                Tools.toastMessage(getContext(), "Array is empty");
+                Log.i(TAG, "mMatches was null. trying to download again");
+//                mDataSet = getArguments().getParcelableArrayList(ARG_DATA);
+            }
 
 
             //Local storage with array code
 //            mMatches = resources.getStringArray(R.array.matches);
 //            mMatchesDesc = resources.getStringArray(R.array.matches_desc);
 //            TypedArray a = resources.obtainTypedArray(R.array.matches_pic);
-//
 //            mMatchesPic = new Drawable[a.length()];
 //            for (int i = 0; i < mMatchesPic.length; i++) {
 //                mMatchesPic[i] = a.getDrawable(i);
 //            }
             //a.recycle();
             Log.i(TAG, "ContentAdapter: Started");
-            imageUrl = null;
+
         }
 
         @NonNull
@@ -158,29 +177,13 @@ public class MatchesContentFragment extends android.support.v4.app.Fragment {
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position){
+             //final String imageUrl;
             //Firebase database values
             holder.mItem = mDataSet.get(position);
-            holder.name.setText(String.format("%s", mMatches.get(position)));
-            //holder.picture.setImageDrawable(imageUrl);
+            holder.name.setText(String.format("%s", holder.mItem.name));
+           Picasso.get().load(holder.mItem.imageUrl).into(holder.picture);
+           //need like update here
 
-
-            StorageReference storageReference = FirebaseStorage.getInstance()
-                    .getReferenceFromUrl(imageUrl);
-            storageReference.getDownloadUrl().addOnCompleteListener(
-                    new OnCompleteListener<Uri>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Uri> task) {
-                            if (task.isSuccessful()) {
-                                String downloadUrl = task.getResult().toString();
-                                Glide.with(holder.picture.getContext())
-                                        .load(downloadUrl)
-                                        .into(holder.picture);
-                            } else {
-                                Log.w(TAG, "Getting download url was not successful.",
-                                        task.getException());
-                            }
-                        }
-                    });
             Log.i(TAG, "onBindViewHolder: started");
 
         }
@@ -196,7 +199,12 @@ public class MatchesContentFragment extends android.support.v4.app.Fragment {
 
         @Override
             public int getItemCount(){
-                return LENGTH;
+            int count = 0;
+                if(mDataSet != null){
+                    count = mDataSet.size();
+
+                }
+                return count;
         }
 
     }
@@ -209,6 +217,10 @@ public class MatchesContentFragment extends android.support.v4.app.Fragment {
 
     } @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        if(getArguments() != null) {
+            mDataSet = getArguments().getParcelableArrayList(ARG_DATA);
+        }
+
         super.onActivityCreated(savedInstanceState);
         Log.i(TAG, "onActivityCreated()");
     }
