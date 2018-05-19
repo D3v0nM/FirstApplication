@@ -32,7 +32,7 @@ public class MatchesContentFragment extends android.support.v4.app.Fragment {
 
     //Parameters
     private List<EachMatch> mDataSet;
-    private OnListFragmentInteractionListener mListener;
+    private static OnListFragmentInteractionListener mListener;
 
     public MatchesContentFragment(){
 
@@ -108,10 +108,10 @@ public class MatchesContentFragment extends android.support.v4.app.Fragment {
                 @Override
                 public void onClick(View v) {
                     try {
+
                         String like = name.getText().toString();
-
-                      Tools.toastMessage(itemView.getContext(), "You Liked " + like);
-
+                        Tools.toastMessage(itemView.getContext(), "You Liked " + like);
+                        mListener.onListFragmentInteraction(mItem);
                       likeBtn.setVisibility(View.GONE);
 
                     }catch (Exception e) {
@@ -182,7 +182,7 @@ public class MatchesContentFragment extends android.support.v4.app.Fragment {
             holder.mItem = mDataSet.get(position);
             holder.name.setText(String.format("%s", holder.mItem.name));
            Picasso.get().load(holder.mItem.imageUrl).into(holder.picture);
-           //need like update here
+
 
             Log.i(TAG, "onBindViewHolder: started");
 

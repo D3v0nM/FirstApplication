@@ -138,8 +138,11 @@ public class SecondActivity extends AppCompatActivity implements OnListFragmentI
     @Override
     public void onListFragmentInteraction(EachMatch item) {
 
+        if(!item.like){
+            item.like = true;
+        }
 
-        //viewModel.updateMatchById(item);
+        viewModel.updateById(item);
     }
 
 

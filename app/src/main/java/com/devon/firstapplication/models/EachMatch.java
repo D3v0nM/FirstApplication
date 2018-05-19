@@ -26,12 +26,13 @@ public class EachMatch implements Parcelable{
         this.name = name;
     }
 
-    public void liked() {
-        this.like = like;
+    public void getLike() { this.like = like;
     }
 
     public boolean setLike(boolean like){
         this.like = like;
+
+        return like;
     }
 
     public void getImageUrl() {
@@ -78,6 +79,7 @@ public class EachMatch implements Parcelable{
     }
 
     @Override
+    //what is this for??
     public int describeContents() {
         return 0;
     }
