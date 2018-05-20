@@ -3,10 +3,14 @@ package com.devon.firstapplication;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.support.test.espresso.Espresso;
+import android.support.test.espresso.UiController;
+import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
+import android.view.View;
 
+import org.hamcrest.Matcher;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,12 +23,12 @@ import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.swipeLeft;
 import static android.support.test.espresso.action.ViewActions.swipeRight;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.isClickable;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.core.AllOf.allOf;
 
@@ -79,8 +83,8 @@ public class SecondActivityTest {
         onView(withId(R.id.profileText)).check(matches(withText("Details you need to know: \n" + desc)));
             onView(withId(R.id.viewPager)).check(matches(isDisplayed()));
 
-
-
+         //Check Matches Tab
+        verifyMatches();
 
 
         //Swipe and verify Settings
@@ -94,12 +98,35 @@ public class SecondActivityTest {
 
         //Verify logoff button labeled correctly
             onView(withId(R.id.viewPager)).perform(swipeRight());
-        onView(withId(R.id.createBtn)).check(matches(withText(R.string.logout)));
-        onView(withId(R.id.createBtn)).perform(click());
+
+            scrollTo();
+            onView(withId(R.id.logoutBtn)).check(matches(isDisplayed()));
+        onView(withId(R.id.logoutBtn)).check(matches(withText(R.string.logout)));
 
 
+       // onView(withId(R.id.logoutBtn)).perform(click());
+        //turns out you can even remove the part of: ".check(matches(allOf( isEnabled(), isClickable())))"
+            // and go straight into .perform( new ViewAction()
+            onView(withId(R.id.logoutBtn)).check(matches(allOf( isEnabled(), isClickable()))).perform(
+                    new ViewAction() {
+                        @Override
+                        public Matcher<View> getConstraints() {
+                            return isEnabled(); // no constraints, they are checked above
+                        }
 
-    }
+                        @Override
+                        public String getDescription() {
+                            return "click plus button";
+                        }
+
+                        @Override
+                        public void perform(UiController uiController, View view) {
+                            view.performClick();
+                        }
+                    }
+            );
+
+        }
 
 
 
@@ -108,16 +135,17 @@ public class SecondActivityTest {
     public void verifyMatches(){
            //Swipe to matches tab
         activityTestRule.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        onView(withId(R.id.viewPager)).check(matches(isCompletelyDisplayed()));
+        //onView(withId(R.id.viewPager)).check(matches(isCompletelyDisplayed()));
+//        onView(withId(R.id.viewPager)).perform(click());
+       onView(withId(R.id.viewPager)).perform(swipeLeft());
 
-        onView(withId(R.id.viewPager)).perform(swipeLeft());
-        onView(withId(R.layout.matches_tab)).check(matches(isDisplayed()));
+        onView(withId(R.id.activity_second)).check(matches(isDisplayed()));
 
-        onView(withId(R.id.viewPager)).perform(scrollTo(),
-                RecyclerViewActions.actionOnItemAtPosition(2, click()));
+       onView(withId(R.id.recycler_view)).perform(scrollTo(),
+               RecyclerViewActions.actionOnItemAtPosition(0, click()));
 
-        activityTestRule.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        Espresso.closeSoftKeyboard();
+  //      activityTestRule.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+  //      Espresso.closeSoftKeyboard();
         scrollTo();
         onData(anything())
                 .atPosition(0)
@@ -128,8 +156,11 @@ public class SecondActivityTest {
         Espresso.closeSoftKeyboard();
 //        onView(withId(R.layout.matches_tab)).check(matches(withText(R.string.matches)));
 
- //       onData(anything()).inAdapterView(withContentDescription("desc")).atPosition(x).perform(click());
-      onData(anyOf()).inAdapterView((withId(R.id.card_view))).atPosition(3).perform(click());
+ //
+        //onData(anything()).inAdapterView(withContentDescription("desc")).atPosition(x).perform(click());
+        scrollTo();
+       // onData(anything()).inAdapterView(withId(R.id.recycler_view)).atPosition(3).check(matches(withText(R.string.matches)));
+       //onData(anyOf()).inAdapterView((withId(R.id.recycler_view))).atPosition(3).perform(click());
       onData(withId(R.id.like_button)).atPosition(3).inAdapterView(withEffectiveVisibility(ViewMatchers.Visibility.GONE));
 
                //inAdapterView(withContentDescription("like")).perform(click()
@@ -143,12 +174,13 @@ public class SecondActivityTest {
     public void moveThroughSettings(){
 
 
-        onView(withId(R.id.viewPager)).perform(swipeRight());
-        onView(withId(R.id.viewPager)).perform(swipeRight());
-
-            onView(withId(R.layout.settings_tab)).check(matches(withText(R.string.settings)));
-
         onView(withId(R.id.viewPager)).perform(swipeLeft());
+
+        onView(withId(R.id.viewPager)).perform(swipeRight());
+
+            onView(withId(R.id.settings_tab)).check(matches(withText(R.string.settings)));
+
+       // onView(withId(R.id.viewPager)).perform(swipeRight());
 
 
     }
