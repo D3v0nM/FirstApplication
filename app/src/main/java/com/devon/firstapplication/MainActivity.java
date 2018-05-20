@@ -13,6 +13,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Calendar;
 import java.util.regex.Pattern;
@@ -21,9 +23,11 @@ import java.util.regex.Pattern;
 
 
 
-public class MainActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+public class MainActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
     private static final String TAG = MainActivity.class.getSimpleName();
     private FirebaseAnalytics mFirebaseAnalytics; //Future Enhancement
+    private FirebaseAuth mAuth;
+    private FirebaseUser mFirebaseUser;
 
     private EditText nameEditText;
     private EditText emailEditText;
@@ -53,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         passEditText = findViewById(R.id.passEditText);
         jobEditText = findViewById(R.id.jobEditText);
         profileEditText = findViewById(R.id.profileEditText);
-        loginBtn = findViewById(R.id.loginBtn);
+        loginBtn = findViewById(R.id.createBtn);
         hello_world = findViewById(R.id.hello_world);
 
         // set-up config for DatePicker Dailog
@@ -113,6 +117,8 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
     }
 
+
+
     public void goToSecondActivity(View view) {
         int errors = 0;
         if (nameEditText.getText().toString().length() == 0) {
@@ -155,6 +161,8 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             Tools.toastMessage(this, "Errors found. Fix errors and try again");
     }
 
+
+
     @Override
     protected void onRestart(){
         super.onRestart();
@@ -162,13 +170,34 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         Log.i(TAG, "onRestart init");
 
     }
+//  Needed for Auth signout button
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+//            case R.id.sign_out_menu:
+//                mFirebaseAuth.signOut();
+//                Auth.GoogleSignInApi.signOut(mGoogleApiClient);
+//                mUsername = ANONYMOUS;
+//                startActivity(new Intent(this, SignInActivity.class));
+//                finish();
+//                return true;
+//            default:
+//                return super.onOptionsItemSelected(item);
+//        }
+//    }
+
+
 
     @Override
     protected void onStart(){
         super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+       // FirebaseUser currentUser = mAuth.getCurrentUser();
+
         //log onStart tasks
         Log.i(TAG, "onStart() init");
     }
+
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState){
@@ -322,6 +351,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                     "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
                     ")+"
     );
+
 
 
 }

@@ -59,8 +59,8 @@ public class ProfileContentFragment extends android.support.v4.app.Fragment {
                 Log.i(TAG, "Age: " + age);
 
             }
-        } else {
-            Tools.toastMessage(getActivity(), "Name or or age is Missing");
+ //       } else {
+//          Tools.toastMessage(getActivity(), "Name or or age is Missing");
             }
 
 
@@ -75,8 +75,8 @@ public class ProfileContentFragment extends android.support.v4.app.Fragment {
             jobMsg.append(jobs);
             Log.i(TAG, "onCreateView: Job is " + jobs);
 
-        } else {
-            Tools.toastMessage(getActivity(), "Occupation is missing");
+//        } else {
+  //          Tools.toastMessage(getActivity(), "Occupation is missing");
         }
 
         //maybe set the "Details" as it's own string to enlarge and BOLD
@@ -91,8 +91,9 @@ public class ProfileContentFragment extends android.support.v4.app.Fragment {
             profileMsg.append(profile);
 
             Log.i(TAG, "onCreateView: Profile says " + profileMsg);
-        } else {
-            Tools.toastMessage(getActivity(), "Profile Text is missing");
+
+//        } else {
+//            Tools.toastMessage(getActivity(), "Profile Text is missing");
         }
 
         //Add to TextViews
@@ -107,11 +108,11 @@ public class ProfileContentFragment extends android.support.v4.app.Fragment {
         super.onCreate(savedInstanceState);
     }
 
-    public void goBack (View view){
-        Intent intent = new Intent(getActivity(), MainActivity.class);
-        logoutBtn.setText(R.string.logout);
-        startActivity(intent);
-    }
+//    public void goBack (View view){
+//        Intent intent = new Intent(getActivity(), MainActivity.class);
+//        logoutBtn.setText(R.string.logout);
+//        startActivity(intent);
+//    }
 
 
     @Override
@@ -124,6 +125,7 @@ public class ProfileContentFragment extends android.support.v4.app.Fragment {
         outState.putString(Constraints.KEY_BUTTON_TXT, logoutBtn.getText().toString());
         outState.putString(Constraints.KEY_JOB, jobView.getText().toString());
         outState.putString(Constraints.KEY_PROFILE, profileView.getText().toString());
+
     }
 
     @Override

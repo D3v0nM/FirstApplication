@@ -5,4 +5,5 @@
     <dimen name="activity_header">20sp</dimen>
     <dimen name="activity_padding">5sp</dimen>
     <dimen name="profile_image">350dp</dimen>
+    <dimen name="card_height">120dp</dimen>
 </resources>

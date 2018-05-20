@@ -9,6 +9,6 @@
         android:id="@+id/settings_tab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Settings will go here:"/>
+        android:text="@string/settings"/>
 
 </LinearLayout>
