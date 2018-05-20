@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.contrib.RecyclerViewActions;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 
 import org.junit.Rule;
@@ -18,9 +19,12 @@ import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.swipeLeft;
 import static android.support.test.espresso.action.ViewActions.swipeRight;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static android.support.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.core.AllOf.allOf;
 
@@ -61,6 +65,7 @@ public class SecondActivityTest {
     public void enterAllTabsTest() {
           // activityTestRule.getActivityIntent();
 
+
         // test screen rotation
         activityTestRule.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         Espresso.closeSoftKeyboard();
@@ -68,37 +73,27 @@ public class SecondActivityTest {
          onView(withId(R.id.job)).check(matches(withText("Occupation:\n" + job)));
         onView(withId(R.id.profileText)).check(matches(withText("Details you need to know: \n" + desc)));
         activityTestRule.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        Espresso.closeSoftKeyboard();
+       // Espresso.closeSoftKeyboard();
         onView(withId(R.id.nameAndAge)).check(matches(withText(name + "\n" + age)));
         onView(withId(R.id.job)).check(matches(withText("Occupation:\n" + job)));
         onView(withId(R.id.profileText)).check(matches(withText("Details you need to know: \n" + desc)));
+            onView(withId(R.id.viewPager)).check(matches(isDisplayed()));
 
 
-
-        //Swipe and verify Matches
-        swipeRight();
-        verifyMatches();
-        activityTestRule.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        Espresso.closeSoftKeyboard();
-        scrollTo();
-        verifyMatches();
-        activityTestRule.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        Espresso.closeSoftKeyboard();
 
 
 
         //Swipe and verify Settings
-        swipeRight();
-        verifySettings();
-        activityTestRule.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        Espresso.closeSoftKeyboard();
-        verifySettings();
-        activityTestRule.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        Espresso.closeSoftKeyboard();
-        swipeLeft();
-        swipeLeft();
+//        swipeRight();
+         moveThroughSettings();
+       activityTestRule.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+       Espresso.closeSoftKeyboard();
+//       verifySettings();
+      activityTestRule.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+       Espresso.closeSoftKeyboard();
 
         //Verify logoff button labeled correctly
+            onView(withId(R.id.viewPager)).perform(swipeRight());
         onView(withId(R.id.createBtn)).check(matches(withText(R.string.logout)));
         onView(withId(R.id.createBtn)).perform(click());
 
@@ -111,24 +106,51 @@ public class SecondActivityTest {
 
 
     public void verifyMatches(){
+           //Swipe to matches tab
+        activityTestRule.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        onView(withId(R.id.viewPager)).check(matches(isCompletelyDisplayed()));
+
+        onView(withId(R.id.viewPager)).perform(swipeLeft());
+        onView(withId(R.layout.matches_tab)).check(matches(isDisplayed()));
+
+        onView(withId(R.id.viewPager)).perform(scrollTo(),
+                RecyclerViewActions.actionOnItemAtPosition(2, click()));
+
+        activityTestRule.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        Espresso.closeSoftKeyboard();
+        scrollTo();
         onData(anything())
                 .atPosition(0)
                 .onChildView(allOf(withId(R.id.matches_name), withText(R.string.matches)));
 
-            scrollTo();
+
+        activityTestRule.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        Espresso.closeSoftKeyboard();
 //        onView(withId(R.layout.matches_tab)).check(matches(withText(R.string.matches)));
-//        scrollTo();
-        onData(withId(R.id.matches_name)).perform(RecyclerViewActions.
-                actionOnItemAtPosition(3, RecyclerViewActions.
-                actionOnItem(
-                        (hasDescendant(withId(R.id.like_button))), click())));
+
+ //       onData(anything()).inAdapterView(withContentDescription("desc")).atPosition(x).perform(click());
+      onData(anyOf()).inAdapterView((withId(R.id.card_view))).atPosition(3).perform(click());
+      onData(withId(R.id.like_button)).atPosition(3).inAdapterView(withEffectiveVisibility(ViewMatchers.Visibility.GONE));
+
+               //inAdapterView(withContentDescription("like")).perform(click()
+
+
 
 
 
     }
 
-    public void verifySettings(){
-        onView(withId(R.id.settings_tab)).check(matches(withText(R.string.settings)));
+    public void moveThroughSettings(){
+
+
+        onView(withId(R.id.viewPager)).perform(swipeRight());
+        onView(withId(R.id.viewPager)).perform(swipeRight());
+
+            onView(withId(R.layout.settings_tab)).check(matches(withText(R.string.settings)));
+
+        onView(withId(R.id.viewPager)).perform(swipeLeft());
+
+
     }
 
 
