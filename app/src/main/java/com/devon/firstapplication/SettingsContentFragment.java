@@ -10,5 +10,7 @@ public class SettingsContentFragment extends android.support.v4.app.Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState){
         return inflater.inflate(R.layout.settings_tab, null);
 
+
+
     }
 }

@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         if (!checkEmail(emailEditText.getText().toString())) {
             emailEditText.setError("Not an Email Address");
             errors += 1;
-        }
+         }
 
         if (userEditText.getText().toString().length() == 0) {
             userEditText.setError("Username is required");
