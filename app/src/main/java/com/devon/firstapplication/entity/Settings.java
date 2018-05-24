@@ -11,13 +11,16 @@ public class Settings {
  @NonNull
 @PrimaryKey
 
-    private int id =1;
+    private String id = "0";
 
  @ColumnInfo(name = "reminder_time")
     private String reminderTime;
 
  @ColumnInfo(name = "gender")
     private String gender;
+
+ @ColumnInfo(name = "age_range")
+    private int ageRange;
 
  @ColumnInfo(name = "status")
     private String status;
@@ -26,11 +29,11 @@ public class Settings {
     private int maxDist;
 
     @NonNull
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(@NonNull int id) {
+    public void setId(@NonNull String id) {
         this.id = id;
     }
 
@@ -64,5 +67,13 @@ public class Settings {
 
     public void setMaxDist(int maxDist) {
         this.maxDist = maxDist;
+    }
+
+    public int getAgeRange(){
+        return ageRange;
+    }
+
+    public void setAgeRange(int ageRange) {
+        this.ageRange = ageRange;
     }
 }
