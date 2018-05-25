@@ -19,14 +19,35 @@ public class Settings {
  @ColumnInfo(name = "gender")
     private String gender;
 
- @ColumnInfo(name = "age_range")
-    private int ageRange;
+ @ColumnInfo(name = "age_start")
+    private int ageStart;
+
+ @ColumnInfo(name = "age_end")
+    private int ageEnd;
 
  @ColumnInfo(name = "status")
-    private String status;
+    private boolean status = true;
 
  @ColumnInfo(name = "max_distance")
-    private int maxDist;
+    private String maxDist;
+
+ public Settings(){
+
+ }
+
+
+    public Settings(@NonNull String id, String reminderTime, String gender, int ageStart,
+
+                    int ageEnd, boolean status, String maxDist) {
+        this.id = id;
+        this.reminderTime = reminderTime;
+        this.gender = gender;
+        this.ageStart = ageStart;
+        this.ageEnd = ageEnd;
+        this.status = status;
+        this.maxDist = maxDist;
+    }
+
 
     @NonNull
     public String getId() {
@@ -53,27 +74,35 @@ public class Settings {
         this.gender = gender;
     }
 
-    public String getStatus() {
+    public boolean getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(boolean status) {
         this.status = status;
     }
 
-    public int getMaxDist() {
+    public String getMaxDist() {
         return maxDist;
     }
 
-    public void setMaxDist(int maxDist) {
+    public void setMaxDist(String maxDist) {
         this.maxDist = maxDist;
     }
 
-    public int getAgeRange(){
-        return ageRange;
+    public int getAgeStart(){
+        return ageStart;
     }
 
-    public void setAgeRange(int ageRange) {
-        this.ageRange = ageRange;
+    public void setAgeStart(int ageStart){
+        this.ageStart = ageStart;
+    }
+
+    public int getAgeEnd(){
+        return ageEnd;
+    }
+
+    public void setAgeEnd(int ageEnd) {
+        this.ageEnd = ageEnd;
     }
 }

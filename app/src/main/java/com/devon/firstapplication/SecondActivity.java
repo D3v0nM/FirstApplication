@@ -87,10 +87,10 @@ public class SecondActivity extends AppCompatActivity implements OnListFragmentI
 
     }
 
-    @Override
-    protected void onRestoreInstanceState(Bundle saveInstanceState){
-        super.onRestoreInstanceState(saveInstanceState);
-        Log.d(TAG, "onRestoreInstanceState: Restore stated");
+//    @Override
+//    protected void onRestoreInstanceState(Bundle saveInstanceState){
+//        super.onRestoreInstanceState(saveInstanceState);
+//        Log.d(TAG, "onRestoreInstanceState: Restore stated");
 
 //        if(saveInstanceState.containsKey(Constraints.KEY_USER)){
 //            nameView.setText((String) saveInstanceState.get(Constraints.KEY_USER));
@@ -110,7 +110,7 @@ public class SecondActivity extends AppCompatActivity implements OnListFragmentI
 //            profileView.setText((String) saveInstanceState.get(Constraints.KEY_PROFILE));
 //        }
 
-    }
+//  }
 
 //    @Override
 //    protected void onSaveInstanceState(Bundle outState){
@@ -125,15 +125,15 @@ public class SecondActivity extends AppCompatActivity implements OnListFragmentI
 //
 //    }
 
-    public void addMatchItem(View view) {
-        String name = newMatchText.getText().toString();
-        String uid = newMatchText.getText().toString();
-        String url = newMatchText.getText().toString();
-        Boolean like = false;
-
-        EachMatch item = new EachMatch(uid, name, url, like);
-        viewModel.addMatch(item);
-    }
+//    public void addMatchItem(View view) {
+//        String name = newMatchText.getText().toString();
+//        String uid = newMatchText.getText().toString();
+//        String url = newMatchText.getText().toString();
+//        Boolean like = false;
+//
+//        EachMatch item = new EachMatch(uid, name, url, like);
+//        viewModel.addMatch(item);
+//    }
 
     @Override
     public void onListFragmentInteraction(EachMatch item) {

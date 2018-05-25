@@ -5,6 +5,7 @@ import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Update;
 
 import com.devon.firstapplication.entity.Settings;
 
@@ -33,6 +34,9 @@ import java.util.List;
 //
 //        @Update
 //        void updateSettings(Settings...settings);
+
+        @Update
+        void updateSettings(Settings...settings);
 
         @Insert(onConflict = OnConflictStrategy.REPLACE)
         void insertAll(Settings...settings);

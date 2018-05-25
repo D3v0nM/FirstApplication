@@ -65,7 +65,7 @@ public class MainActivityTest {
         Espresso.closeSoftKeyboard();
 
         //Verify login/Create button labeled correctly
-        onView(withId(R.id.createBtn)).check(matches(withText(R.string.login)));
+        onView(withId(R.id.createBtn)).check(matches(withText(R.string.create)));
         onView(withId(R.id.createBtn)).perform(click());
 
         //All lines should produce corresponding blank error
@@ -159,7 +159,7 @@ public class MainActivityTest {
 
 
         //Verify login/Create button labeled correctly
-        onView(withId(R.id.createBtn)).check(matches(withText(R.string.login)));
+        onView(withId(R.id.createBtn)).check(matches(withText(R.string.create)));
         onView(withId(R.id.createBtn)).perform(click());
 
         //Verify Profile??
