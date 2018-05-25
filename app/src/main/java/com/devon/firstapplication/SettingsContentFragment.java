@@ -106,7 +106,7 @@ public class SettingsContentFragment extends android.support.v4.app.Fragment imp
              maxDistPick = maxDist.getSelectedItem().toString();
              settings.setMaxDist(maxDistPick);
 
-
+            new UpdateTask(getActivity(), settings);
 
             }
         });
