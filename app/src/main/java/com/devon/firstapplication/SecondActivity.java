@@ -17,9 +17,8 @@ import com.devon.firstapplication.viewmodels.MatchesViewModel;
 public class SecondActivity extends AppCompatActivity implements OnListFragmentInteractionListener{
  //   private Button logoutBtn;
   public static final String TAG = SecondActivity.class.getSimpleName();
-//    TextView profileView;
-//    TextView nameView;
-//    TextView jobView;
+  //  Activity/Fragment.java
+    //        locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
 
     //Firebase vals
     private MatchesViewModel viewModel;
@@ -61,6 +60,20 @@ public class SecondActivity extends AppCompatActivity implements OnListFragmentI
         Log.d(TAG, "onCreate() Started");
     }
 
+//    private boolean isLocationEnabled() {
+//        return locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+//    }
+//private void showAlert() {
+//    final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+//    dialog.setTitle(R.string.enable_location)
+//            .setMessage(getString(R.string.location_message))
+//            .setPositiveButton(R.string.location_settings, (paramDialogInterface, paramInt) -> {
+//                Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+//                startActivity(myIntent);
+//            })
+//            .setNegativeButton(R.string.location_cancel, (paramDialogInterface, paramInt) -> {});
+//    dialog.show();
+//}
     //Add Fragments to Tabs
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());

@@ -13,6 +13,8 @@ public class EachMatch implements Parcelable{
     public String name;
     public boolean like;
     public String imageUrl;
+    public String lat;
+    public String lon;
 
     public EachMatch() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
@@ -26,8 +28,11 @@ public class EachMatch implements Parcelable{
         this.name = name;
     }
 
-    public void getLike() { this.like = like;
-    }
+    public void getLike() { this.like = like; }
+
+    public void getLat() {this.lat = lat;}
+
+    public void getLon() {this.lon = lon;}
 
     public boolean setLike(boolean like){
         this.like = like;
@@ -39,11 +44,13 @@ public class EachMatch implements Parcelable{
         this.imageUrl = imageUrl;
     }
 
-    public EachMatch(String uid, String name, String imageUrl, boolean like) {
+    public EachMatch(String uid, String name, String imageUrl, boolean like, String lat, String lon) {
         this.uid = uid;
         this.name = name;
         this.imageUrl = imageUrl;
         this.like = like;
+        this.lat = lat;
+        this.lon = lon;
     }
 
     public EachMatch(Parcel in) {
@@ -51,6 +58,8 @@ public class EachMatch implements Parcelable{
         name = in.readString();
         imageUrl = in.readString();
         like = in.readByte() != 0;
+        lat= in.readString();
+        lon= in.readString();
 
 
     }
@@ -74,6 +83,8 @@ public class EachMatch implements Parcelable{
         result.put("name", name);
         result.put("url", imageUrl);
         result.put("like", like);
+        result.put("lat", lat);
+        result.put("lon" , lon);
 
         return result;
     }
@@ -89,6 +100,8 @@ public class EachMatch implements Parcelable{
         dest.writeString(name);
         dest.writeString(imageUrl);
         dest.writeByte((byte) (like ? 1 : 0));
+        dest.writeString(lat);
+        dest.writeString(lon);
     }
 
 

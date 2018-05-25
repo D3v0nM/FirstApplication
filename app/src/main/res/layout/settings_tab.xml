@@ -13,7 +13,13 @@
         android:layout_width="match_parent"
         android:layout_height="47dp"
         android:text="Public Profile (visible)"
-        android:textSize="30sp" />
+        android:textSize="20sp" />
+
+    <Switch
+        android:layout_width="match_parent"
+        android:layout_height="47dp"
+        android:text="Enable Location"
+        android:textSize="20sp"/>
 
     <TextView
         android:id="@+id/maxSearchDist"
@@ -40,8 +46,8 @@
 
     <Spinner
         android:id="@+id/gender_group"
-        android:layout_width="134dp"
-        android:layout_height="134dp"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginStart="45dp"
         android:contextClickable="true"
         android:paddingBottom="10dp"/>
