@@ -1,24 +1,44 @@
 package com.devon.firstapplication;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.devon.firstapplication.models.EachMatch;
 import com.devon.firstapplication.viewmodels.MatchesViewModel;
 
+import org.w3c.dom.Text;
+
 public class SecondActivity extends AppCompatActivity implements OnListFragmentInteractionListener{
- //   private Button logoutBtn;
   public static final String TAG = SecondActivity.class.getSimpleName();
-  //  Activity/Fragment.java
-    //        locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+
+  //location params
+  LocationManager locationManager;
+  double latBest, lonBest;
+  double latGPS, lonGPS;
+  double latNet,  lonNet;
+  TextView latValueBest, lonValueBest;
+  TextView latValueGPS, lonValueGPS;
+  TextView latValueNet, lonValueNet;
+
 
     //Firebase vals
     private MatchesViewModel viewModel;
@@ -33,10 +53,14 @@ public class SecondActivity extends AppCompatActivity implements OnListFragmentI
         viewModel = new MatchesViewModel();
         mAdapter = new Adapter(getSupportFragmentManager());
 
-//        nameView = findViewById(R.id.nameAndAge);
-//        jobView =   findViewById(R.id.job);
-//        profileView = findViewById(R.id.profileText);
-//        logoutBtn = findViewById(R.id.logoutBtn);
+        locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        latValueBest = findViewById(R.id.latValueBest);
+        lonValueBest = findViewById(R.id.lonValueBest);
+        latValueGPS = findViewById(R.id.latValueGPS);
+        lonValueGPS = findViewById(R.id.lonValueGPS);
+        latValueNet = findViewById(R.id.latValueNet);
+        lonValueNet = findViewById(R.id.lonValueNet);
+
 
         //Adding toolbar to Main Screen
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -44,9 +68,6 @@ public class SecondActivity extends AppCompatActivity implements OnListFragmentI
 
         //add tabs
         TabLayout tabs = findViewById(R.id.tabs);
-      // tabs.addTab(tabs.newTab().setText("Profile"));
-       //tabs.addTab(tabs.newTab().setText("Matches"));
-       //tabs.addTab(tabs.newTab().setText("Settings"));
 
         //Setting ViewPager for each Tab
         ViewPager viewPager = findViewById(R.id.viewPager);
@@ -60,20 +81,59 @@ public class SecondActivity extends AppCompatActivity implements OnListFragmentI
         Log.d(TAG, "onCreate() Started");
     }
 
-//    private boolean isLocationEnabled() {
-//        return locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-//    }
-//private void showAlert() {
-//    final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-//    dialog.setTitle(R.string.enable_location)
-//            .setMessage(getString(R.string.location_message))
-//            .setPositiveButton(R.string.location_settings, (paramDialogInterface, paramInt) -> {
-//                Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-//                startActivity(myIntent);
-//            })
-//            .setNegativeButton(R.string.location_cancel, (paramDialogInterface, paramInt) -> {});
-//    dialog.show();
-//}
+        private boolean checkLocation(){
+        if(!isLocationEnabled())
+            showAlert();
+            return isLocationEnabled();
+        }
+
+        private boolean isLocationEnabled() {
+            return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
+                    locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        }
+        private void showAlert() {
+            final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+            dialog.setTitle(R.string.enable_location)
+                    .setMessage(getString(R.string.location_message))
+                    .setPositiveButton(R.string.location_settings, (paramDialogInterface, paramInt) -> {
+                        Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                        startActivity(myIntent);
+                    })
+                    .setNegativeButton(R.string.location_cancel, (paramDialogInterface, paramInt) -> {});
+            dialog.show();
+        }
+
+        public void toggleGPSUpdates(View view){
+        if(!checkLocation())
+            return;
+            Button button = (Button) view;
+            if(button.getText().equals(getResources().getString(R.string.pause))){
+                locationManager.removeUpdates(locationListenerGPS);
+                button.setText(R.string.resume);
+            }else{
+                locationManager.requestLocationUpdates(
+                        LocationManager.GPS_PROVIDER, 60 *1000, 10, locationListenerGPS);
+                   //Toast here
+                    button.setText(R.string.pause);
+
+            }
+        }
+
+        public void toggleNetWorkUpdates(View view){
+        if(button.getText().equals(getResources().getString(R.string.pause))){
+            locationManager.removeUpdates(locationListenerNetwork);
+            button.setText(R.string.resume);
+
+        }else{
+            locationManager.requestLocationUpdates(
+                    LocationManager.NETWORK_PROVIDER, 60 * 1000, 10, locationListenerNetwork);
+            //toast here
+            button.setText(R.string.pause);
+
+        }
+    }
+
+
     //Add Fragments to Tabs
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
@@ -147,6 +207,37 @@ public class SecondActivity extends AppCompatActivity implements OnListFragmentI
 //        EachMatch item = new EachMatch(uid, name, url, like);
 //        viewModel.addMatch(item);
 //    }
+
+    private final LocationListener locationListenerGPS = new LocationListener() {
+        @Override
+        public void onLocationChanged(Location location) {
+            latGPS = location.getLatitude();
+            lonGPS = location.getLongitude();
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    latValueGPS.setText(latGPS + ""); //what do with this data. Not print
+                    lonValueGPS.setText(lonGPS + "");
+                }
+            });
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+
+        }
+    }
 
     @Override
     public void onListFragmentInteraction(EachMatch item) {
