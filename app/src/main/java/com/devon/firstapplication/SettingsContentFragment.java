@@ -154,7 +154,6 @@ public class SettingsContentFragment extends android.support.v4.app.Fragment imp
 // Check that the button is  now checked?
         boolean checked = ((RadioButton) view).isChecked();
 
-/
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
