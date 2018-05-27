@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +13,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Switch;
 
@@ -39,16 +39,18 @@ public class SettingsContentFragment extends android.support.v4.app.Fragment imp
 
     public String genderPick;
     public String maxDistPick;
-    public String statusick;
+
 
     ArrayAdapter<CharSequence> distAdapter;
     ArrayAdapter<CharSequence> genderAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
-        Log.i(TAG, "onCreateView: started");
+        Log.i(TAG, "Setings onCreateView:  started");
 
         View view = inflater.inflate(R.layout.settings_tab, null);
+
+
 
         maxDist = view.findViewById(R.id.maxSearchSpin);
         reminder = view.findViewById(R.id.reminder);
@@ -119,22 +121,6 @@ public class SettingsContentFragment extends android.support.v4.app.Fragment imp
         return view;
     }
 
-//    //this whole bit needs to updated or could be unnecessary
-//    private void updateDatabase(View view) {
-//        Settings fakeNewUser = new Settings();
-//        int id = this.id; // how to call this since not visible
-//        if (id == (0)) {
-//            id += 1;
-//        }
-//        fakeNewUser.setReminderTime(reminder);
-//        fakeNewUser.setGender(gender);
-//        fakeNewUser.setMaxDist(maxDist);
-//        fakeNewUser.setStatus(status);
-//        fakeNewUser.setAgeRange(ageRange);
-//
-
-//    }
-
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
@@ -146,13 +132,6 @@ public class SettingsContentFragment extends android.support.v4.app.Fragment imp
         outState.putString("EndAge", ageEnd.getText().toString());
         Log.i(TAG, "onSaveInstanceState: Setting tab saved bundle started");
     }
-
-    public String RadioButtonClicked(View view) {
-
-//This variable will store whether the user was male or female
-        String selected = "";
-// Check that the button is  now checked?
-        boolean checked = ((RadioButton) view).isChecked();
 
 
     @Override
@@ -167,7 +146,7 @@ public class SettingsContentFragment extends android.support.v4.app.Fragment imp
     }
 
 
-    private class GetSettingsTask extends AsyncTask<Void, Void, Settings>{
+    private static class GetSettingsTask extends AsyncTask<Void, Void, Settings>{
         private WeakReference<SettingsContentFragment> fragmentWeakReference;
         private WeakReference<Activity> weakActivity;
         private SettingsContentFragment fragment;
@@ -250,6 +229,46 @@ public class SettingsContentFragment extends android.support.v4.app.Fragment imp
         }
 
     }
+
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.i(TAG, "Settings Frag onStart()");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.i(TAG, "settings Frag onResume()");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.i(TAG, "settings onPause()");
+    }
+
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.i(TAG, "settings frag onStop()");
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.i(TAG, "settings frag onDestroyView()");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.i(TAG, "settings frag onDestroy()");
+    }
+
 
 }
 
