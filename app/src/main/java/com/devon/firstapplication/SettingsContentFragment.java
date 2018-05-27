@@ -106,7 +106,7 @@ public class SettingsContentFragment extends android.support.v4.app.Fragment imp
              maxDistPick = maxDist.getSelectedItem().toString();
              settings.setMaxDist(maxDistPick);
 
-            new UpdateTask(getActivity(), settings);
+            new UpdateTask(getActivity(), settings).execute();
 
             }
         });
@@ -154,24 +154,7 @@ public class SettingsContentFragment extends android.support.v4.app.Fragment imp
 // Check that the button is  now checked?
         boolean checked = ((RadioButton) view).isChecked();
 
-// Check which radio button was clicked
-        switch (view.getId()) {
-            case R.id.radioFemale:
-                if (checked)
-                    selected = "Female";
-                break;
-            case R.id.radioMale:
-                if (checked)
-                    selected = "Male";
-                break;
-
-            case R.id.radioButton3:
-                if (checked)
-                    selected = "????";
-                break;
-        }
-        return selected;
-    }
+/
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
