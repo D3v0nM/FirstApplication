@@ -87,10 +87,12 @@ public class MatchesContentFragment extends android.support.v4.app.Fragment {
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         final ImageButton likeBtn;
-      //  final  String imageUrl;
-        public ImageView picture;
+              public ImageView picture;
         public TextView name;
         public EachMatch mItem;
+        public TextView lat;
+        public TextView lon;
+       // public TextView location;
 
         //public TextView desc;
 
@@ -182,6 +184,8 @@ public class MatchesContentFragment extends android.support.v4.app.Fragment {
             holder.mItem = mDataSet.get(position);
             holder.name.setText(String.format("%s", holder.mItem.name));
            Picasso.get().load(holder.mItem.imageUrl).into(holder.picture);
+           holder.lat.setText(String.format("s%", holder.mItem.lat));
+           holder.lon.setText(String.format("s%", holder.mItem.lon));
 
 
             Log.i(TAG, "onBindViewHolder: started");

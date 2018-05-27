@@ -1,5 +1,6 @@
 package com.devon.firstapplication;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -20,24 +21,20 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.devon.firstapplication.models.EachMatch;
 import com.devon.firstapplication.viewmodels.MatchesViewModel;
 
-import org.w3c.dom.Text;
 
 public class SecondActivity extends AppCompatActivity implements OnListFragmentInteractionListener{
   public static final String TAG = SecondActivity.class.getSimpleName();
 
   //location params
   LocationManager locationManager;
-  double latBest, lonBest;
   double latGPS, lonGPS;
   double latNet,  lonNet;
-  TextView latValueBest, lonValueBest;
-  TextView latValueGPS, lonValueGPS;
-  TextView latValueNet, lonValueNet;
+    TextView latValueGPS, lonValueGPS;
+    TextView latValueNet, lonValueNet;
 
 
     //Firebase vals
@@ -52,10 +49,10 @@ public class SecondActivity extends AppCompatActivity implements OnListFragmentI
 
         viewModel = new MatchesViewModel();
         mAdapter = new Adapter(getSupportFragmentManager());
-
         locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-        latValueBest = findViewById(R.id.latValueBest);
-        lonValueBest = findViewById(R.id.lonValueBest);
+
+       // latValueBest = findViewById(R.id.latValueBest);
+       // lonValueBest = findViewById(R.id.lonValueBest);
         latValueGPS = findViewById(R.id.latValueGPS);
         lonValueGPS = findViewById(R.id.lonValueGPS);
         latValueNet = findViewById(R.id.latValueNet);
@@ -78,19 +75,26 @@ public class SecondActivity extends AppCompatActivity implements OnListFragmentI
 
 
 
-        Log.d(TAG, "onCreate() Started");
+        Log.d(TAG, "Second Activity onCreate() Started");
     }
 
-        private boolean checkLocation(){
-        if(!isLocationEnabled())
-            showAlert();
+        private boolean checkLocation() {
+            if (!isLocationEnabled()){
+                showAlert();
+            }
+            Log.i(TAG, "checkLocation: returned");
             return isLocationEnabled();
+
         }
 
         private boolean isLocationEnabled() {
+            Log.i(TAG, "isLocationEnabled: returned");
             return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
                     locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
+
         }
+
         private void showAlert() {
             final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
             dialog.setTitle(R.string.enable_location)
@@ -103,37 +107,60 @@ public class SecondActivity extends AppCompatActivity implements OnListFragmentI
             dialog.show();
         }
 
-        public void toggleGPSUpdates(View view){
-        if(!checkLocation())
-            return;
+        public void toggleGPSUpdates(View view) {
+            if (!checkLocation()){
+                return;
+
+            }
+
             Button button = (Button) view;
-            if(button.getText().equals(getResources().getString(R.string.pause))){
+            if (button.getText().equals(getResources().getString(R.string.pause))) {
                 locationManager.removeUpdates(locationListenerGPS);
                 button.setText(R.string.resume);
-            }else{
-                locationManager.requestLocationUpdates(
-                        LocationManager.GPS_PROVIDER, 60 *1000, 10, locationListenerGPS);
-                   //Toast here
-                    button.setText(R.string.pause);
+                Log.i(TAG, "toggleGPSUpdates: remove updates");
 
+            } else {
+                if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                        == PackageManager.PERMISSION_GRANTED ||
+                        ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
+                                == PackageManager.PERMISSION_GRANTED) {
+
+                    locationManager.requestLocationUpdates(
+                            LocationManager.GPS_PROVIDER, 60 * 1000, 10, locationListenerGPS);
+                    Tools.toastMessage(getApplicationContext(), "GPS provider started running");
+                    button.setText(R.string.pause);
+                    Log.i(TAG, "toggleGPSUpdates: GPS listening");
+
+                }
             }
         }
 
-        public void toggleNetWorkUpdates(View view){
-        if(button.getText().equals(getResources().getString(R.string.pause))){
-            locationManager.removeUpdates(locationListenerNetwork);
-            button.setText(R.string.resume);
+            public void toggleNetWorkUpdates (View view){
+                if (!checkLocation()){
+                    return;
+                }
 
-        }else{
-            locationManager.requestLocationUpdates(
-                    LocationManager.NETWORK_PROVIDER, 60 * 1000, 10, locationListenerNetwork);
-            //toast here
-            button.setText(R.string.pause);
+                Button button = (Button) view;
+                if (button.getText().equals(getResources().getString(R.string.pause))) {
+                    locationManager.removeUpdates(locationListenerNetwork);
+                    button.setText(R.string.resume);
+
+                } else {
+
+                    if(ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                            == PackageManager.PERMISSION_GRANTED ||
+                            ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
+                            == PackageManager.PERMISSION_GRANTED){
+
+                    locationManager.requestLocationUpdates(
+                            LocationManager.NETWORK_PROVIDER, 60 * 1000, 10, locationListenerNetwork);
+                    Tools.toastMessage(this, "Network provider location services running");
+                    button.setText(R.string.pause);
+
+                }
+            }
 
         }
-    }
-
-
     //Add Fragments to Tabs
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
@@ -213,12 +240,14 @@ public class SecondActivity extends AppCompatActivity implements OnListFragmentI
         public void onLocationChanged(Location location) {
             latGPS = location.getLatitude();
             lonGPS = location.getLongitude();
+            Log.i(TAG, "onLocationChanged: pulling new lat and lon");
 
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    latValueGPS.setText(latGPS + ""); //what do with this data. Not print
-                    lonValueGPS.setText(lonGPS + "");
+                    latValueGPS.setText(String.format("s%", latGPS)); //what do with this data. Not print
+                    lonValueGPS.setText(String.format("s%", lonGPS));
+                   Tools.toastMessage(getApplicationContext(), "GPS location updating");
                 }
             });
         }
@@ -237,7 +266,41 @@ public class SecondActivity extends AppCompatActivity implements OnListFragmentI
         public void onProviderDisabled(String provider) {
 
         }
-    }
+    };
+
+    private final LocationListener locationListenerNetwork = new LocationListener() {
+        @Override
+        public void onLocationChanged(Location location) {
+            latNet = location.getLatitude();
+            lonNet = location.getLongitude();
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    latValueNet.setText(String.format("s%", latNet)); //set Lat/Lon?
+                    lonValueNet.setText(String.format("s%", lonNet));
+                    Tools.toastMessage(getApplicationContext(), "Network location services updating");
+                }
+            });
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+
+        }
+    };
+
+
 
     @Override
     public void onListFragmentInteraction(EachMatch item) {

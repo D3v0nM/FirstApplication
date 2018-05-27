@@ -32,6 +32,14 @@ public class EachMatch implements Parcelable{
 
     public void getLat() {this.lat = lat;}
 
+    public void setLat(String lat){
+        this.lat = lat;
+    }
+
+    public void setLon(String lon) {
+        this.lon = lon;
+    }
+
     public void getLon() {this.lon = lon;}
 
     public boolean setLike(boolean like){
