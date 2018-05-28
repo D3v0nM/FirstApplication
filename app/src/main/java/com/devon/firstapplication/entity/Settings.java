@@ -31,6 +31,7 @@ public class Settings {
  @ColumnInfo(name = "max_distance")
     private String maxDist;
 
+
  public Settings(){
 
  }

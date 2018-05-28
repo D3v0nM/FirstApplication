@@ -10,7 +10,6 @@
     android:layout_marginBottom="16dp"
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp">
-  <!--  android:foreground="?attr/selectableItemBackground"> -->
 
     <RelativeLayout
         android:id="@+id/Relative"
@@ -41,19 +40,26 @@
             tools:text="@string/matches" />
 
         <TextView
-            android:id="@+id/matches_desc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/matches_pic"
-            android:layout_marginBottom="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="16dp"
+            android:id="@+id/location"
+            android:layout_width="wrap_content"
+            android:layout_height="41dp"
+            android:layout_above="@+id/like_button"
+            android:layout_alignParentStart="true"
             android:ellipsize="end"
-            android:singleLine="true"
             android:textColor="@color/grey"
-            android:textSize="25sp"
-            tools:text="@string/matches_desc" />
+            android:text="lat"/>
+
+
+        <TextView
+            android:id="@+id/location2"
+            android:layout_width="wrap_content"
+            android:layout_height="41dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/location"
+            android:layout_marginStart="50dp"
+            android:ellipsize="end"
+            android:text="lon"
+            android:textColor="@color/grey" />
 
 
         <ImageButton
@@ -66,7 +72,7 @@
             android:layout_marginEnd="41dp"
             android:background="@color/white"
             android:clickable="true"
-            android:contentDescription="like"
+            android:contentDescription="liked"
             android:tint="@color/grey"
             app:srcCompat="@drawable/favorite" />
     </RelativeLayout>

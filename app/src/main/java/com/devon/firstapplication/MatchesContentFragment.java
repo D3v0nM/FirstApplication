@@ -20,6 +20,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UnknownFormatConversionException;
 
 
 public class MatchesContentFragment extends android.support.v4.app.Fragment {
@@ -38,13 +39,6 @@ public class MatchesContentFragment extends android.support.v4.app.Fragment {
 
     }
 
-
-//    @Override
-//    public void onCreate(Bundle savedInstance){
-//        super.onCreate(savedInstance);
-//
-//
-//    }
 
 
 
@@ -74,7 +68,7 @@ public class MatchesContentFragment extends android.support.v4.app.Fragment {
                     recyclerView.setAdapter(adapter);
                     recyclerView.setHasFixedSize(true);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                    Log.i(TAG, "onCreateView: Matches started with day");
+                    Log.i(TAG, "onCreateView: Matches started, pulling data");
                 }
         );
 
@@ -91,8 +85,8 @@ public class MatchesContentFragment extends android.support.v4.app.Fragment {
         public TextView name;
         public EachMatch mItem;
         public TextView lat;
-        public TextView lon;
-       // public TextView location;
+       public TextView lon;
+       public TextView location; // combine lat and long into meter for location some how
 
         //public TextView desc;
 
@@ -103,7 +97,8 @@ public class MatchesContentFragment extends android.support.v4.app.Fragment {
 
             picture = itemView.findViewById(R.id.matches_pic);
             name = itemView.findViewById(R.id.matches_name);
-           // desc = itemView.findViewById(R.id.matches_desc);
+           lat = itemView.findViewById(R.id.location);
+           lon = itemView.findViewById(R.id.location);
             likeBtn = itemView.findViewById(R.id.like_button);
             likeBtn.setOnClickListener(new View.OnClickListener() {
 
@@ -136,10 +131,6 @@ public class MatchesContentFragment extends android.support.v4.app.Fragment {
     public  class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
         //Set numbers of List(s) in RecyclerView // local array variables/code
   //    public final int LENGTH = 8; //getResources().getStringArray(R.array.matches).length;
- //       public final List<EachMatch> mMatches;
-//       public final OnListFragmentInteractionListener mListener;
-
-
 
 //        public final String[] mMatchesDesc;       // Params for local data
 //        public final Drawable[] mMatchesPic;
@@ -181,14 +172,20 @@ public class MatchesContentFragment extends android.support.v4.app.Fragment {
         public void onBindViewHolder(ViewHolder holder, int position){
              //final String imageUrl;
             //Firebase database values
-            holder.mItem = mDataSet.get(position);
-            holder.name.setText(String.format("%s", holder.mItem.name));
-           Picasso.get().load(holder.mItem.imageUrl).into(holder.picture);
-           holder.lat.setText(String.format("s%", holder.mItem.lat));
-           holder.lon.setText(String.format("s%", holder.mItem.lon));
+            try {
+                holder.mItem = mDataSet.get(position);
+                holder.name.setText(String.format("%s", holder.mItem.name));
+                Picasso.get().load(holder.mItem.imageUrl).into(holder.picture);
+                holder.lat.setText( holder.mItem.lat);
+                holder.lon.setText( holder.mItem.longitude);
 
 
-            Log.i(TAG, "onBindViewHolder: started");
+            } catch (UnknownFormatConversionException e) {
+                e.printStackTrace();
+
+            }
+
+            Log.i(TAG, "onBindViewHolder: holders loading");
 
         }
 

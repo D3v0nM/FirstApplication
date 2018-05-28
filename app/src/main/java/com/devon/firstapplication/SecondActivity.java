@@ -51,6 +51,8 @@ public class SecondActivity extends AppCompatActivity implements OnListFragmentI
         mAdapter = new Adapter(getSupportFragmentManager());
         locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
 
+
+
        // latValueBest = findViewById(R.id.latValueBest);
        // lonValueBest = findViewById(R.id.lonValueBest);
         latValueGPS = findViewById(R.id.latValueGPS);
@@ -156,11 +158,13 @@ public class SecondActivity extends AppCompatActivity implements OnListFragmentI
                             LocationManager.NETWORK_PROVIDER, 60 * 1000, 10, locationListenerNetwork);
                     Tools.toastMessage(this, "Network provider location services running");
                     button.setText(R.string.pause);
+                        Log.i(TAG, "toggleNetWorkUpdates: Network location listening");
 
                 }
             }
 
         }
+
     //Add Fragments to Tabs
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
@@ -187,17 +191,17 @@ public class SecondActivity extends AppCompatActivity implements OnListFragmentI
 
     }
 
-//    @Override
-//    protected void onRestoreInstanceState(Bundle saveInstanceState){
-//        super.onRestoreInstanceState(saveInstanceState);
-//        Log.d(TAG, "onRestoreInstanceState: Restore stated");
+    @Override //I have a feeling save and restore are wrong
+    protected void onRestoreInstanceState(Bundle saveInstanceState){
+        super.onRestoreInstanceState(saveInstanceState);
+        Log.d(TAG, "onRestoreInstanceState: Restore stated");
 
-//        if(saveInstanceState.containsKey(Constraints.KEY_USER)){
-//            nameView.setText((String) saveInstanceState.get(Constraints.KEY_USER));
-//        }
-//        if(saveInstanceState.containsKey(Constraints.KEY_BUTTON_TXT)){
-//            logoutBtn.setText((String) saveInstanceState.get(Constraints.KEY_BUTTON_TXT));
-//        }
+        if(saveInstanceState.containsKey(Constraints.KEY_LAT)){
+            latValueGPS.setText((String) saveInstanceState.get(Constraints.KEY_LAT));
+       }
+        if(saveInstanceState.containsKey(Constraints.KEY_LON)){
+            lonValueGPS.setText((String) saveInstanceState.get(Constraints.KEY_LON));
+        }
 ////        if(savedInstanceState.containsKey(Constraints.KEY_AGE)){
 ////            age.setText((String) savedInstanceState.get(Age));
 ////        }
@@ -210,20 +214,17 @@ public class SecondActivity extends AppCompatActivity implements OnListFragmentI
 //            profileView.setText((String) saveInstanceState.get(Constraints.KEY_PROFILE));
 //        }
 
-//  }
+  }
 
-//    @Override
-//    protected void onSaveInstanceState(Bundle outState){
-//        super.onSaveInstanceState(outState);
-//        Log.d(TAG, "onSaveInstanceState: saving state");
-//
-//        outState.putString(Constraints.KEY_USER, nameView.getText().toString());
-//        //outState.putString(Constraints.KEY_AGE,  Age.toString());
-//        outState.putString(Constraints.KEY_BUTTON_TXT, logoutBtn.getText().toString());
-//        outState.putString(Constraints.KEY_JOB, jobView.getText().toString());
-//        outState.putString(Constraints.KEY_PROFILE, profileView.getText().toString());
-//
-//    }
+    @Override
+    protected void onSaveInstanceState(Bundle outState){
+        super.onSaveInstanceState(outState);
+        Log.d(TAG, "onSaveInstanceState: saving state");
+
+        outState.putDouble(Constraints.KEY_LAT, latGPS);
+        outState.putDouble(Constraints.KEY_LON, lonGPS);
+
+    }
 
 //    public void addMatchItem(View view) {
 //        String name = newMatchText.getText().toString();
@@ -245,8 +246,8 @@ public class SecondActivity extends AppCompatActivity implements OnListFragmentI
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    latValueGPS.setText(String.format("s%", latGPS)); //what do with this data. Not print
-                    lonValueGPS.setText(String.format("s%", lonGPS));
+                    latValueGPS.setText(String.format("%s", latGPS)); //what do with this data besides print
+                    lonValueGPS.setText(String.format("%s", lonGPS));
                    Tools.toastMessage(getApplicationContext(), "GPS location updating");
                 }
             });
@@ -277,8 +278,8 @@ public class SecondActivity extends AppCompatActivity implements OnListFragmentI
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    latValueNet.setText(String.format("s%", latNet)); //set Lat/Lon?
-                    lonValueNet.setText(String.format("s%", lonNet));
+                    latValueNet.setText(String.format("%s", latNet)); //set Lat/Lon?
+                    lonValueNet.setText(String.format("%s", lonNet));
                     Tools.toastMessage(getApplicationContext(), "Network location services updating");
                 }
             });

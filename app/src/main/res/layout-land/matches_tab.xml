@@ -41,19 +41,17 @@
                 tools:text="@string/matches" />
 
             <TextView
-                android:id="@+id/matches_desc"
+                android:id="@+id/location"
                 android:layout_width="545dp"
-                android:layout_height="wrap_content"
+                android:layout_height="35dp"
                 android:layout_below="@+id/matches_pic"
                 android:layout_marginBottom="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="10dp"
                 android:ellipsize="end"
-                android:singleLine="true"
                 android:textColor="@color/grey"
-                android:textSize="25sp"
-                tools:text="@string/matches_desc" />
+                 />
 
 
             <ImageButton
@@ -61,7 +59,7 @@
                 android:layout_width="46dp"
                 android:layout_height="40dp"
                 android:layout_alignParentEnd="true"
-                android:layout_alignTop="@+id/matches_desc"
+                android:layout_alignTop="@+id/location"
                 android:layout_marginEnd="18dp"
                 android:background="@color/white"
                 android:clickable="true"
