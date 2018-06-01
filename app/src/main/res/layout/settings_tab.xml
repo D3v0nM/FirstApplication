@@ -23,35 +23,12 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <Button
+      <!--  <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:onClick="toggleGPSUpdates"
-            android:text="@string/resume" />
-
-        <TextView
-            android:id="@+id/latValueGPS"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Lat: "
-            />
-
-        <TextView
-            android:id="@+id/lonValueGPS"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Lon: "/>
-
-        <TextView
-            android:id="@+id/latValueNet"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
-        <TextView
-            android:id="@+id/lonValueNet"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:text="@string/resume"/> -->
 
 
     </LinearLayout>

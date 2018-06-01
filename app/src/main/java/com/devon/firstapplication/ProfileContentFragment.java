@@ -108,12 +108,6 @@ public class ProfileContentFragment extends android.support.v4.app.Fragment {
         super.onCreate(savedInstanceState);
     }
 
-//    public void goBack (View view){
-//        Intent intent = new Intent(getActivity(), MainActivity.class);
-//        logoutBtn.setText(R.string.logout);
-//        startActivity(intent);
-//    }
-
 
     @Override
     public void onSaveInstanceState(@Nullable Bundle outState) {

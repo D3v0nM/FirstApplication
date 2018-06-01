@@ -29,8 +29,8 @@ import java.util.List;
 //        @Query("SELECT status FROM settings")
 //        Settings getStatus(String status);
 //
-//        @Query("SELECT max_distance FROM settings")
-//        Settings getMaxDist (String maxDist);
+//      @Query("SELECT max_distance FROM settings")
+//       Settings getMaxDist (String maxDist);
 //
 //        @Update
 //        void updateSettings(Settings...settings);

@@ -11,7 +11,7 @@ import java.util.Map;
 public class EachMatch implements Parcelable{
     public String uid;
     public String name;
-    public boolean like;
+    public boolean liked;
     public String imageUrl;
     public String lat;
     public String longitude;
@@ -28,7 +28,7 @@ public class EachMatch implements Parcelable{
         this.name = name;
     }
 
-    public void getLike() { this.like = like; }
+    public void getLiked() { this.liked = liked; }
 
     public void getLat() {this.lat = lat;}
 
@@ -43,9 +43,9 @@ public class EachMatch implements Parcelable{
     public void getLon() {this.longitude = longitude;}
 
     public boolean setLiked(boolean liked){
-        this.like = like;
+        this.liked = liked;
 
-        return liked;
+       return liked;
     }
 
     public void getImageUrl() {
@@ -56,7 +56,7 @@ public class EachMatch implements Parcelable{
         this.uid = uid;
         this.name = name;
         this.imageUrl = imageUrl;
-        this.like = like;
+        this.liked = liked;
         this.lat = lat;
         this.longitude = longitude;
     }
@@ -65,7 +65,7 @@ public class EachMatch implements Parcelable{
         uid = in.readString();
         name = in.readString();
         imageUrl = in.readString();
-        like = in.readByte() != 0;
+        liked = in.readByte() != 0;
         lat= in.readString();
         longitude= in.readString();
 
@@ -90,7 +90,7 @@ public class EachMatch implements Parcelable{
         result.put("uid", uid);
         result.put("name", name);
         result.put("url", imageUrl);
-        result.put("like", like);
+        result.put("liked", liked);
         result.put("lat", lat);
         result.put("lon" , longitude);
 
@@ -107,7 +107,7 @@ public class EachMatch implements Parcelable{
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(name);
         dest.writeString(imageUrl);
-        dest.writeByte((byte) (like ? 1 : 0));
+        dest.writeByte((byte) (liked ? 1 : 0));
         dest.writeString(lat);
         dest.writeString(longitude);
     }

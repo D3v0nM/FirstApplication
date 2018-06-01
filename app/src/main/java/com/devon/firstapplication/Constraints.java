@@ -12,6 +12,7 @@ public class Constraints {
     static final String KEY_JOB = "job";
     static final String KEY_LAT = "latitude";
     static final String KEY_LON = "longitude";
+    static final String KEY_LOCATION = "location";
 
 
 }

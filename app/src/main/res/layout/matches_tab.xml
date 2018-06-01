@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view"
     android:layout_width="match_parent"
-    android:layout_height="300dp"
+    android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:layout_marginBottom="16dp"
     android:layout_marginLeft="16dp"
@@ -14,7 +14,7 @@
     <RelativeLayout
         android:id="@+id/Relative"
         android:layout_width="match_parent"
-        android:layout_height="301dp">
+        android:layout_height="239dp">
 
         <ImageView
             android:id="@+id/matches_pic"
@@ -40,36 +40,45 @@
             tools:text="@string/matches" />
 
         <TextView
-            android:id="@+id/location"
+            android:id="@+id/distance"
             android:layout_width="wrap_content"
-            android:layout_height="41dp"
-            android:layout_above="@+id/like_button"
-            android:layout_alignParentStart="true"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/latValue"
+            android:layout_marginEnd="119dp"
             android:ellipsize="end"
-            android:textColor="@color/grey"
-            android:text="lat"/>
-
+            android:text="Distance"
+            android:textColor="@color/grey" />
 
         <TextView
-            android:id="@+id/location2"
+            android:id="@+id/latValue"
             android:layout_width="wrap_content"
-            android:layout_height="41dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/like_button"
             android:layout_alignParentStart="true"
-            android:layout_alignTop="@+id/location"
-            android:layout_marginStart="50dp"
+            android:layout_marginStart="12dp"
+            android:ellipsize="end"
+            android:text="Lat"
+            android:textColor="@color/grey" />
+
+        <TextView
+            android:id="@+id/lonValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/distance"
+            android:layout_marginStart="116dp"
             android:ellipsize="end"
             android:text="lon"
             android:textColor="@color/grey" />
-
 
         <ImageButton
             android:id="@+id/like_button"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginBottom="12dp"
-            android:layout_marginEnd="41dp"
+            android:layout_below="@+id/matches_pic"
+            android:layout_marginEnd="35dp"
             android:background="@color/white"
             android:clickable="true"
             android:contentDescription="liked"

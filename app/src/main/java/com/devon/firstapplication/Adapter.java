@@ -1,5 +1,6 @@
 package com.devon.firstapplication;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -28,6 +29,13 @@ public class   Adapter extends FragmentStatePagerAdapter {
         mTabsList.add(fragment);
         mTabTitleList.add(title);
     }
+
+    public void addFragment(Fragment fragment, String title, Bundle b){
+        mTabsList.add(fragment);
+        mTabTitleList.add(title);
+        fragment.setArguments(b);
+    }
+
 
     @Override
     public CharSequence getPageTitle(int position) {

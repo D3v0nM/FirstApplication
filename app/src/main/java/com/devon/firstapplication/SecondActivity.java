@@ -1,40 +1,27 @@
 package com.devon.firstapplication;
 
-import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Location;
 import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.devon.firstapplication.models.EachMatch;
 import com.devon.firstapplication.viewmodels.MatchesViewModel;
 
 
-public class SecondActivity extends AppCompatActivity implements OnListFragmentInteractionListener{
+public class SecondActivity extends AppCompatActivity implements OnListFragmentInteractionListener, SettingsContentFragment.SendMiles{
   public static final String TAG = SecondActivity.class.getSimpleName();
 
-  //location params
-  LocationManager locationManager;
-  double latGPS, lonGPS;
-  double latNet,  lonNet;
-    TextView latValueGPS, lonValueGPS;
-    TextView latValueNet, lonValueNet;
+
+
+
 
 
     //Firebase vals
@@ -49,16 +36,16 @@ public class SecondActivity extends AppCompatActivity implements OnListFragmentI
 
         viewModel = new MatchesViewModel();
         mAdapter = new Adapter(getSupportFragmentManager());
-        locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
 
 
 
-       // latValueBest = findViewById(R.id.latValueBest);
-       // lonValueBest = findViewById(R.id.lonValueBest);
-        latValueGPS = findViewById(R.id.latValueGPS);
-        lonValueGPS = findViewById(R.id.lonValueGPS);
-        latValueNet = findViewById(R.id.latValueNet);
-        lonValueNet = findViewById(R.id.lonValueNet);
+
+
+       // need to change to store location values
+//        latValueGPS = findViewById(R.id.latValueGPS);
+//        lonValueGPS = findViewById(R.id.lonValueGPS);
+//        latValueNet = findViewById(R.id.latValueNet);
+//        lonValueNet = findViewById(R.id.lonValueNet);
 
 
         //Adding toolbar to Main Screen
@@ -80,64 +67,9 @@ public class SecondActivity extends AppCompatActivity implements OnListFragmentI
         Log.d(TAG, "Second Activity onCreate() Started");
     }
 
-        private boolean checkLocation() {
-            if (!isLocationEnabled()){
-                showAlert();
-            }
-            Log.i(TAG, "checkLocation: returned");
-            return isLocationEnabled();
 
-        }
-
-        private boolean isLocationEnabled() {
-            Log.i(TAG, "isLocationEnabled: returned");
-            return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
-                    locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-
-
-        }
-
-        private void showAlert() {
-            final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-            dialog.setTitle(R.string.enable_location)
-                    .setMessage(getString(R.string.location_message))
-                    .setPositiveButton(R.string.location_settings, (paramDialogInterface, paramInt) -> {
-                        Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                        startActivity(myIntent);
-                    })
-                    .setNegativeButton(R.string.location_cancel, (paramDialogInterface, paramInt) -> {});
-            dialog.show();
-        }
-
-        public void toggleGPSUpdates(View view) {
-            if (!checkLocation()){
-                return;
-
-            }
-
-            Button button = (Button) view;
-            if (button.getText().equals(getResources().getString(R.string.pause))) {
-                locationManager.removeUpdates(locationListenerGPS);
-                button.setText(R.string.resume);
-                Log.i(TAG, "toggleGPSUpdates: remove updates");
-
-            } else {
-                if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION)
-                        == PackageManager.PERMISSION_GRANTED ||
-                        ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
-                                == PackageManager.PERMISSION_GRANTED) {
-
-                    locationManager.requestLocationUpdates(
-                            LocationManager.GPS_PROVIDER, 60 * 1000, 10, locationListenerGPS);
-                    Tools.toastMessage(getApplicationContext(), "GPS provider started running");
-                    button.setText(R.string.pause);
-                    Log.i(TAG, "toggleGPSUpdates: GPS listening");
-
-                }
-            }
-        }
-
-            public void toggleNetWorkUpdates (View view){
+        // only testing GPS for now
+        /*    public void toggleNetWorkUpdates (View view){
                 if (!checkLocation()){
                     return;
                 }
@@ -164,7 +96,7 @@ public class SecondActivity extends AppCompatActivity implements OnListFragmentI
             }
 
         }
-
+*/
     //Add Fragments to Tabs
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
@@ -191,18 +123,29 @@ public class SecondActivity extends AppCompatActivity implements OnListFragmentI
 
     }
 
+    @Override
+    public void getMaxDist(int maxDist){
+        String tag = "android:switcher" + R.id.viewPager + ":" + 1;
+        MatchesContentFragment matches = (MatchesContentFragment)
+                getSupportFragmentManager().findFragmentByTag(tag);
+        matches.getRange(maxDist);
+
+
+
+    }
+
     @Override //I have a feeling save and restore are wrong
     protected void onRestoreInstanceState(Bundle saveInstanceState){
         super.onRestoreInstanceState(saveInstanceState);
         Log.d(TAG, "onRestoreInstanceState: Restore stated");
 
-        if(saveInstanceState.containsKey(Constraints.KEY_LAT)){
-            latValueGPS.setText((String) saveInstanceState.get(Constraints.KEY_LAT));
-       }
-        if(saveInstanceState.containsKey(Constraints.KEY_LON)){
-            lonValueGPS.setText((String) saveInstanceState.get(Constraints.KEY_LON));
-        }
-////        if(savedInstanceState.containsKey(Constraints.KEY_AGE)){
+//        if(saveInstanceState.containsKey(Constraints.KEY_LAT)){
+//            latGPS.setText((String) saveInstanceState.get(Constraints.KEY_LAT));
+//       }
+//        if(saveInstanceState.containsKey(Constraints.KEY_LON)){
+//            lonGPS.setText((String) saveInstanceState.get(Constraints.KEY_LON));
+//        }
+//////        if(savedInstanceState.containsKey(Constraints.KEY_AGE)){
 ////            age.setText((String) savedInstanceState.get(Age));
 ////        }
 //
@@ -216,15 +159,16 @@ public class SecondActivity extends AppCompatActivity implements OnListFragmentI
 
   }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState){
-        super.onSaveInstanceState(outState);
-        Log.d(TAG, "onSaveInstanceState: saving state");
-
-        outState.putDouble(Constraints.KEY_LAT, latGPS);
-        outState.putDouble(Constraints.KEY_LON, lonGPS);
-
-    }
+//    @Override
+//    protected void onSaveInstanceState(Bundle outState){
+//        super.onSaveInstanceState(outState);
+//        Log.d(TAG, "onSaveInstanceState: saving state");
+//
+//        outState.putDouble(Constraints.KEY_LAT, latGPS);
+//        outState.putDouble(Constraints.KEY_LON, lonGPS);
+//        outState.putAll(outState);
+//
+//    }
 
 //    public void addMatchItem(View view) {
 //        String name = newMatchText.getText().toString();
@@ -236,40 +180,9 @@ public class SecondActivity extends AppCompatActivity implements OnListFragmentI
 //        viewModel.addMatch(item);
 //    }
 
-    private final LocationListener locationListenerGPS = new LocationListener() {
-        @Override
-        public void onLocationChanged(Location location) {
-            latGPS = location.getLatitude();
-            lonGPS = location.getLongitude();
-            Log.i(TAG, "onLocationChanged: pulling new lat and lon");
 
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    latValueGPS.setText(String.format("%s", latGPS)); //what do with this data besides print
-                    lonValueGPS.setText(String.format("%s", lonGPS));
-                   Tools.toastMessage(getApplicationContext(), "GPS location updating");
-                }
-            });
-        }
 
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-
-        }
-
-        @Override
-        public void onProviderEnabled(String provider) {
-
-        }
-
-        @Override
-        public void onProviderDisabled(String provider) {
-
-        }
-    };
-
-    private final LocationListener locationListenerNetwork = new LocationListener() {
+   /* private final LocationListener locationListenerNetwork = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
             latNet = location.getLatitude();
@@ -278,8 +191,8 @@ public class SecondActivity extends AppCompatActivity implements OnListFragmentI
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    latValueNet.setText(String.format("%s", latNet)); //set Lat/Lon?
-                    lonValueNet.setText(String.format("%s", lonNet));
+                  //  latValueNet.setText(String.format("%s", latNet)); //set Lat/Lon?
+                    //lonValueNet.setText(String.format("%s", lonNet));
                     Tools.toastMessage(getApplicationContext(), "Network location services updating");
                 }
             });
@@ -301,17 +214,25 @@ public class SecondActivity extends AppCompatActivity implements OnListFragmentI
         }
     };
 
+*/
+
 
 
     @Override
     public void onListFragmentInteraction(EachMatch item) {
 
-        if(!item.like){
-            item.like = true;
+        if(!item.liked){
+            item.liked = true;
         }
 
         viewModel.updateById(item);
     }
+
+    @Override
+    public void onListFragmentInteraction(LocationListener locationListener) {
+
+    }
+
 
 
     @Override
@@ -358,4 +279,8 @@ public class SecondActivity extends AppCompatActivity implements OnListFragmentI
         Log.d(TAG, "onDestroy init");
     }
 
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
+    }
 }
