@@ -2,6 +2,8 @@ package com.devon.firstapplication;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -19,10 +21,13 @@ public class AgePicker extends DialogFragment {
         int month = c.get(Calendar.MONTH);
         int day = c.get(Calendar.DAY_OF_MONTH);
 
-
-
-        return new DatePickerDialog(getActivity(),
+        Dialog d = new  DatePickerDialog(getActivity(),
                 (DatePickerDialog.OnDateSetListener) getActivity(), year, month, day);
+
+        d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLUE));
+
+
+        return d ;
 
     }
 

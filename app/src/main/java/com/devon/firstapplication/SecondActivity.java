@@ -12,8 +12,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+import com.devon.firstapplication.datamodels.DatabaseSingleton;
+import com.devon.firstapplication.entity.Settings;
 import com.devon.firstapplication.models.EachMatch;
 import com.devon.firstapplication.viewmodels.MatchesViewModel;
+
+import java.util.List;
 
 
 public class SecondActivity extends AppCompatActivity implements OnListFragmentInteractionListener, SettingsContentFragment.SendMiles{
@@ -28,6 +32,7 @@ public class SecondActivity extends AppCompatActivity implements OnListFragmentI
     private MatchesViewModel viewModel;
     private EditText newMatchText;
     private Adapter mAdapter;
+    public String dist;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState){
@@ -124,15 +129,26 @@ public class SecondActivity extends AppCompatActivity implements OnListFragmentI
     }
 
     @Override
-    public void getMaxDist(int maxDist){
-        String tag = "android:switcher" + R.id.viewPager + ":" + 1;
-        MatchesContentFragment matches = (MatchesContentFragment)
-                getSupportFragmentManager().findFragmentByTag(tag);
-        matches.getRange(maxDist);
+    public void getMaxDist(String maxDist){
+        String tag = "android:switcher:" + R.id.viewPager + ":" + 1;
+        List<Settings> settingsList = DatabaseSingleton.db.settingsDao().getAll();
+        try{
+          dist = settingsList.get(0).getMaxDist();
+
+
+        }catch(IndexOutOfBoundsException e){
+
+            dist = "10";
+
+            }
+        }
+      //  MatchesContentFragment matches = (MatchesContentFragment)
+     //   if(matc != null) {
+       //     matches.getRange(maxDist);
+        //}
 
 
 
-    }
 
     @Override //I have a feeling save and restore are wrong
     protected void onRestoreInstanceState(Bundle saveInstanceState){

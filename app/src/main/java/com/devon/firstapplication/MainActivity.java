@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             @Override
             public void onClick(View v) {
                 android.support.v4.app.DialogFragment agePicker = new AgePicker();
+                //agePickeretStyle(android.R.style.Theme_DeviceDefault_Dialog_Alert);
                 agePicker.show(getSupportFragmentManager(), "age picker");
                 birthday.setVisibility(View.GONE);
             }

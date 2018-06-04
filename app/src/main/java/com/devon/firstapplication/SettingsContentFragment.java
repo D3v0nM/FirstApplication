@@ -111,12 +111,13 @@ public class SettingsContentFragment extends android.support.v4.app.Fragment imp
              maxDistPick = maxDist.getSelectedItem().toString();
              settings.setMaxDist(maxDistPick);
 
-
+                sender.getMaxDist(maxDistPick);
 
 
             new UpdateTask(getActivity(), settings).execute();
 
             }
+
         });
 
 //        if(saveInstanceState != null){
@@ -194,7 +195,7 @@ public class SettingsContentFragment extends android.support.v4.app.Fragment imp
             fragment.reminder.setText(settings.getReminderTime());
             fragment.ageStart.setText(Integer.toString(settings.getAgeStart()));
             fragment.ageEnd.setText(Integer.toString(settings.getAgeEnd()));
-            settings.getMaxDist();
+
 
             String genderCompare = settings.getGender();
             if(settings.getGender() != null){
@@ -234,14 +235,13 @@ public class SettingsContentFragment extends android.support.v4.app.Fragment imp
 
             db.settingsDao().insertAll(settings);
 
-            settings.getMaxDist();
             return  settings;
         }
 
     }
 
     interface SendMiles{
-       void getMaxDist(int maxDist);
+       void getMaxDist(String maxDist);
     }
 
     @Override

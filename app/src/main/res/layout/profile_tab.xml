@@ -63,9 +63,11 @@
             android:id="@+id/profileText"
             android:layout_width="match_parent"
             android:layout_height="195dp"
+            android:gravity="start"
+            android:padding="25dp"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/middleBar"
-            android:background="@drawable/border" />
+            android:background="@drawable/border"/>
 
 
         <Button

@@ -45,8 +45,8 @@ public class MatchesContentFragment extends android.support.v4.app.Fragment {
     //location params
     LocationManager locationManager;
     double latGPS, lonGPS;
-    public int distance;
-    private Location mlocation;
+    public String distance;
+    double maxRange;
 
 
     public MatchesContentFragment(){
@@ -66,7 +66,7 @@ public class MatchesContentFragment extends android.support.v4.app.Fragment {
                 R.layout.recycler_view, container, false);
        // Context context = recyclerView.getContext();
         locationManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
-
+        if(checkLocation()){toggleGPSUpdates(getView());}
 
         MatchesViewModel viewModel = new MatchesViewModel();
 
@@ -252,7 +252,7 @@ public class MatchesContentFragment extends android.support.v4.app.Fragment {
             mListener = listener;
             //lat
             //lon
-            if(checkLocation()){toggleGPSUpdates(getView());}
+
 
 
             if(mDataSet.isEmpty()){
@@ -298,22 +298,24 @@ public class MatchesContentFragment extends android.support.v4.app.Fragment {
                 holder.name.setText(String.format("%s", holder.mItem.name));
                 Picasso.get().load(holder.mItem.imageUrl).into(holder.picture);
 
-                if(mlocation != null) {
-                    mlocation.getExtras();
-                    double  gpsLat = mlocation.getLatitude();
-                    double gpsLon = mlocation.getLongitude();
+                if(latGPS != 0 && lonGPS != 0) {
+                    if(distance != null) {
+                        getRange(distance);
+                        maxRange =Double.parseDouble(distance);
+                    }else
+                        maxRange = 10;
 
 
                     float[] result = new float[2];
                     double matchLat = Double.parseDouble(holder.mItem.lat);
                     double matchLon = Double.parseDouble(holder.mItem.longitude);
 
-                    Location.distanceBetween(gpsLat, gpsLon, matchLat, matchLon, result);
+                    Location.distanceBetween(latGPS, lonGPS, matchLat, matchLon, result);
 
-                    holder.dist.setText(String.format("%s", (result[0]/(float)1000) + "Kilometers away"));
+                    holder.dist.setText(String.format("%s", (result[0]/1609.34) + "Miles away"));
 
-                    if(distance > (result[0]/(float)1000) ){
-                        holder.itemView.setVisibility(View.GONE);
+                    if( (result[0]/(float)1000) > maxRange ){
+                        holder.matchCard.setVisibility(View.GONE);
                     }
 
                 }else {
@@ -362,7 +364,6 @@ public class MatchesContentFragment extends android.support.v4.app.Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         if(getArguments() != null) {
             mDataSet = getArguments().getParcelableArrayList(ARG_DATA);
-           // mlocation = getArguments().getParcelable(Constraints.KEY_LOCATION);
 
         }
 
@@ -421,7 +422,7 @@ public class MatchesContentFragment extends android.support.v4.app.Fragment {
 
 
     }
-    public void getRange(int maxRange){
+    public void getRange(String maxRange){
            distance = maxRange;
     }
 
