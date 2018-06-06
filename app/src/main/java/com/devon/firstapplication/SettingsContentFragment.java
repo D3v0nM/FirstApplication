@@ -1,8 +1,6 @@
 package com.devon.firstapplication;
 
 import android.app.Activity;
-import android.content.Context;
-import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -37,13 +35,11 @@ public class SettingsContentFragment extends android.support.v4.app.Fragment imp
     public EditText ageStart;
     public EditText ageEnd;
     public Button apply;
+
     public String genderPick;
     public String maxDistPick;
-    public Settings miles= new Settings();
-    SendMiles sender;
 
 
-    public Location location;
     ArrayAdapter<CharSequence> distAdapter;
     ArrayAdapter<CharSequence> genderAdapter;
 
@@ -111,13 +107,9 @@ public class SettingsContentFragment extends android.support.v4.app.Fragment imp
              maxDistPick = maxDist.getSelectedItem().toString();
              settings.setMaxDist(maxDistPick);
 
-                sender.getMaxDist(maxDistPick);
-
-
             new UpdateTask(getActivity(), settings).execute();
 
             }
-
         });
 
 //        if(saveInstanceState != null){
@@ -181,7 +173,6 @@ public class SettingsContentFragment extends android.support.v4.app.Fragment imp
             if(settings.size()<= 0 || settings.get(0) == null) {
                 return null;
             }
-
             return settings.get(0);
         }
 
@@ -195,7 +186,6 @@ public class SettingsContentFragment extends android.support.v4.app.Fragment imp
             fragment.reminder.setText(settings.getReminderTime());
             fragment.ageStart.setText(Integer.toString(settings.getAgeStart()));
             fragment.ageEnd.setText(Integer.toString(settings.getAgeEnd()));
-
 
             String genderCompare = settings.getGender();
             if(settings.getGender() != null){
@@ -234,20 +224,9 @@ public class SettingsContentFragment extends android.support.v4.app.Fragment imp
             AppDatabase db = DatabaseSingleton.getDb(activity.getApplicationContext());
 
             db.settingsDao().insertAll(settings);
-
             return  settings;
         }
 
-    }
-
-    interface SendMiles{
-       void getMaxDist(String maxDist);
-    }
-
-    @Override
-    public void onAttach(Context context){
-        super.onAttach(context);
-        sender = (SendMiles) getActivity();
     }
 
 
